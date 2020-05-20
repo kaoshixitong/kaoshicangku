@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    #  数据源基本配置
+    username: root
+    password: lisb417
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.92.0.54:3036/kaoshi?useUnicode=true&amp;characterEncoding=UTF8&amp;serverTimezone=UTC
+    type: com.alibaba.druid.pool.DruidDataSource
+    #    数据源其他配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    #    配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall
+    maxPoolPerparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+filter:
+  #   shiro.setSuccessUrl("/index");
+  #   配置访问权限 必须是LinkedHashMap，因为它必须保证有序
+  #   过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->: 这是一个坑，一不小心代码就不好使了
+  filterChainDefinitionMap:
+    [/register]: anon
+    [/login]: anon
+    [/shiroLogin]: anon
+    [/index]: anon
+    [/]: anon
+    [/css/**]: anon
+    [/js/**]: anon
+    [/imgs/**]: anon
+    [/druid/**]: anon
+    [/shiroCache]: anon
+    [/springCache]: anon
+    [/webjars/**]: anon
+    [/swagger-ui.html]: anon
+    [/swagger-resources/**]: anon
+    [/v2/**]: anon
+    [/doc.html]: anon
+    [/401]: anon
+    [/logout]: logout
+    [/**]: jwt

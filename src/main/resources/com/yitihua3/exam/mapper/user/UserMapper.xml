@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yitihua3.exam.mapper.user.UserMapper">
+
+    <!--通过主键修改数据-->
+    <update id="updateSaltByUsername">
+        update kaoshi.user
+        <set>
+            <if test="salt != null and salt != ''">
+                salt = #{salt}
+            </if>
+        </set>
+        where username = #{username}
+    </update>
+
+    <resultMap type="com.yitihua3.exam.entity.user.User" id="user">
+        <!--        <result property="userId" column="user_id" jdbcType="INTEGER"/>-->
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <!--        <result property="photo" column="photo" jdbcType="VARCHAR"/>-->
+        <result property="salt" column="salt" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--通过用户名查询-->
+    <select id="selectByUsername" resultMap="user">
+        select
+          user_id, username, password, photo, salt, state, role_id
+        from kaoshi.user
+        where username = #{username}
+    </select>
+
+    <resultMap type="com.yitihua3.exam.dto.user.AuthorizationUserDTO" id="userMap">
+        <!--        <result property="userId" column="user_id" jdbcType="INTEGER"/>-->
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <!--        <result property="photo" column="photo" jdbcType="VARCHAR"/>-->
+        <result property="salt" column="salt" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <association property="authorizationRoleDTO" javaType="com.yitihua3.exam.dto.user.AuthorizationRoleDTO">
+            <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+            <result property="role" column="role" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <collection property="permissionList" ofType="com.yitihua3.exam.entity.user.Permission">
+                <result property="permissionId" column="permission_id" jdbcType="INTEGER"/>
+                <result property="permission" column="permission" jdbcType="VARCHAR"/>
+                <result property="url" column="url" jdbcType="VARCHAR"/>
+                <result property="name" column="name" jdbcType="VARCHAR"/>
+            </collection>
+        </association>
+    </resultMap>
+
+    <!--根据username查询用户，包括角色和权限-->
+    <select id="selectCompleteUser" resultMap="userMap" parameterType="java.lang.String">
+        select *
+        from
+        (
+            select u.username,u.password,u.salt,u.state,u.role_id,r.role,r.description,p.*
+            from (role r,`user` u)
+            left join role_permission rp
+            on r.role_id=rp.role_id
+            left join permission p
+            on rp.permission_id=p.permission_id
+            where u.role_id=r.role_id
+        ) user_role_permission
+        where user_role_permission.username=#{username};
+    </select>
+</mapper>
