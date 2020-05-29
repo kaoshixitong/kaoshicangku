@@ -26,4 +26,38 @@ public class Paper implements Serializable {
     * 试卷总分
     */
     private Integer total;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Integer getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(Integer paperId) {
+        this.paperId = paperId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public Paper(Integer paperId, String name, Integer total) {
+        this.paperId = paperId;
+        this.name = name;
+        this.total = total;
+    }
 }

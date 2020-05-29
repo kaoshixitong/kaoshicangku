@@ -1,14 +1,15 @@
-package com.yitihua3.exam.service.exam;
+package com.yitihua3.exam.mapper.exam;
 import com.yitihua3.exam.entity.exam.Exam;
+import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * (Exam)表服务接口
+ * (Exam)表数据库访问层
  *
  * @author makejava
- * @since 2020-05-26 17:14:19
+ * @since 2020-05-26 17:06:46
  */
-public interface ExamService {
+public interface ExamMapper {
 
     /**
      * 通过Id查询单条数据
@@ -18,36 +19,35 @@ public interface ExamService {
      */
     Exam queryById(Integer examId);
 
-   
+
+    /**
+     * 通过实体作为筛选条件查询
+     *
+     */
+    List<Exam> queryAll();
 
     /**
      * 新增数据
      *
      * @param exam 实例对象
-     * @return 实例对象
+     * @return 影响行数
      */
-    Exam insert(Exam exam);
+    int insert(Exam exam);
 
     /**
      * 修改数据
      *
      * @param exam 实例对象
-     * @return 实例对象
+     * @return 影响行数
      */
-    Exam update(Exam exam);
+    int update(Exam exam);
 
     /**
      * 通过主键删除数据
      *
      * @param examId 主键
-     * @return 是否成功
+     * @return 影响行数
      */
-    boolean deleteById(Integer examId);
-
-    /**
-     * 列举所有考试
-     * @return
-     */
-    List<Exam> queryAll();
+    int deleteById(Integer examId);
 
 }

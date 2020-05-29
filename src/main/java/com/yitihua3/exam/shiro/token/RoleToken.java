@@ -19,4 +19,12 @@ public class RoleToken extends UsernamePasswordToken {
         super(loginDTO.getUsername(),loginDTO.getPassword());
         this.roleId = loginDTO.getRoleId();
     }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
 }
