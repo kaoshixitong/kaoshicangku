@@ -37,4 +37,28 @@ public class LoginDTO {
     @ApiModelProperty(value = "角色编号", name = "roleId", required = true,example = "1")
     @NotNull(message="身份编号不能为空")
     private Integer roleId;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
 }

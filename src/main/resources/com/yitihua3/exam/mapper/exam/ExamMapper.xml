@@ -1,91 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yitihua3.exam.mapper.ExamMapper">
+<mapper namespace="com.yitihua3.exam.mapper.exam.ExamMapper">
 
     <resultMap type="com.yitihua3.exam.entity.exam.Exam" id="ExamMap">
-        <result property="examId" column="exam_id" jdbcType="INTEGER"/>
+        <result property="examId" column="examId" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="begin" column="begin" jdbcType="VARCHAR"/>
         <result property="end" column="end" jdbcType="VARCHAR"/>
         <result property="during" column="during" jdbcType="INTEGER"/>
-        <result property="paperId" column="paper_id" jdbcType="INTEGER"/>
+        <result property="paperId" column="paperId" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="ExamMap">
         select
-          exam_id, name, begin, end, during, paper_id
-        from kaoshi.exam
-        where exam_id = #{examId}
+          examId, `name`, `begin`, `end`, during, paperId
+        from db_examsystem.exam
+        where examId = #{examId}
     </select>
 
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="ExamMap">
-        select
-          exam_id, name, begin, end, during, paper_id
-        from kaoshi.exam
-        limit #{offset}, #{limit}
-    </select>
+
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ExamMap">
         select
-          exam_id, name, begin, end, during, paper_id
-        from kaoshi.exam
+          examId, `name`, `begin`, `end`, during, paperId
+        from db_examsystem.exam
         <where>
             <if test="examId != null">
-                and exam_id = #{examId}
+                and examId = #{examId}
             </if>
             <if test="name != null and name != ''">
-                and name = #{name}
+                and `name` = #{name}
             </if>
             <if test="begin != null and begin != ''">
-                and begin = #{begin}
+                and `begin` = #{begin}
             </if>
             <if test="end != null and end != ''">
-                and end = #{end}
+                and `end` = #{end}
             </if>
             <if test="during != null">
                 and during = #{during}
             </if>
             <if test="paperId != null">
-                and paper_id = #{paperId}
+                and paperId = #{paperId}
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="examId" useGeneratedKeys="true">
-        insert into kaoshi.exam(name, begin, end, during, paper_id)
+        insert into db_examsystem.exam(`name`, `begin`, `end`, during, paperId)
         values (#{name}, #{begin}, #{end}, #{during}, #{paperId})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update kaoshi.exam
+        update db_examsystem.exam
         <set>
             <if test="name != null and name != ''">
-                name = #{name},
+                `name` = #{name},
             </if>
             <if test="begin != null and begin != ''">
-                begin = #{begin},
+                `begin` = #{begin},
             </if>
             <if test="end != null and end != ''">
-                end = #{end},
+                `end` = #{end},
             </if>
             <if test="during != null">
                 during = #{during},
             </if>
             <if test="paperId != null">
-                paper_id = #{paperId},
+                paperId = #{paperId},
             </if>
         </set>
-        where exam_id = #{examId}
+        where examId = #{examId}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from kaoshi.exam where exam_id = #{examId}
+        delete from db_examsystem.exam where examId = #{examId}
     </delete>
 
 </mapper>

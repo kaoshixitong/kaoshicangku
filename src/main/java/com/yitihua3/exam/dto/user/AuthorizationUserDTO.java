@@ -50,4 +50,52 @@ public class AuthorizationUserDTO extends AbstractRelationMapper<AuthorizationUs
     protected boolean isFieldAnnotationPresent() {
         return true;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public char[] getPasswordChar() {
+        return passwordChar;
+    }
+
+    public void setPasswordChar(char[] passwordChar) {
+        this.passwordChar = passwordChar;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public AuthorizationRoleDTO getAuthorizationRoleDTO() {
+        return authorizationRoleDTO;
+    }
+
+    public void setAuthorizationRoleDTO(AuthorizationRoleDTO authorizationRoleDTO) {
+        this.authorizationRoleDTO = authorizationRoleDTO;
+    }
 }

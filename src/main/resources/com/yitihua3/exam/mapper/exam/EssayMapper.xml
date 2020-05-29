@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yitihua3.exam.mapper.exam.EssayMapper">
+
+    <resultMap type="com.yitihua3.exam.entity.exam.Essay" id="EssayMap">
+        <result property="essayId" column="essayId" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="reference" column="reference" jdbcType="VARCHAR"/>
+        <result property="subjectId" column="subjectId" jdbcType="INTEGER"/>
+        <result property="chapterId" column="chapterId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="EssayMap">
+        select essayId, title, score, reference, subjectId, chapterId
+        from db_examsystem.essay
+        where essayId = #{essayId}
+    </select>
+    
+    <!--查询某一得分-->
+    <select id="queryScoreById" resultMap="EssayMap">
+        select score
+        from db_examsystem.essay
+        where essayId = #{essayId}
+    </select>
+    
+    <!--查询总得分-->
+    <select id="queryScore" resultMap="EssayMap">
+        select count(score)
+        from db_examsystem.essay
+    </select>
+    
+    <!--查询某一答案-->
+    <select id="queryReferenceById" resultMap="EssayMap">
+        select reference
+        from db_examsystem.essay
+        where essayId = #{essayId}
+    </select>
+    
+    <!--查询所有答案-->
+    <select id="queryReference" resultMap="EssayMap">
+        select reference
+        from db_examsystem.essay
+    </select>
+    
+      <!--查询所属科目-->
+    <select id="querySubjectById" resultMap="EssayMap">
+        select subjectId
+        from db_examsystem.essay
+        where essayId = #{essayId}
+    </select>
+
+  <!--查询所属章节-->
+    <select id="queryChapterById" resultMap="EssayMap">
+        select chapterId
+        from db_examsystem.essay
+        where essayId = #{essayId}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="EssayMap">
+        select essayId, title, score, reference, subjectId, chapterId
+        from db_examsystem.essay
+        <where>
+            <if test="essayId != null">
+                and essayId = #{essayId}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="reference != null and reference != ''">
+                and reference = #{reference}
+            </if>
+            <if test="subjectId != null">
+                and subjectId = #{subjectId}
+            </if>
+            <if test="chapterId != null">
+                and chapterId = #{chapterId}
+            </if>
+        </where>
+    </select>
+    
+       <!--列举考生试题-->
+    <select id="queryAllTest" resultMap="EssayMap">
+        select essayId, title, score, reference
+        from db_examsystem.essay
+        <where>
+            <if test="essayId != null">
+                and essayId = #{essayId}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="reference != null and reference != ''">
+                and reference = #{reference}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="essayId" useGeneratedKeys="true">
+        insert into db_examsystem.essay(title, score, reference, subjectId, chapterId)
+        values (#{title}, #{score}, #{reference}, #{subjectId}, #{chapterId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update db_examsystem.essay
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="reference != null and reference != ''">
+                reference = #{reference},
+            </if>
+            <if test="subjectId != null">
+                subjectId = #{subjectId},
+            </if>
+            <if test="chapterId != null">
+                chapterId = #{chapterId},
+            </if>
+        </set>
+        where essayId = #{essayId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from db_examsystem.essay where essayId = #{essayId}
+    </delete>
+
+</mapper>

@@ -51,5 +51,63 @@ public class Teacher implements Serializable {
     @ApiModelProperty(value = "用户编号", name = "userId", example = "1")
     private Integer userId;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
+    public Long getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Long teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 }

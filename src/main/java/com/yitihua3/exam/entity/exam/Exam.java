@@ -39,5 +39,66 @@ public class Exam implements Serializable {
     */
     private Integer paperId;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Integer getExamId() {
+        return examId;
+    }
+
+    public void setExamId(Integer examId) {
+        this.examId = examId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBegin() {
+        return begin;
+    }
+
+    public void setBegin(String begin) {
+        this.begin = begin;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
+    public Integer getDuring() {
+        return during;
+    }
+
+    public void setDuring(Integer during) {
+        this.during = during;
+    }
+
+    public Integer getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(Integer paperId) {
+        this.paperId = paperId;
+    }
+
+    public Exam(Integer examId, String name, String begin, String end, Integer during, Integer paperId) {
+        this.examId = examId;
+        this.name = name;
+        this.begin = begin;
+        this.end = end;
+        this.during = during;
+        this.paperId = paperId;
+    }
+
 
 }
