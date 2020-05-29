@@ -6,14 +6,14 @@ import com.yitihua3.exam.entity.user.Permission;
 import com.yitihua3.exam.entity.user.User;
 import com.yitihua3.exam.mapper.user.UserMapper;
 import com.yitihua3.exam.shiro.token.RoleToken;
-import com.yitihua3.exam.utils.JWTUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.Resource;
 import java.util.HashSet;
@@ -28,18 +28,15 @@ import java.util.Set;
  */
 public class DBRealm extends AuthorizingRealm {
 
-    @Lazy
     @Resource
     UserMapper userMapper;
 
-    //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
 
         //拿到当前登录这个对象
-        String username = JWTUtils.getUsername(principalCollection.getPrimaryPrincipal().toString());
-        AuthorizationUserDTO authorizationUserDTO =userMapper.selectCompleteUser(username);
+        User user = (User)principalCollection.getPrimaryPrincipal();
+        AuthorizationUserDTO authorizationUserDTO = userMapper.selectCompleteUser(user.getUsername());
         AuthorizationRoleDTO authorizationRoleDTO = authorizationUserDTO.getAuthorizationRoleDTO();
         SimpleAuthorizationInfo authorizationInfo =  new SimpleAuthorizationInfo();
         authorizationInfo.addRole(authorizationRoleDTO.getRole());
@@ -54,7 +51,6 @@ public class DBRealm extends AuthorizingRealm {
 
     private static final int LOCKED=1;
     private static final int DISABLED=2;
-    private static final String ENCRYPT_SALT = "F12839WhsnnEV$#23b";
     //认证
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
@@ -75,21 +71,26 @@ public class DBRealm extends AuthorizingRealm {
         if (DISABLED==(user.getState())) {
             throw new DisabledAccountException("账号已被禁用,请联系管理员！");
         }
+        ByteSource salt = ByteSource.Util.bytes(user.getSalt());
 
-        return new SimpleAuthenticationInfo(user.getUsername(),user.getPassword(), ByteSource.Util.bytes(ENCRYPT_SALT), getName());
+        return new SimpleAuthenticationInfo(user,user.getPassword(),salt , getName());
     }
 
-    //加密，替换当前Realm的credentialsMatcher属性，直接使用HashedCredentialsMatcher对象并设置加密算法
-//    @Override
-//    public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
-//        // 构建凭证对象
-//        HashedCredentialsMatcher cMatcher = new HashedCredentialsMatcher();
-//        // 设置加密算法
-//        cMatcher.setHashAlgorithmName("MD5");
-//        // 设置加密次数
-//        cMatcher.setHashIterations(1);
-//        super.setCredentialsMatcher(cMatcher);
-//    }
+
+    /**
+     * 加密，替换当前Realm的credentialsMatcher属性，直接使用HashedCredentialsMatcher对象并设置加密算法
+     * @param credentialsMatcher
+     */
+    @Override
+    public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
+        // 构建凭证对象
+        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+        // 设置加密算法
+        matcher.setHashAlgorithmName("MD5");
+        // 设置加密次数
+        matcher.setHashIterations(2);
+        super.setCredentialsMatcher(matcher);
+    }
 
 
     /**

@@ -43,17 +43,17 @@ public enum ResultCode {
     /** 验证异常 */
     VIOLATION_EXCEPTION(4003, "验证异常"),
 
-    /** 验证异常 */
-    GENERIC_EXCEPTION(4004, "泛型异常"),
-
-    /** 空指针异常 */
-    NULL_EXCEPTION(4005, "空指针异常"),
-
     /** 登录异常 */
-    NO_LOGIN(4006, "未登录"),
+    NO_LOGIN(4004, "未登录"),
 
     /** 权限异常 */
-    NO_PERMISSION(4007, "无权限");
+    NO_PERMISSION(4005, "无权限"),
+
+    /** 图片上传异常 */
+    PHOTO_EXCEPTION(4006, "图片上传异常"),
+
+    /** 注册异常 */
+    REGISTER_EXCEPTION(4007, "注册异常");
 
     private final int value;
 

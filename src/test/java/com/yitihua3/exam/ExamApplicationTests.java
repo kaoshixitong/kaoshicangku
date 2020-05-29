@@ -3,12 +3,19 @@ package com.yitihua3.exam;
 import com.yitihua3.exam.dto.answer.AnswerDTO;
 import com.yitihua3.exam.dto.answer.ChoiceAnswerDTO;
 import com.yitihua3.exam.entity.exam.Choice;
+import com.yitihua3.exam.entity.user.Classes;
+import com.yitihua3.exam.mapper.user.ClassesMapper;
 import com.yitihua3.exam.mapper.user.UserMapper;
+import com.yitihua3.exam.service.user.UserService;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @SpringBootTest
 class ExamApplicationTests {
@@ -16,6 +23,44 @@ class ExamApplicationTests {
 
     @Resource
     UserMapper userMapper;
+    @Resource
+    UserService userService;
+
+    @Resource
+    ClassesMapper classesMapper;
+
+    @Test
+    void classes(){
+        List<Classes> classes = classesMapper.queryAll(null);
+        System.out.println("classes = " + classes);
+    }
+
+    @Test
+    void salt() {
+        Random r = new Random();
+        StringBuilder sb = new StringBuilder(16);
+        sb.append(r.nextInt(99999999)).append(r.nextInt(99999999));
+        int len = sb.length();
+        if (len < 16) {
+            for (int i = 0; i < 16 - len; i++) {
+                sb.append("0");
+            }
+        }
+        String salt = sb.toString();
+        System.out.println("salt = " + salt);
+    }
+
+    @Test
+    void encrypt() {
+        String hashAlgorithmName = "MD5";
+        Object credentials = "123";
+        Object salt = ByteSource.Util.bytes("1205352135315608");
+        int hashIterations = 2;
+        Object result = new SimpleHash(hashAlgorithmName, credentials, salt, hashIterations);
+        System.out.println(result);
+
+    }
+    
     @Test
     void contextLoads() throws Exception {
         System.out.println(userMapper.selectCompleteUser("小明"));

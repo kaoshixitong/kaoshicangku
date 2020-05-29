@@ -1,5 +1,6 @@
 package com.yitihua3.exam.shiro.restful;
 
+import com.yitihua3.exam.entity.user.User;
 import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.user.JWTService;
 import com.yitihua3.exam.shiro.token.JWTToken;
@@ -26,7 +27,7 @@ import java.util.Date;
 
 public class JWTFilter extends AuthenticatingFilter {
 
-    private static final int tokenRefreshInterval = 300;
+    private static final int tokenRefreshInterval = 300000000;
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -34,7 +35,7 @@ public class JWTFilter extends AuthenticatingFilter {
 
     public JWTFilter(JWTService jwtService){
         this.jwtService = jwtService;
-        this.setLoginUrl("/shiroLogin");
+        this.setLoginUrl("/login");
     }
 
     @Override
@@ -88,10 +89,10 @@ public class JWTFilter extends AuthenticatingFilter {
         String newToken = null;
         if(token instanceof JWTToken){
             JWTToken jwtToken = (JWTToken)token;
-            String username =  subject.getPrincipal().toString();
+            User user =  (User)subject.getPrincipal();
             boolean shouldRefresh = shouldTokenRefresh(JWTUtils.getIssuedAt(jwtToken.getToken()));
             if(shouldRefresh) {
-                newToken = jwtService.generateJWTToken(username);
+                newToken = jwtService.generateJWTToken(user);
             }
         }
         if(StringUtils.isNotBlank(newToken))

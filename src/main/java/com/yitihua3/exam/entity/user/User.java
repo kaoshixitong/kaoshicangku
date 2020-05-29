@@ -2,6 +2,9 @@ package com.yitihua3.exam.entity.user;
 
 import lombok.Data;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 /**
  * (User)实体类
@@ -10,11 +13,14 @@ import java.io.Serializable;
  * @since 2020-04-17 22:01:20
  */
 @Data
+@Table(name="user")
 public class User implements Serializable {
     private static final long serialVersionUID = -14210060581838316L;
     /**
      * 用户编号
      */
+    @Column(name = "user_id")
+    @Id
     private Integer userId;
     /**
      * 用户名
@@ -39,5 +45,6 @@ public class User implements Serializable {
     /**
      * 角色编号
      */
+    @Column(name = "role_id")
     private Integer roleId;
 }

@@ -2,31 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yitihua3.exam.mapper.user.UserMapper">
 
-    <!--通过主键修改数据-->
-    <update id="updateSaltByUsername">
-        update kaoshi.user
-        <set>
-            <if test="salt != null and salt != ''">
-                salt = #{salt}
-            </if>
-        </set>
-        where username = #{username}
-    </update>
+
 
     <resultMap type="com.yitihua3.exam.entity.user.User" id="user">
-        <!--        <result property="userId" column="user_id" jdbcType="INTEGER"/>-->
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
-        <!--        <result property="photo" column="photo" jdbcType="VARCHAR"/>-->
+        <result property="photo" column="photo" jdbcType="VARCHAR"/>
         <result property="salt" column="salt" jdbcType="VARCHAR"/>
         <result property="state" column="state" jdbcType="INTEGER"/>
         <result property="roleId" column="role_id" jdbcType="INTEGER"/>
     </resultMap>
 
+    <!--通过id查询-->
+    <select id="selectById" resultMap="user">
+        select
+          user_id, username, password, photo, salt, state, role_id
+        from kaoshi.user
+        where user_id = #{userId}
+    </select>
+
     <!--通过用户名查询-->
     <select id="selectByUsername" resultMap="user">
         select
-          user_id, username, password, photo, salt, state, role_id
+          user_id, username, password, photo,salt, state, role_id
         from kaoshi.user
         where username = #{username}
     </select>
@@ -66,4 +65,39 @@
         ) user_role_permission
         where user_role_permission.username=#{username};
     </select>
+
+    <!--通过主键修改数据-->
+    <update id="updatePhotoById">
+        update kaoshi.user
+        <set>
+        <if test="photo != null and photo != ''">
+            photo = #{photo},
+        </if>
+    </set>
+        where user_id = #{userId}
+    </update>
+
+    <!--通过主键修改数据-->
+
+
+
+    <update id="updateById">
+        update kaoshi.user
+        <set>
+            <if test="username != null and username != ''">username = #{username}, </if>
+            <if test="password != null and password != ''">password = #{password}, </if>
+            <if test="photo != null and photo != ''">photo = #{photo}, </if>
+            <if test="salt != null and salt != ''">salt = #{salt}, </if>
+            <if test="state != null">state = #{state}, </if>
+            <if test="roleId != null">role_id = #{roleId}, </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!--新增所有列-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
+        insert into kaoshi.user
+        (username, password, photo, salt, state, role_id)
+        values (#{username}, #{password}, #{photo}, #{salt}, #{state}, #{roleId})
+    </insert>
 </mapper>

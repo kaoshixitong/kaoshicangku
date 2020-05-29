@@ -1,11 +1,15 @@
 package com.yitihua3.exam.controller.user;
 
 import com.yitihua3.exam.entity.user.User;
+import com.yitihua3.exam.exception.ClientException;
+import com.yitihua3.exam.response.Result;
+import com.yitihua3.exam.response.ResultCode;
+import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.user.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -25,17 +29,19 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "HTTP状态码，返回值JSON code字段值，描述：成功"),
+            @ApiResponse(code = 4008, message = "非HTTP状态码，返回值JSON code字段值，描述：注册异常")
+    })
+
     @ApiOperation(value = "根据用户名查询用户",  notes = "可用于注册时登录查重",httpMethod = "GET")
     @GetMapping("queryUsername")
-    public User queryUser(
+    public Result queryUser(
             @ApiParam(name="username",value="用户名",required=true)
                     String username) {
-        return null;
-    }
-
-    @ApiOperation(value = "添加用户",  notes = "可用于管理员添加学生或教师",httpMethod = "POST")
-    @PostMapping("addUser")
-    public User addUser(@ApiParam(name="username",value="用户名",required=true)User user) {
-        return null;
+        User user = userService.selectByUsername(username);
+        if(user!=null)
+            throw new ClientException(ResultCode.REGISTER_EXCEPTION,"用户名已存在");
+        return ResultGenerator.genOkResult("用户名可用");
     }
 }

@@ -1,7 +1,5 @@
 package com.yitihua3.exam.mapper.user;
 
-import com.yitihua3.exam.entity.user.Role;
-import com.yitihua3.exam.mapper.common.CommonMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2020-04-28 12:33:40
  */
 @Mapper
-public interface RoleMapper extends CommonMapper<Role> {
+public interface RoleMapper {
     /**
      * 根据用户名返回用户
      * @param username

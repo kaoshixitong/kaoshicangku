@@ -1,6 +1,6 @@
 package com.yitihua3.exam.service.user;
 
-import java.util.List;
+import com.yitihua3.exam.entity.user.User;
 
 /**
  * @author aiwoqe
@@ -10,14 +10,19 @@ import java.util.List;
  * @Version V1.0
  */
 public interface JWTService {
-    String generateJWTToken(String username) ;
+    /**
+     * 保存user登录信息，返回token
+     * @param user
+     * @return
+     */
+    String generateJWTToken(User user) ;
 
     /**
      * 获取上次token生成时的salt值
      * @param username
      * @return
      */
-    String getJwtTokenInfo(String username);
+    String getJwtTokenSalt(String username);
 
     /**
      * 清除token信息
@@ -25,17 +30,10 @@ public interface JWTService {
      */
      void deleteLoginInfo(String username);
 
-    /**
-     * 获取数据库中保存的用户信息，主要是加密后的密码
-     * @param userName
-     * @return
-     */
-//     AuthorizationUserDTO getUserInfo(String userName) ;
 
     /**
-     * 获取用户角色列表，强烈建议从缓存中获取
-     * @param userId
-     * @return
+     * 获取用户信息，强烈建议从缓存中获取
+     * @return 用户信息
      */
-     List<String> getUserRoles(Long userId);
+     User getSubjectUser();
 }

@@ -17,7 +17,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@FieldMapper(exclude = {"score","choiceId"})//属性是目标的属性
+@FieldMapper//属性是目标的属性
+/**
+ *
+ */
 public class ChoiceAnswerDTO extends AbstractRelationMapper<ChoiceAnswerDTO, ChoiceAnswer> {
     /**
      * 答题编号

@@ -3,20 +3,22 @@ package com.yitihua3.exam.dto.user;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
 /**
  * @author aiwoqe
- * @Type UserDTO
+ * @Type Register
  * @Desc
- * @date 2020年04月28日
+ * @date 2020年05月21日
  * @Version V1.0
  */
 @Data
 @AllArgsConstructor
-public class LoginDTO {
+@NoArgsConstructor
+public class RegisterDTO {
     /**
      * 用户名
      */
@@ -32,9 +34,18 @@ public class LoginDTO {
     @Length(min=6, max=20)
     private String password;
     /**
-     * 角色编号
+     * 确认密码
+     */
+    @ApiModelProperty(value = "确认密码", name = "confirm", required = true)
+    @NotNull(message="密码不能为空")
+    @Length(min=6, max=20)
+    private String confirm;
+
+    /**
+     * 用户身份
      */
     @ApiModelProperty(value = "角色编号", name = "roleId", required = true,example = "1")
-    @NotNull(message="身份编号不能为空")
+    @NotNull(message = "用户身份不能为空")
     private Integer roleId;
+
 }

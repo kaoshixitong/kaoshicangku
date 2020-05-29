@@ -6,6 +6,7 @@ import com.yitihua3.exam.service.user.JWTService;
 import com.yitihua3.exam.shiro.realm.DBRealm;
 import com.yitihua3.exam.shiro.realm.JWTRealm;
 import com.yitihua3.exam.shiro.restful.EnhanceModularRealmAuthenticator;
+import com.yitihua3.exam.shiro.restful.JWTCredentialsMatcher;
 import com.yitihua3.exam.shiro.restful.JWTFilter;
 import com.yitihua3.exam.shiro.restful.RestfulDefaultSubjectFactory;
 import lombok.Getter;
@@ -35,6 +36,7 @@ import javax.servlet.Filter;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @ConfigurationProperties(prefix = "filter")
 @Configuration
@@ -48,7 +50,7 @@ public class ShiroConfig {
     @Bean
     public FilterRegistrationBean<Filter> filterRegistrationBean(SecurityManager securityManager, JWTService jwtService) throws Exception{
         FilterRegistrationBean<Filter> filterRegistration = new FilterRegistrationBean<>();
-        filterRegistration.setFilter((Filter)shiroFilter(securityManager, jwtService).getObject());
+        filterRegistration.setFilter((Filter) Objects.requireNonNull(shiroFilter(securityManager, jwtService).getObject()));
         filterRegistration.addInitParameter("targetFilterLifecycle", "true");
         filterRegistration.setEnabled(true);
 
@@ -83,7 +85,7 @@ public class ShiroConfig {
      * 所以需要配合context.setSessionCreationEnabled(false);
      */
     @Bean
-    public DefaultWebSecurityManager securityManager(){
+    public DefaultWebSecurityManager securityManager(JWTService jwtService){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //配置自定义cache管理，使用ehcache
         securityManager.setCacheManager(ehcacheManager());
@@ -93,6 +95,8 @@ public class ShiroConfig {
         securityManager.setSessionManager(sessionManager());
 
         securityManager.setAuthenticator(authenticator());
+
+        securityManager.setRealms(Arrays.asList(jwtRealm(jwtService), dbRealm()));
 
         DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
         DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
@@ -130,7 +134,6 @@ public class ShiroConfig {
     @Bean
     public Authenticator authenticator() {
         ModularRealmAuthenticator authenticator = new EnhanceModularRealmAuthenticator();
-        authenticator.setRealms(Arrays.asList(jwtRealm(), dbRealm()));
         authenticator.setAuthenticationStrategy(new FirstSuccessfulStrategy());
         return authenticator;
     }
@@ -154,8 +157,8 @@ public class ShiroConfig {
 
     
     @Bean("jwtRealm")
-    public JWTRealm jwtRealm(){
-        JWTRealm jwtRealm = new JWTRealm();
+    public JWTRealm jwtRealm(JWTService jwtService){
+        JWTRealm jwtRealm = new JWTRealm(jwtService);
         jwtRealm.setCachingEnabled(true);
 //启用身份验证缓存，即缓存AuthenticationInfo信息，默认false
         jwtRealm.setAuthenticationCachingEnabled(true);
