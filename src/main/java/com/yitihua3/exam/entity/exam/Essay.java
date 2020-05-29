@@ -3,7 +3,9 @@ package com.yitihua3.exam.entity.exam;
 import com.yitihua3.exam.dto.exam.EssayDTO;
 import com.yitihua3.exam.dto.common.AbstractRelationMapper;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 /**
@@ -14,6 +16,8 @@ import java.io.Serializable;
  */
 @Data
 @NoArgsConstructor
+@Getter
+@Setter
 public class Essay extends AbstractRelationMapper<Essay, EssayDTO> implements Serializable {
     private static final long serialVersionUID = -28314802908035852L;
     /**
@@ -41,6 +45,57 @@ public class Essay extends AbstractRelationMapper<Essay, EssayDTO> implements Se
     */
     private Integer chapterId;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Integer getEssayId() {
+        return essayId;
+    }
+
+    public void setEssayId(Integer essayId) {
+        this.essayId = essayId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public Integer getChapterId() {
+        return chapterId;
+    }
+
+    public void setChapterId(Integer chapterId) {
+        this.chapterId = chapterId;
+    }
 
     @Override
     protected Essay setSource() {
@@ -51,5 +106,23 @@ public class Essay extends AbstractRelationMapper<Essay, EssayDTO> implements Se
     protected boolean isFieldAnnotationPresent() {
         return false;
     }
+
+    public Essay(Integer score) {
+        this.score = score;
+    }
+
+    public Essay(String reference) {
+        this.reference = reference;
+    }
+
+    public Essay(Integer essayId, String title, Integer score, String reference, Integer subjectId, Integer chapterId) {
+        this.essayId = essayId;
+        this.title = title;
+        this.score = score;
+        this.reference = reference;
+        this.subjectId = subjectId;
+        this.chapterId = chapterId;
+    }
+
 
 }
