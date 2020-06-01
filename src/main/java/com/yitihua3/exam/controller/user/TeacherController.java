@@ -24,7 +24,7 @@ import javax.annotation.Resource;
  * @date 2020年05月24日
  * @Version V1.0
  */
-@Api(value = "用户的教师的controller")
+@Api(value = "用户的教师的controller",tags={"教师操作接口"})
 @RestController
 @RequestMapping("/user/teacher")
 public class TeacherController {

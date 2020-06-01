@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yitihua3.exam.mapper.subject.ChapterMapper">
+
+    <resultMap type="com.yitihua3.exam.entity.subject.Chapter" id="ChapterMap">
+        <result property="chapterId" column="chapter_id" jdbcType="INTEGER"/>
+        <result property="subjectId" column="subject_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ChapterMap">
+        select
+          chapter_id, subject_id, name
+        from kaoshi.chapter
+        where chapter_id = #{chapterId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ChapterMap">
+        select
+          chapter_id, subject_id, name
+        from kaoshi.chapter
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ChapterMap">
+        select
+          chapter_id, subject_id, name
+        from kaoshi.chapter
+        <where>
+            <if test="chapterId != null">
+                and chapter_id = #{chapterId}
+            </if>
+            <if test="subjectId != null">
+                and subject_id = #{subjectId}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="chapterId" useGeneratedKeys="true">
+        insert into kaoshi.chapter(subject_id, name)
+        values (#{subjectId}, #{name})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update kaoshi.chapter
+        <set>
+            <if test="subjectId != null">
+                subject_id = #{subjectId},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+        </set>
+        where chapter_id = #{chapterId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from kaoshi.chapter where chapter_id = #{chapterId}
+    </delete>
+
+</mapper>

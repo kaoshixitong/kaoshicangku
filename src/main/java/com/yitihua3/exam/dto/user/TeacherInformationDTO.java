@@ -25,10 +25,11 @@ public class TeacherInformationDTO {
     /**
      * 头像路径
      */
-    @ApiModelProperty(value = "头像名字", name = "photo", notes = "向后台发送时不用，从后台接收时要", example = "xx.jpg")
+    @ApiModelProperty(value = "头像名字,向后台发送时不用，从后台接收时要", name = "photo", example = "xx.jpg")
     private String photo;
     /**
      * 教师信息
      */
+    @ApiModelProperty(value = "教师信息", name = "teacher")
     private Teacher teacher;
 }

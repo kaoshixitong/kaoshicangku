@@ -1,5 +1,6 @@
 package com.yitihua3.exam.service.user.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.yitihua3.exam.entity.user.Classes;
 import com.yitihua3.exam.mapper.user.ClassesMapper;
 import com.yitihua3.exam.service.user.ClassesService;
@@ -22,6 +23,12 @@ public class ClassesServiceImpl implements ClassesService {
     @Override
     public List<Classes> selectAll() {
         return classesMapper.queryAll(null);
+    }
+
+    @Override
+    public List<Classes> selectAllPage(int page, int size) {
+        PageHelper.startPage(page, size);
+        return selectAll();
     }
 
     @Override

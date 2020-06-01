@@ -1,17 +1,16 @@
-package com.yitihua3.exam.mapper.subject;
+package com.yitihua3.exam.service.subject;
 
 import com.yitihua3.exam.entity.subject.Chapter;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * (Chapter)表数据库访问层
+ * (Chapter)表服务接口
  *
  * @author makejava
  * @since 2020-06-01 17:59:03
  */
-public interface ChapterMapper {
+public interface ChapterService {
 
     /**
      * 通过ID查询单条数据
@@ -22,45 +21,36 @@ public interface ChapterMapper {
     Chapter queryById(Integer chapterId);
 
     /**
-     * 查询指定行数据
+     * 查询多条数据
      *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<Chapter> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
-
-
-    /**
-     * 通过实体作为筛选条件查询
-     *
-     * @param chapter 实例对象
-     * @return 对象列表
-     */
-    List<Chapter> queryAll(Chapter chapter);
+    List<Chapter> queryAllByLimit(int offset, int limit);
 
     /**
      * 新增数据
      *
      * @param chapter 实例对象
-     * @return 影响行数
+     * @return 实例对象
      */
-    int insert(Chapter chapter);
+    Chapter insert(Chapter chapter);
 
     /**
      * 修改数据
      *
      * @param chapter 实例对象
-     * @return 影响行数
+     * @return 实例对象
      */
-    int update(Chapter chapter);
+    Chapter update(Chapter chapter);
 
     /**
      * 通过主键删除数据
      *
      * @param chapterId 主键
-     * @return 影响行数
+     * @return 是否成功
      */
-    int deleteById(Integer chapterId);
+    boolean deleteById(Integer chapterId);
 
 }

@@ -54,7 +54,7 @@ class ExamApplicationTests {
     void encrypt() {
         String hashAlgorithmName = "MD5";
         Object credentials = "123";
-        Object salt = ByteSource.Util.bytes("1205352135315608");
+        Object salt = ByteSource.Util.bytes("8429128961220332");
         int hashIterations = 2;
         Object result = new SimpleHash(hashAlgorithmName, credentials, salt, hashIterations);
         System.out.println(result);

@@ -18,6 +18,14 @@ public interface ClassesService {
     List<Classes> selectAll();
 
     /**
+     * 查询班级分页
+     * @param page
+     * @param size
+     * @return
+     */
+    List<Classes> selectAllPage(int page,int size);
+
+    /**
      * 修改班级
      * @param classes
      * @return

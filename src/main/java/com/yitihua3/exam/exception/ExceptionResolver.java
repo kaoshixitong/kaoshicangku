@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 /**
  * 统一异常处理
@@ -32,6 +35,18 @@ import java.sql.SQLException;
 @Slf4j
 @RestControllerAdvice
 public class ExceptionResolver {
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(ConstraintViolationException.class)
+  public Result validatorException(final ConstraintViolationException e) {
+    final String msg =
+            e.getConstraintViolations().stream()
+                    .map(ConstraintViolation::getMessage)
+                    .collect(Collectors.joining(","));
+    // e.toString 多了不需要用户知道的属性路径
+    ExceptionResolver.log.error("==> 验证实体异常: {}", e.toString());
+    return ResultGenerator.genFailedResult(ResultCode.VIOLATION_EXCEPTION, msg);
+  }
+
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(BindException.class)
   public Result validatorException(final BindException e) {

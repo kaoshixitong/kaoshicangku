@@ -97,7 +97,29 @@
     <!--新增所有列-->
     <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
         insert into kaoshi.user
-        (username, password, photo, salt, state, role_id)
-        values (#{username}, #{password}, #{photo}, #{salt}, #{state}, #{roleId})
+        (<include refid="userColumns"/>)
+        values (<include refid="userValues"/>)
     </insert>
+
+    <sql id="userColumns">
+        <trim suffixOverrides=",">
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="photo != null">photo,</if>
+            <if test="salt != null">salt,</if>
+            <if test="state != null">state,</if>
+            <if test="roleId != null">role_id</if>
+        </trim>
+    </sql>
+
+    <sql id="userValues">
+        <trim suffixOverrides=",">
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="photo != null">#{photo},</if>
+            <if test="salt != null">#{salt},</if>
+            <if test="state != null">#{state},</if>
+            <if test="roleId != null">#{roleId}</if>
+        </trim>
+    </sql>
 </mapper>

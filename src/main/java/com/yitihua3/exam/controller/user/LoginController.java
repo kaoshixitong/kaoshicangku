@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2020年04月23日
  * @Version V1.0
  */
-@Api(value="登录controller")
+@Api(value="登录controller",tags={"登录注册注销操作接口"})
 @RestController
 public class LoginController {
 

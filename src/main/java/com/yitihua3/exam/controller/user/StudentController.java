@@ -26,7 +26,7 @@ import javax.annotation.Resource;
  * @date 2020年05月24日
  * @Version V1.0
  */
-@Api(value = "用户的学生的controller")
+@Api(value = "用户的学生的controller",tags={"学生操作接口"})
 @RestController
 @RequestMapping("/user/student")
 public class StudentController {
@@ -80,4 +80,6 @@ public class StudentController {
         studentService.updateById(student);
         return ResultGenerator.genOkResult("用户绑定学生成功");
     }
+
+
 }

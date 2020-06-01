@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  * @author makejava
  * @since 2020-04-17 22:01:20
  */
-@Api(value = "用户的controller")
+@Api(value = "用户的controller",tags={"用户操作接口"})
 @RestController
 @RequestMapping("/user")
 public class UserController {

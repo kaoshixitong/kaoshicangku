@@ -1,7 +1,6 @@
 package com.yitihua3.exam.controller.answer;
 
 import com.yitihua3.exam.entity.exam.Essay;
-import com.yitihua3.exam.service.answer.ChoiceAnswerService;
 import com.yitihua3.exam.service.answer.EssayAnswerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
