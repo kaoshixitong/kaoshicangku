@@ -27,8 +27,8 @@ public class EssayServiceImpl implements EssayService {
      */
     @Override
     public Essay queryById(Integer EssayId) {
-        Essay Essay = EssayMapper.queryById(EssayId);
-        return Essay;
+        Essay essay = EssayMapper.queryById(EssayId);
+        return essay;
     }
 
     /**
@@ -36,8 +36,9 @@ public class EssayServiceImpl implements EssayService {
      *
      *
      */
-    public void queryAll(){
-        EssayMapper.queryAll();
+    public List<Essay> queryAll(){
+        List<Essay> essays = EssayMapper.queryAll();
+        return essays;
     }
 
 
@@ -81,45 +82,46 @@ public class EssayServiceImpl implements EssayService {
     }
 
     @Override
-    public void queryAllTest() {
+    public List<Essay> queryAllTest() {
         List<Essay> list = EssayMapper.queryAllTest();
+        return list;
     }
 
     @Override
     public Essay queryReferenceById(Integer EssayId) {
-        Essay Essay = EssayMapper.queryReferenceById(EssayId);
-        return Essay;
+        Essay essay = EssayMapper.queryReferenceById(EssayId);
+        return essay;
     }
 
     @Override
-    public Essay queryReference(){
-        Essay Essay = EssayMapper.queryReference();
-        return Essay;
+    public List<Essay> queryReference(){
+        List<Essay> essays = EssayMapper.queryReference();
+        return essays;
     }
 
 
     @Override
     public Essay queryScoreById(Integer EssayId) {
-        Essay Essay = EssayMapper.queryScoreById(EssayId);
-        return Essay;
+        Essay essay = EssayMapper.queryScoreById(EssayId);
+        return essay;
     }
 
     @Override
-    public Essay queryScore() {
-        Essay Essay = EssayMapper.queryScore();
-        return Essay;
+    public List<Essay> queryScore() {
+        List<Essay> essays = EssayMapper.queryScore();
+        return essays;
     }
 
 
     @Override
     public Essay querySubjectId(Integer EssayId) {
-        Essay Essay = EssayMapper.querySubjectById(EssayId);
-        return Essay;
+        Essay essay = EssayMapper.querySubjectById(EssayId);
+        return essay;
     }
 
     @Override
     public Essay queryChapterId(Integer EssayId) {
-        Essay Essay = EssayMapper.queryChapterById(EssayId);
-        return Essay;
+        Essay essay = EssayMapper.queryChapterById(EssayId);
+        return essay;
     }
 }

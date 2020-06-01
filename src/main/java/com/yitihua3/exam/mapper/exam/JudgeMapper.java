@@ -35,7 +35,7 @@ public interface JudgeMapper {
      * 查询总成绩
      * 
      */
-    Judge queryScore();
+   List<Judge> queryScore();
     
     /**
      * 通过Id查询答案
@@ -49,7 +49,7 @@ public interface JudgeMapper {
      * 查询所有答案
      *
      */
-    Judge queryRight();
+    List<Judge> queryRight();
     
     /**
      * 通过Id查询科目

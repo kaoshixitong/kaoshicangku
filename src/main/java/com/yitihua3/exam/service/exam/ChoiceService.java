@@ -24,14 +24,14 @@ public interface ChoiceService {
      *
      *
      */
-    void queryAll();
+    List<Choice> queryAll();
 
     /**
      * 显示考题数据
      *
      *
      */
-    void queryAllTest();
+    List<Choice> queryAllTest();
 
     /**
      * 显示某一正确答案
@@ -45,7 +45,7 @@ public interface ChoiceService {
      *
      *
      */
-    Choice queryRight();
+    List<Choice> queryRight();
 
 
     /**
@@ -60,7 +60,7 @@ public interface ChoiceService {
      *
      *
      */
-    Choice queryScore();
+    List<Choice> queryScore();
     /**
      * 显示所属科目
      *

@@ -24,14 +24,14 @@ public interface JudgeService {
      *
      *
      */
-    void queryAll();
+    List<Judge> queryAll();
 
     /**
      * 显示考题数据
      *
      *
      */
-    void queryAllTest();
+    List<Judge> queryAllTest();
 
     /**
      * 显示某一正确答案
@@ -45,7 +45,7 @@ public interface JudgeService {
      *
      *
      */
-    Judge queryRight();
+    List<Judge> queryRight();
 
 
     /**
@@ -60,7 +60,7 @@ public interface JudgeService {
      *
      *
      */
-    Judge queryScore();
+    List<Judge> queryScore();
     /**
      * 显示所属科目
      *

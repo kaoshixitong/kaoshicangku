@@ -24,14 +24,14 @@ public interface EssayService {
      *
      *
      */
-    void queryAll();
+    List<Essay> queryAll();
 
     /**
      * 显示考题数据
      *
      *
      */
-    void queryAllTest();
+    List<Essay> queryAllTest();
 
     /**
      * 显示某一正确答案
@@ -45,7 +45,7 @@ public interface EssayService {
      *
      *
      */
-    Essay queryReference();
+    List<Essay> queryReference();
 
 
     /**
@@ -60,7 +60,7 @@ public interface EssayService {
      *
      *
      */
-    Essay queryScore();
+    List<Essay> queryScore();
     /**
      * 显示所属科目
      *

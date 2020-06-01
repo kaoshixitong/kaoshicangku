@@ -35,7 +35,7 @@ public interface EssayMapper {
      * 查询总成绩
      * 
      */
-    Essay queryScore();
+    List<Essay> queryScore();
     
     /**
      * 通过Id查询答案
@@ -49,7 +49,7 @@ public interface EssayMapper {
      * 查询所有答案
      *
      */
-    Essay queryReference();
+    List<Essay> queryReference();
     
     /**
      * 通过Id查询科目

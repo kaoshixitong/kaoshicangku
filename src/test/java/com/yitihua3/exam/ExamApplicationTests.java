@@ -2,35 +2,43 @@ package com.yitihua3.exam;
 
 //import com.yitihua3.exam.dto.answer.AnswerDTO;
 //import com.yitihua3.exam.dto.answer.JudgeAnswerDTO;
-import com.yitihua3.exam.entity.exam.Essay;
+
 import com.yitihua3.exam.entity.exam.Exam;
-import com.yitihua3.exam.entity.exam.Judge;
-import com.yitihua3.exam.entity.exam.Exam;
-import com.yitihua3.exam.mapper.exam.EssayMapper;
-import com.yitihua3.exam.mapper.exam.JudgeMapper;
 import com.yitihua3.exam.mapper.exam.ExamMapper;
-import com.yitihua3.exam.mapper.user.UserMapper;
+import org.junit.*;
+import com.yitihua3.exam.controller.exam.ChoiceController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
 
-import javax.annotation.Resource;
-import java.awt.*;
-import java.util.ArrayList;
 
 @SpringBootTest
+@WebAppConfiguration
 class ExamApplicationTests {
+//    @Autowired
+//    private ExamMapper examMapper;
+//    @Test
+//    void run2(){
+//        Exam exam = new Exam(1,"lsb","111","222",111,1);
+//        examMapper.insert(exam);
+//        System.out.println(examMapper.queryAll());
+//        System.out.println(examMapper.queryById(1));
+//        examMapper.update(exam);
+//        examMapper.deleteById(1);
+//    }
+
+
     @Autowired
-    private ExamMapper examMapper;
-    @Test
-    void run2(){
-        Exam exam = new Exam(1,"lsb","111","222",111,1);
-        examMapper.insert(exam);
-        System.out.println(examMapper.queryAll());
-        System.out.println(examMapper.queryById(1));
-        examMapper.update(exam);
-        examMapper.deleteById(1);
-    }
+    private ChoiceController choiceController;
+   @Test
+    void run1(){
+       choiceController.queryAll();
+   }
+
+
 }
 
 

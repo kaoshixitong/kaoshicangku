@@ -35,8 +35,9 @@ public class ChoiceServiceImpl implements ChoiceService {
      *
      *
      */
-    public void queryAll(){
-        choiceMapper.queryAll();
+    public List<Choice> queryAll(){
+        List<Choice> choices = choiceMapper.queryAll();
+        return choices;
     }
   
 
@@ -80,8 +81,9 @@ public class ChoiceServiceImpl implements ChoiceService {
     }
 
     @Override
-    public void queryAllTest() {
+    public List<Choice> queryAllTest() {
         List<Choice> list = choiceMapper.queryAllTest();
+        return list;
     }
 
     @Override
@@ -91,9 +93,9 @@ public class ChoiceServiceImpl implements ChoiceService {
     }
 
     @Override
-    public Choice queryRight(){
-        Choice choice = choiceMapper.queryRight();
-        return choice;
+    public List<Choice> queryRight(){
+        List<Choice> choices = choiceMapper.queryRight();
+        return choices;
     }
 
 
@@ -104,9 +106,9 @@ public class ChoiceServiceImpl implements ChoiceService {
     }
 
     @Override
-    public Choice queryScore() {
-        Choice choice = choiceMapper.queryScore();
-        return choice;
+    public List<Choice> queryScore() {
+        List<Choice> choices = choiceMapper.queryScore();
+        return choices;
     }
 
 

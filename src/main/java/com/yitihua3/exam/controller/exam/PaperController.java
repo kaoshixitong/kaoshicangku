@@ -1,17 +1,28 @@
 package com.yitihua3.exam.controller.exam;
 
+import com.yitihua3.exam.entity.exam.Choice;
+import com.yitihua3.exam.entity.exam.Essay;
+import com.yitihua3.exam.entity.exam.Judge;
 import com.yitihua3.exam.entity.exam.Paper;
+import com.yitihua3.exam.response.Result;
+import com.yitihua3.exam.response.ResultGenerator;
+import com.yitihua3.exam.service.exam.ChoiceService;
+import com.yitihua3.exam.service.exam.EssayService;
+import com.yitihua3.exam.service.exam.JudgeService;
 import com.yitihua3.exam.service.exam.PaperService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.models.auth.In;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 /**
@@ -31,6 +42,15 @@ public class PaperController {
     @Autowired
     private PaperService paperService;
 
+    @Autowired
+    private JudgeService judgeService;
+
+    @Autowired
+    private ChoiceService choiceService;
+
+    @Autowired
+    private EssayService essayService;
+
     /**
      * 通过主键查询单条数据
      *
@@ -39,20 +59,27 @@ public class PaperController {
      */
     @ApiOperation(value = "根据试卷编号查询试卷",  notes = "根据试卷编号查询试卷",httpMethod = "GET")
     @GetMapping("/queryPaperById")
-    public String queryPaperById(
+    public Result queryPaperById(
             @ApiParam(name="paperId",value="试卷编号",required=true)
                     Integer paperId) {
-        paperService.queryById(paperId);
-        return "paperList";
+        Paper paper = paperService.queryById(paperId);
+        if (paper==null){
+            return ResultGenerator.genFailedResult("按编号查询试卷失败");
+        }
+        else
+        return ResultGenerator.genOkResult("按编号查询试卷成功");
     }
 
     @ApiOperation(value = "根据试卷编号删除试卷",notes = "根据试卷编号删除试卷",httpMethod = "DELETE")
     @GetMapping("/deletePaperById")
-    public String deletePaperById(
+    public Result deletePaperById(
             @ApiParam(name = "paperId",value = "试卷编号",required = true) Integer paperId
     ){
-        paperService.deleteById(paperId);
-        return "paperList";
+        boolean b = paperService.deleteById(paperId);
+        if (!b){
+            return ResultGenerator.genFailedResult("删除试卷失败");
+        }
+        return ResultGenerator.genOkResult("删除试卷成功");
     }
 
     @RequestMapping("/toAddPaper")
@@ -62,7 +89,7 @@ public class PaperController {
 
     @ApiOperation(value = "添加试卷",notes = "添加试卷",httpMethod = "POST")
     @GetMapping("/addPaper")
-    public String addPaper(
+    public Result addPaper(
             @RequestParam Paper paper
 //            @ApiParam(name = "paperId",value = "试卷编号",required = true)Integer paperId,
 //            @ApiParam(name = "paperName",value = "试卷名称",required = true)String paperName,
@@ -71,8 +98,11 @@ public class PaperController {
 //            @ApiParam(name = "during",value = "持续时间",required = true)Integer during,
 //            @ApiParam(name = "paperDTO",value = "试卷编号",required = true)PaperDTO paperDTO
     ){
-        paperService.insert(paper);
-        return "paperList";
+        Paper insert = paperService.insert(paper);
+        if(insert==null){
+            return ResultGenerator.genFailedResult("添加试卷失败");
+        }
+        return ResultGenerator.genOkResult("添加试卷成功");
     }
 
     @RequestMapping("/toUpdatePaper")
@@ -84,7 +114,7 @@ public class PaperController {
 
     @ApiOperation(value = "更新试卷",notes = "更新试卷",httpMethod = "PUT")
     @GetMapping("/updatePaper")
-    public String updatePaper(@RequestParam Paper paper, Model model
+    public Result updatePaper(@RequestParam Paper paper, Model model
                              //            @ApiParam(name = "paperId",value = "试卷编号",required = true)Integer paperId,
 //            @ApiParam(name = "paperName",value = "试卷名称",required = true)String paperName,
 //            @ApiParam(name = "begin",value = "开始时间",required = true)String begin,
@@ -92,17 +122,48 @@ public class PaperController {
 //            @ApiParam(name = "during",value = "持续时间",required = true)Integer during,
 //            @ApiParam(name = "paperDTO",value = "试卷编号",required = true)PaperDTO paperDTO){){
     ){
-        paperService.update(paper);
+        Paper update = paperService.update(paper);
         paper = paperService.queryById(paper.getPaperId());
         model.addAttribute("paper",paper);
-        return "paperList";
+        if (update==null){
+            return ResultGenerator.genFailedResult("按编号更新试卷失败");
+        }
+        return ResultGenerator.genOkResult("按编号更新试卷成功");
     }
 
-    @ApiOperation(value = "显示所有试卷",notes = "显示所有试卷",httpMethod = "GET")
+    @ApiOperation(value = "显示所有试卷信息",notes = "显示所有试卷信息",httpMethod = "GET")
     @GetMapping("/queryAll")
-    public String queryAll(){
-        paperService.queryAll();
-        return "paperList";
+    public Result queryAll(){
+        List<Paper> papers = paperService.queryAll();
+        if (papers!=null && papers.size()>0){
+            return ResultGenerator.genOkResult("查询所有试卷成功");
+        }
+        else
+            return ResultGenerator.genFailedResult("查询所有试卷失败");
+
     }
 
+    @ApiOperation(value = "显示所有考试试卷",notes = "显示所有考试试卷",httpMethod = "GET")
+    @GetMapping("/queryAllTest")
+    public Result queryAllTest(){
+        List<Choice> choices = choiceService.queryAllTest();
+        List<Judge> judges = judgeService.queryAllTest();
+        List<Essay> essays = essayService.queryAllTest();
+        if (choices!=null && judges!=null && essays!=null && choices.size()>0 && judges.size()>0 && essays.size()>0)
+            return ResultGenerator.genOkResult("查询所有考试试卷成功");
+        else
+                return ResultGenerator.genFailedResult("查询所有考试试卷失败");
+    }
+
+    @ApiOperation(value = "显示所有试卷内容信息",notes = "显示所有试卷内容信息",httpMethod = "GET")
+    @GetMapping("/queryAllContent")
+    public Result queryAllContent(){
+        List<Choice> choices = choiceService.queryAll();
+        List<Judge> judges = judgeService.queryAll();
+        List<Essay> essays = essayService.queryAll();
+        if (choices!=null && judges!=null && essays!=null && choices.size()>0 && judges.size()>0 && essays.size()>0)
+            return ResultGenerator.genOkResult("查询所有试卷内容信息成功");
+        else
+            return ResultGenerator.genFailedResult("查询所有试卷内容信息失败");
+    }
 }

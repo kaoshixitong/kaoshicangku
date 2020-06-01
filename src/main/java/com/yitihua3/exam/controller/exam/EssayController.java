@@ -1,20 +1,20 @@
 package com.yitihua3.exam.controller.exam;
 
-import com.yitihua3.exam.entity.exam.Choice;
 import com.yitihua3.exam.entity.exam.Essay;
+import com.yitihua3.exam.entity.exam.Essay;
+import com.yitihua3.exam.response.Result;
+import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.exam.EssayService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Essay)表控制层
@@ -40,11 +40,11 @@ public class EssayController {
      */
     @ApiOperation(value = "根据简答题编号查询简答题", notes = "根据简答题编号查询简答题", httpMethod = "GET")
     @GetMapping("/queryEssayById")
-    public String queryEssayById(
+    public Result queryEssayById(
             @ApiParam(name = "essayId", value = "简答题编号", required = true)
                     Integer essayId) {
         essayService.queryById(essayId);
-        return "essayList";
+        return ResultGenerator.genOkResult("按编号查询简答题成功");
     }
 
     @RequestMapping("/toAddEssay")
@@ -54,7 +54,7 @@ public class EssayController {
     
     @ApiOperation(value = "添加简答题",  notes = "添加简答题",httpMethod = "POST")
     @GetMapping("/addEssay")
-    public String addEssay( 
+    public Result addEssay(
 //            @ApiParam(name="essayId",value="简答题编号",required=true)
 //                                       Integer essayId,
 //                           @ApiParam(name="title",value="添加题目内容",required=true)
@@ -76,17 +76,38 @@ public class EssayController {
             @ApiParam(name="essay",value="选择题集合",required=true)
             @RequestParam Essay essay)
     {
-        essayService.insert(essay);
-        return "essayList";
+        Essay insert = essayService.insert(essay);
+        if(insert==null){
+            return ResultGenerator.genFailedResult("添加简答题失败");
+        }
+        else
+        return ResultGenerator.genOkResult("添加简答题成功");
     }
 
+    @ApiOperation(value = "上传excel表格添加简答题",notes = "上传excel表格添加简答题",httpMethod = "GET")
+    @GetMapping("/addEssayByExcel")
+    public Result addEssayByExcel(@RequestBody Map<String,Object> obj){
+        Essay essayList =(Essay) obj.get("essayList");
+        Essay insert = essayService.insert(essayList);
+        if (insert==null){
+            return ResultGenerator.genFailedResult("文件上传失败");
+
+        }
+        else return ResultGenerator.genOkResult("文件上传成功");
+
+    }
+    
     @ApiOperation(value = "根据简答题编号删除简答题",  notes = "根据简答题编号删除简答题",httpMethod = "DELETE")
     @GetMapping("/deleteEssayById")
-    public String deleteEssayById(
+    public Result deleteEssayById(
             @ApiParam(name="essayId",value="简答题编号",required=true)
                     Integer essayId) {
-        essayService.deleteById(essayId);
-        return "essayList";
+        boolean b = essayService.deleteById(essayId);
+        if(!b){
+            return ResultGenerator.genFailedResult("删除简单题失败");
+        }
+        else
+        return ResultGenerator.genOkResult("按编号删除简答题成功");
     }
 
     @RequestMapping("/toUpdateEssayById")
@@ -97,7 +118,7 @@ public class EssayController {
     
     @ApiOperation(value = "根据简答题编号更新简答题",  notes = "根据简答题编号更新简答题",httpMethod = "PUT")
     @GetMapping("/updateEssayById")
-    public String updateEssayById(@RequestParam Essay essay, Model model)
+    public Result updateEssayById(@RequestParam Essay essay, Model model)
     
 //            @ApiParam(name="essayId",value="简答题编号",required=true)
 //                    Integer essayId,
@@ -118,81 +139,112 @@ public class EssayController {
 //            @ApiParam(name="chapter",value="更新具体章节",required=true)
 //                    Integer chapter) 
     {
-        essayService.update(essay);
+        Essay update = essayService.update(essay);
         essayService.queryById(essay.getEssayId());
         model.addAttribute("essay",essay);
-        return "essayList";
+        if(update==null){
+            return ResultGenerator.genFailedResult("按编号更新简答题失败");
+        }
+        else
+        return ResultGenerator.genOkResult("按编号更新简答题成功");
     }
 
     @ApiOperation(value = "显示所有简答题",notes = "显示所有简答题",httpMethod = "GET")
     @GetMapping("/queryAll")
-    public String queryAll(){
-        essayService.queryAll();
-        return "essayList";
+    public Result queryAll(){
+        List<Essay> essays = essayService.queryAll();
+        if (essays!=null && essays.size()>0){
+        return ResultGenerator.genOkResult("查询所有简答题成功");}
+        else
+            return ResultGenerator.genFailedResult("查询所有简答题失败");
     }
 
     @ApiOperation(value = "显示简答题试卷",notes = "显示简答题试卷",httpMethod = "GET")
     @GetMapping("/queryAllTest")
-    public String queryAllTest(){
-        essayService.queryAllTest();
-        return "essayListTest";
+    public Result queryAllTest(){
+        List<Essay> essays = essayService.queryAllTest();
+        if (essays!=null && essays.size()>0){
+            return ResultGenerator.genOkResult("查询所有简答题试卷成功");}
+        else
+            return ResultGenerator.genFailedResult("查询所有简答题试卷失败");
     }
 
     @ApiOperation(value = "查询某一简答题得分",notes = "查询某一简答题得分",httpMethod = "GET")
     @GetMapping("/queryEssayScoreById")
-    public String queryEssayScoreById(
-            @ApiParam(name = "choiceId",value = "简答题编号",required = true)
+    public Result queryEssayScoreById(
+            @ApiParam(name = "essayId",value = "简答题编号",required = true)
             @RequestParam Integer essayId
     ){
-        essayService.queryScoreById(essayId);
-        return "essayScore";
+        Essay essay = essayService.queryScoreById(essayId);
+        if (essay==null){
+            return ResultGenerator.genFailedResult("查询第"+essayId+"道简答题成绩失败");
+        }
+        else
+        return ResultGenerator.genOkResult("查询简第"+essayId+"道答题成绩成功");
     }
 
     @ApiOperation(value = "查询简答题得分",notes = "查询简答题得分",httpMethod = "GET")
     @GetMapping("/queryEssayScore")
-    public String queryEssayScore(
+    public Result queryEssayScore(
 
     ){
-        essayService.queryScore();
-        return "essayScore";
+        List<Essay> essays = essayService.queryScore();
+        if (essays!=null && essays.size()>0){
+            return ResultGenerator.genOkResult("查询所有简答题得分成功");}
+        else
+            return ResultGenerator.genFailedResult("查询所有简答题得分失败");
     }
 
     @ApiOperation(value = "查询某一简答题答案",notes = "查询某一简答题答案",httpMethod = "GET")
     @GetMapping("/queryEssayReferenceById")
-    public String queryEssayReferenceById(
+    public Result queryEssayReferenceById(
             @ApiParam(name="essayId",value="简答题编号",required=true)
             @RequestParam Integer essayId){
-        essayService.queryReferenceById(essayId);
-        return "essayReference";
+        Essay essay = essayService.queryReferenceById(essayId);
+        if (essay==null){
+            return ResultGenerator.genFailedResult("按编号查询第"+essayId+"道简答题答案失败");
+        }
+        else
+        return ResultGenerator.genOkResult("按编号查询某一简答题答案成功");
 
     }
 
     @ApiOperation(value = "查询简答题答案",notes = "查询简答题答案",httpMethod = "GET")
     @GetMapping("/queryEssayReference")
-    public String queryEssayReference()
+    public Result queryEssayReference()
     {
-        essayService.queryReference();
-        return "essayReference";
+        List<Essay> essays = essayService.queryReference();
+        if (essays!=null && essays.size()>0){
+            return ResultGenerator.genOkResult("查询所有简答题答案成功");}
+        else
+            return ResultGenerator.genFailedResult("查询所有简答题答案失败");
 
     }
 
     @ApiOperation(value = "查询某一简答题所属科目",notes = "查询某一简答题所属科目",httpMethod = "GET")
     @GetMapping("/queryEssaySubjectById")
-    public String queryEssaySubjectById(
+    public Result queryEssaySubjectById(
             @ApiParam(name="essayId",value="简答题编号",required=true)
             @RequestParam Integer essayId ){
-        essayService.querySubjectId(essayId);
-        return "essaySubjectId";
+        Essay essay = essayService.querySubjectId(essayId);
+        if(essay==null)
+            return ResultGenerator.genFailedResult("查询第"+essayId+"道简答题所属科目失败");
+        else
+        return ResultGenerator.genOkResult("查询第"+essayId+"道简答题所属科目成功");
 
     }
 
     @ApiOperation(value = "查询某一简答题所属章节",notes = "查询某一简答题所属章节",httpMethod = "GET")
     @GetMapping("/queryEssayChapterById")
-    public String queryEssayChapter(
+    public Result queryEssayChapter(
             @ApiParam(name="essayId",value="简答题编号",required=true)
             @RequestParam Integer essayId ){
-        essayService.queryChapterId(essayId);
-        return "essayChapterId";
+        Essay essay = essayService.queryChapterId(essayId);
+        if(essay==null){
+            return ResultGenerator.genFailedResult("查询第"+essayId+"道简答题所属章节失败");
+        }
+        else
+        return ResultGenerator.genOkResult("查询第"+essayId+"道简答题所属章节成功");
 
     }
 }

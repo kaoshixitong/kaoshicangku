@@ -36,8 +36,10 @@ public class JudgeServiceImpl implements JudgeService {
      *
      *
      */
-    public void queryAll(){
-        JudgeMapper.queryAll();
+    public List<Judge> queryAll()
+    {
+        List<Judge> judges = JudgeMapper.queryAll();
+        return judges;
     }
 
 
@@ -81,45 +83,46 @@ public class JudgeServiceImpl implements JudgeService {
     }
 
     @Override
-    public void queryAllTest() {
+    public List<Judge> queryAllTest() {
         List<Judge> list = JudgeMapper.queryAllTest();
+        return list;
     }
 
     @Override
     public Judge queryRightById(Integer JudgeId) {
-        Judge Judge = JudgeMapper.queryRightById(JudgeId);
-        return Judge;
+        Judge judge = JudgeMapper.queryRightById(JudgeId);
+        return judge;
     }
 
     @Override
-    public Judge queryRight(){
-        Judge Judge = JudgeMapper.queryRight();
-        return Judge;
+    public List<Judge> queryRight(){
+        List<Judge> judges = JudgeMapper.queryRight();
+        return judges;
     }
 
 
     @Override
     public Judge queryScoreById(Integer JudgeId) {
-        Judge Judge = JudgeMapper.queryScoreById(JudgeId);
-        return Judge;
+        Judge judge = JudgeMapper.queryScoreById(JudgeId);
+        return judge;
     }
 
     @Override
-    public Judge queryScore() {
-        Judge Judge = JudgeMapper.queryScore();
-        return Judge;
+    public List<Judge> queryScore() {
+        List<Judge> judges = JudgeMapper.queryScore();
+        return judges;
     }
 
 
     @Override
     public Judge querySubjectId(Integer JudgeId) {
-        Judge Judge = JudgeMapper.querySubjectById(JudgeId);
-        return Judge;
+        Judge judge = JudgeMapper.querySubjectById(JudgeId);
+        return judge;
     }
 
     @Override
     public Judge queryChapterId(Integer JudgeId) {
-        Judge Judge = JudgeMapper.queryChapterById(JudgeId);
-        return Judge;
+        Judge judge = JudgeMapper.queryChapterById(JudgeId);
+        return judge;
     }
 }

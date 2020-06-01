@@ -48,7 +48,7 @@ public interface ChoiceMapper {
      *
      *
      */
-    Choice queryScore();
+    List<Choice> queryScore();
 
     /**
      * 查询某一标准答案
@@ -62,7 +62,7 @@ public interface ChoiceMapper {
      *
      *
      */
-    Choice queryRight();
+    List<Choice> queryRight();
 
     /**
      * 查询所属科目
