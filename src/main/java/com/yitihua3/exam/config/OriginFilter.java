@@ -1,11 +1,13 @@
 package com.yitihua3.exam.config;
 
+import com.yitihua3.exam.shiro.restful.JWTFilter;
+import org.apache.shiro.web.filter.authc.AnonymousFilter;
 import org.apache.shiro.web.util.WebUtils;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.*;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * 全局跨域放开
@@ -14,26 +16,18 @@ import java.io.IOException;
  * @date 2019/11/26 14:29
  */
 //@Component
-public class OriginFilter implements Filter {
+public class OriginFilter extends AnonymousFilter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException { }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+    protected boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) {
         HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
-        HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
-        httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
-        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-
-
-        filterChain.doFilter(request, response);
+        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name()))
+            return false;
+        return super.onPreHandle(request, response, mappedValue);
     }
 
     @Override
-    public void destroy() { }
-
+    protected void postHandle(ServletRequest request, ServletResponse response){
+        JWTFilter.fillCorsHeader(WebUtils.toHttp(request), WebUtils.toHttp(response));
+    }
 }

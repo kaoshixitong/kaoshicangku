@@ -22,6 +22,8 @@ import java.util.Random;
 public class RegisterServiceImpl implements RegisterService {
     @Override
     public void check(RegisterDTO registerDTO) {
+        if (registerDTO==null)
+            throw new ClientException(ResultCode.REGISTER_EXCEPTION,"注册信息为空");
         if(!registerDTO.getConfirm().equals(registerDTO.getPassword()))
             throw new ClientException(ResultCode.REGISTER_EXCEPTION,"确认密码有误");
     }

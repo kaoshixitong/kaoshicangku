@@ -29,6 +29,8 @@ filter:
   #   配置访问权限 必须是LinkedHashMap，因为它必须保证有序
   #   过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->: 这是一个坑，一不小心代码就不好使了
   filterChainDefinitionMap:
+    [/register]: origin
+#    [/login]: anon
     [/index]: anon
     [/]: anon
     [/css/**]: anon

@@ -1,6 +1,7 @@
 package com.yitihua3.exam.shiro;
 
 
+import com.yitihua3.exam.config.OriginFilter;
 import com.yitihua3.exam.config.RedisManager;
 import com.yitihua3.exam.service.user.JWTService;
 import com.yitihua3.exam.shiro.realm.DBRealm;
@@ -62,9 +63,10 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiro = new ShiroFilterFactoryBean();
         shiro.setSecurityManager(securityManager);
         // 没有登陆的用户只能访问登陆页面
-        shiro.setLoginUrl("/login");
+//        shiro.setLoginUrl("/login");
         Map<String, Filter> filters = shiro.getFilters();
         filters.put("jwt", jwtFilter(jwtService));
+        filters.put("origin",anonymousFilter());
         for(String key:filterChainDefinitionMap.keySet()) {
             String value = filterChainDefinitionMap.get(key);
             //去除url外的[]
@@ -74,6 +76,11 @@ public class ShiroConfig {
         shiro.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
         return shiro;
+    }
+
+
+    protected OriginFilter anonymousFilter(){
+        return new OriginFilter();
     }
 
     protected JWTFilter jwtFilter(JWTService jwtService){
@@ -258,5 +265,6 @@ public class ShiroConfig {
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
+
 
 }
