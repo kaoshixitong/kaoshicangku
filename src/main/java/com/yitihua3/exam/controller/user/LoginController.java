@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +45,7 @@ public class LoginController {
     @PostMapping("/login")
     public Result login(
             @ApiParam(name="loginDTO",value="登录对象",required=true)
-                    LoginDTO loginDTO,
+            @RequestBody(required = false) LoginDTO loginDTO,
             HttpServletResponse response)
     {
         //获取当前用户
@@ -89,7 +90,7 @@ public class LoginController {
     @ApiOperation(value = "用户注册",  notes = "注册对象",httpMethod = "POST")
     @PostMapping("/register")
     public Result register(
-            @ApiParam(name="registerDTO",value="注册对象",required=true)
+            @ApiParam(name="registerDTO",value="注册对象",required=true) @RequestBody(required = false)
             @Validated RegisterDTO registerDTO){
         User user = DTOConverterUtils.commonConverter(registerDTO, User.class);
         registerService.check(registerDTO);

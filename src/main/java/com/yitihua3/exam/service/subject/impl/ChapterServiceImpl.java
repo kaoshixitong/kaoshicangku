@@ -42,6 +42,13 @@ public class ChapterServiceImpl implements ChapterService {
         return this.chapterMapper.queryAllByLimit(offset, limit);
     }
 
+    @Override
+    public List<Chapter> queryBySubject(Integer subjectId) {
+        Chapter chapter=new Chapter();
+        chapter.setSubjectId(subjectId);
+        return chapterMapper.queryAll(chapter);
+    }
+
     /**
      * 新增数据
      *

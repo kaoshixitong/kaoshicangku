@@ -20,4 +20,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedHeaders("*")
+//                .allowedMethods("*")
+//                .allowedOrigins("*");
+//    }
 }

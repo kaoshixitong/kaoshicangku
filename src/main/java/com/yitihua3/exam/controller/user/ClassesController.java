@@ -44,7 +44,7 @@ public class ClassesController {
     @PostMapping("/addClasses")
     public Result addClasses(
             @ApiParam(name="classes",value="班级id和班级名字",required=true)
-            Classes classes
+            @RequestBody(required = false)       Classes classes
     )
     {
         classesService.insertClasses(classes);
@@ -55,7 +55,7 @@ public class ClassesController {
     @PutMapping("/updateClasses")
     public Result updateClasses(
             @ApiParam(name="classes",value="班级id和班级名字",required=true)
-            Classes classes
+            @RequestBody(required = false)        Classes classes
     )
     {
         classesService.selectAll();
@@ -66,7 +66,7 @@ public class ClassesController {
     @DeleteMapping("/deleteClasses")
     public Result deleteClasses(
             @ApiParam(name="classId",value="班级id",required=true)
-            Integer classId
+            @RequestBody(required = false)       Integer classId
     )
     {
         classesService.deleteClasses(classId);
@@ -80,7 +80,7 @@ public class ClassesController {
     @GetMapping("/queryStudents")
     public Result<List<Student>> queryStudents(
             @NotNull(message = "classId不能为空") @ApiParam(name="classId",value="班级id",required=true)
-                    Integer classId,
+            @RequestBody(required = false)       Integer classId,
             @NotNull(message = "page不能为空") @ApiParam(name="page",value="分页页码",required=true)
                     Integer page,
             @NotNull(message = "size不能为空")  @ApiParam(name="size",value="分页数量",required=true)

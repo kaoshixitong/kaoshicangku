@@ -3,7 +3,6 @@ package com.yitihua3.exam.entity.subject;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Transient;
 import java.io.Serializable;
 /**
  * (Subject)实体类
@@ -23,9 +22,4 @@ public class Subject implements Serializable {
     * 科目名字
     */
     private String name;
-    /**
-     * 章节
-     */
-    @Transient
-    private Chapter chapter;
 }

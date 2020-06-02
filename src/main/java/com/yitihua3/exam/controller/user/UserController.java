@@ -8,6 +8,7 @@ import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.user.UserService;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,7 +39,7 @@ public class UserController {
     @GetMapping("queryUsername")
     public Result queryUser(
             @ApiParam(name="username",value="用户名",required=true)
-                    String username) {
+            @RequestBody(required = false) String username) {
         User user = userService.selectByUsername(username);
         if(user!=null)
             throw new ClientException(ResultCode.REGISTER_EXCEPTION,"用户名已存在");

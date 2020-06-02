@@ -12,10 +12,7 @@ import com.yitihua3.exam.utils.DTOConverterUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -53,7 +50,7 @@ public class StudentController {
     @PutMapping("updateInformation")
     public Result updateInformation(
             @ApiParam(name="studentInformationDTO",value="修改学生个人信息对象",required=true)
-            StudentInformationDTO studentInformationDTO
+            @RequestBody(required = false) StudentInformationDTO studentInformationDTO
     ) {
         User user = jwtService.getSubjectUser();
         user.setUsername(studentInformationDTO.getUsername());
@@ -66,7 +63,7 @@ public class StudentController {
 
     @ApiOperation(value = "可用于学生个人信息与账号的绑定",  notes = "修改学生的用户id",httpMethod = "PUT")
     @PutMapping("bindInformation")
-    public Result bindInformation(
+    public Result bindInformation(@RequestBody(required = false)
             @ApiParam(name="studentId",value="学生id",required=true)
             Long studentId,
             @ApiParam(name="name",value="学生姓名",required=true)

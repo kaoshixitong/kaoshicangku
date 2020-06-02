@@ -30,6 +30,13 @@ public interface ChapterService {
     List<Chapter> queryAllByLimit(int offset, int limit);
 
     /**
+     * 按照科目来查询章节
+     * @param subjectId
+     * @return
+     */
+    List<Chapter> queryBySubject(Integer subjectId);
+
+    /**
      * 新增数据
      *
      * @param chapter 实例对象

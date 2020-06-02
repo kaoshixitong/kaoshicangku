@@ -10,10 +10,7 @@ import com.yitihua3.exam.service.user.TeacherService;
 import com.yitihua3.exam.service.user.UserService;
 import com.yitihua3.exam.utils.DTOConverterUtils;
 import io.swagger.annotations.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -52,7 +49,7 @@ public class TeacherController {
 
     @ApiOperation(value = "修改教师用户的个人信息",  notes = "可用于教师个人信息的修改",httpMethod = "PUT")
     @PutMapping("updateInformation")
-    public Result updateInformation(
+    public Result updateInformation(@RequestBody(required = false)
             @ApiParam(name="teacherInformationDTO",value="修改教师个人信息对象",required=true)
                     TeacherInformationDTO teacherInformationDTO
     ) {
@@ -67,7 +64,7 @@ public class TeacherController {
 
     @ApiOperation(value = "可用于教师个人信息与账号的绑定",  notes = "修改教师的用户id",httpMethod = "PUT")
     @PutMapping("bindInformation")
-    public Result bindInformation(
+    public Result bindInformation(@RequestBody(required = false)
             @ApiParam(name="teacherId",value="教师id",required=true)
                     Long teacherId,
             @ApiParam(name="name",value="教师姓名",required=true)

@@ -8,10 +8,7 @@ import com.yitihua3.exam.service.user.JWTService;
 import com.yitihua3.exam.service.user.UserService;
 import com.yitihua3.exam.utils.PhotoUploadUtils;
 import io.swagger.annotations.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -46,7 +43,7 @@ public class PhotoUploadController {
     @PostMapping("photoUpload")
     public Result photoUpload(
             @ApiParam(name="file",value="文件流",required=true)
-            @RequestParam("file") final MultipartFile file) throws FileNotFoundException {
+            @RequestBody(required = false) @RequestParam("file") final MultipartFile file) throws FileNotFoundException {
         String photoName = PhotoUploadUtils.photoUpload(file);
         User user = jwtService.getSubjectUser();
         userService.updatePhoto(photoName,user);

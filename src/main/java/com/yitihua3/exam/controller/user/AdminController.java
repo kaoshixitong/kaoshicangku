@@ -10,10 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
@@ -36,7 +33,7 @@ public class AdminController {
 
     @ApiOperation(value = "管理员查询所有学生",  notes = "可用于管理员查询所有学生",httpMethod = "GET")
     @GetMapping("queryAllStudent")
-    public Result<List<Student>> queryAllStudent(
+    public Result<List<Student>> queryAllStudent(@RequestBody(required = false)
              @NotNull(message = "page不能为空") @ApiParam(name="page",value="分页页码",required=true)
                      Integer page,
              @NotNull(message = "size不能为空") @ApiParam(name="size",value="分页数量",required=true)
@@ -48,7 +45,7 @@ public class AdminController {
 
     @ApiOperation(value = "管理员添加学生",  notes = "可用于管理员添加学生",httpMethod = "POST")
     @PostMapping("addStudent")
-    public Result addStudent(
+    public Result addStudent(@RequestBody(required = false)
             @ApiParam(name="student",value="学生对象",required=true)
             Student student
     ) {
@@ -62,7 +59,7 @@ public class AdminController {
 
     @ApiOperation(value = "管理员查询所有教师",  notes = "可用于管理员查询所有教师",httpMethod = "GET")
     @GetMapping("queryAllTeacher")
-    public Result<List<Teacher>> queryAllTeacher(
+    public Result<List<Teacher>> queryAllTeacher(@RequestBody(required = false)
             @NotNull(message = "page不能为空") @ApiParam(name="page",value="分页页码",required=true)
                     Integer page,
             @NotNull(message = "size不能为空")  @ApiParam(name="size",value="分页数量",required=true)
@@ -74,7 +71,7 @@ public class AdminController {
 
     @ApiOperation(value = "管理员添加教师",  notes = "可用于管理员添加教师",httpMethod = "POST")
     @PostMapping("addTeacher")
-    public Result addTeacher(
+    public Result addTeacher(@RequestBody(required = false)
             @ApiParam(name="teacher",value="教师对象",required=true)
             Teacher teacher
     ) {
