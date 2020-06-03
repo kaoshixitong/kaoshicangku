@@ -2,8 +2,14 @@ package com.yitihua3.exam;
 
 import com.yitihua3.exam.dto.answer.AnswerDTO;
 import com.yitihua3.exam.dto.answer.ChoiceAnswerDTO;
+import com.yitihua3.exam.entity.answer.ChoiceAnswer;
+import com.yitihua3.exam.entity.answer.EssayAnswer;
+import com.yitihua3.exam.entity.answer.JudgeAnswer;
 import com.yitihua3.exam.entity.exam.Choice;
 import com.yitihua3.exam.entity.user.Classes;
+import com.yitihua3.exam.mapper.answer.ChoiceAnswerMapper;
+import com.yitihua3.exam.mapper.answer.EssayAnswerMapper;
+import com.yitihua3.exam.mapper.answer.JudgeAnswerMapper;
 import com.yitihua3.exam.mapper.user.ClassesMapper;
 import com.yitihua3.exam.mapper.user.UserMapper;
 import com.yitihua3.exam.service.user.UserService;
@@ -60,7 +66,36 @@ class ExamApplicationTests {
         System.out.println(result);
 
     }
-    
+
+    @Resource
+    ChoiceAnswerMapper choiceAnswerMapper;
+
+    @Resource
+    JudgeAnswerMapper judgeAnswerMapper;
+
+    @Resource
+    EssayAnswerMapper essayAnswerMapper;
+    @Test
+    void insertList() {
+        ArrayList list = new ArrayList<>();
+        ChoiceAnswer choiceAnswer1=new ChoiceAnswer(1,1,1,null,"A");
+        ChoiceAnswer choiceAnswer2=new ChoiceAnswer(2,1,1,null,"B");
+        ChoiceAnswer choiceAnswer3=new ChoiceAnswer(3,1,1,null,"C");
+        ChoiceAnswer choiceAnswer4=new ChoiceAnswer(3,1,1,null,"D");
+        JudgeAnswer judgeAnswer1=new JudgeAnswer(1,1,1,null,"A");
+        JudgeAnswer judgeAnswer2=new JudgeAnswer(1,1,1,null,"B");
+        EssayAnswer essayAnswer1=new EssayAnswer(1,1,1,null,"参考百度");
+        EssayAnswer essayAnswer2=new EssayAnswer(1,1,1,null,"复制粘贴的答案");
+        EssayAnswer essayAnswer3=new EssayAnswer(1,1,1,null,"版权声明：本文为CSDN博主「Hello-Coder」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。");
+        list.add(essayAnswer1);
+        list.add(essayAnswer2);
+        list.add(essayAnswer3);
+//        list.add(choiceAnswer3);
+//        list.add(choiceAnswer4);
+//        choiceAnswerMapper.insertList(list);
+        essayAnswerMapper.insertList(list);
+    }
+
     @Test
     void contextLoads() throws Exception {
         System.out.println(userMapper.selectCompleteUser("小明"));
@@ -73,9 +108,9 @@ class ExamApplicationTests {
 //        User user = DTOConverterUtils.commonConverter(loginDTO, User.class);
 //        System.out.println(choice1);
 //        System.out.println("user = " + user);
-        ChoiceAnswerDTO choiceAnswerDTO=new ChoiceAnswerDTO(null,1,1,"A") ;
-        ChoiceAnswerDTO choiceAnswerDTO2=new ChoiceAnswerDTO(null,1,2,"B") ;
-        ChoiceAnswerDTO choiceAnswerDTO3=new ChoiceAnswerDTO(null,1,3,"C") ;
+        ChoiceAnswerDTO choiceAnswerDTO=new ChoiceAnswerDTO(1,1,"A") ;
+        ChoiceAnswerDTO choiceAnswerDTO2=new ChoiceAnswerDTO(1,2,"B") ;
+        ChoiceAnswerDTO choiceAnswerDTO3=new ChoiceAnswerDTO(1,3,"C") ;
         AnswerDTO answerDTO=new AnswerDTO();
         answerDTO.setExamId(1);
         answerDTO.setUserId(2018);

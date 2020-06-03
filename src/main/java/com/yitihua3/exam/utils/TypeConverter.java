@@ -1,5 +1,7 @@
 package com.yitihua3.exam.utils;
 
+import com.alibaba.fastjson.JSON;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -14,8 +16,12 @@ import java.util.Date;
  * @Version V1.0
  */
 public class TypeConverter {
+    public static Integer parseInteger(String key,String json){
+        return Integer.parseInt(JSON.parseObject(json).get(key).toString());
+    }
+
     public static String dateToString(Date date){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH/mm/ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String str = dateFormat.format(date);
         return str;
     }

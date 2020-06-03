@@ -1,20 +1,19 @@
 package com.yitihua3.exam.controller.user;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yitihua3.exam.entity.user.Classes;
 import com.yitihua3.exam.entity.user.Student;
 import com.yitihua3.exam.response.Result;
 import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.user.ClassesService;
 import com.yitihua3.exam.service.user.StudentService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -58,18 +57,19 @@ public class ClassesController {
             @RequestBody(required = false)        Classes classes
     )
     {
-        classesService.selectAll();
+        classesService.updateClasses(classes);
         return ResultGenerator.genOkResult("修改班级成功");
     }
 
     @ApiOperation(value = "删除班级",  notes = "删除班级",httpMethod = "DELETE")
     @DeleteMapping("/deleteClasses")
-    public Result deleteClasses(
-            @ApiParam(name="classId",value="班级id",required=true)
-            @RequestBody(required = false)       Integer classId
+    @ApiImplicitParam(name = "classId", value = "班级id", required = true, example = "1")
+    public Result deleteClasses(@RequestBody(required = false)
+
+                                            @ApiIgnore JSONObject jsonObject
     )
     {
-        classesService.deleteClasses(classId);
+        classesService.deleteClasses(jsonObject.getInteger("classId"));
         return ResultGenerator.genOkResult("删除班级成功");
     }
 
@@ -78,16 +78,18 @@ public class ClassesController {
 
     @ApiOperation(value = "查询班级的所有学生",  notes = "根据班级id查出所有的学生",httpMethod = "GET")
     @GetMapping("/queryStudents")
-    public Result<List<Student>> queryStudents(
-            @NotNull(message = "classId不能为空") @ApiParam(name="classId",value="班级id",required=true)
-            @RequestBody(required = false)       Integer classId,
-            @NotNull(message = "page不能为空") @ApiParam(name="page",value="分页页码",required=true)
-                    Integer page,
-            @NotNull(message = "size不能为空")  @ApiParam(name="size",value="分页数量",required=true)
-                    Integer size
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="classId",value="班级id",required=true,example = "1"),
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
+
+    public Result<List<Student>> queryStudents(@RequestBody(required = false)
+             @ApiIgnore JSONObject jsonObject
     )
     {
-        List<Student> studentList = studentService.selectByClassPage(classId, page, size);
+        List<Student> studentList = studentService.selectByClassPage(jsonObject.getInteger("classId"), jsonObject.getInteger("page"), jsonObject.getInteger("size"));
         return ResultGenerator.genOkResult("按照班级查询学生成功",studentList);
     }
 

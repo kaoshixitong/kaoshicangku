@@ -48,6 +48,13 @@ public interface ChoiceAnswerMapper {
     int insert(ChoiceAnswer choiceAnswer);
 
     /**
+     * 批量插入选择题答案
+     * @param choiceAnswerList
+     * @return
+     */
+    int insertList(List<ChoiceAnswer> choiceAnswerList);
+
+    /**
      * 修改数据
      *
      * @param choiceAnswer 实例对象

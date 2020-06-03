@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yitihua3.exam.mapper.answer.ScoreMapper">
+
+    <resultMap type="com.yitihua3.exam.entity.answer.Score" id="ScoreMap">
+        <result property="scoreId" column="score_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="examId" column="exam_id" jdbcType="INTEGER"/>
+        <result property="mark" column="mark" jdbcType="INTEGER"/>
+        <result property="begin" column="begin" jdbcType="VARCHAR"/>
+        <result property="end" column="end" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ScoreMap">
+        select
+          score_id, user_id, exam_id, mark, begin, end
+        from kaoshi.score
+        where score_id = #{scoreId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ScoreMap">
+        select
+          score_id, user_id, exam_id, mark, begin, end
+        from kaoshi.score
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ScoreMap">
+        select
+          score_id, user_id, exam_id, mark, begin, end
+        from kaoshi.score
+        <where>
+            <if test="scoreId != null">
+                and score_id = #{scoreId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="examId != null">
+                and exam_id = #{examId}
+            </if>
+            <if test="mark != null">
+                and mark = #{mark}
+            </if>
+            <if test="begin != null and begin != ''">
+                and begin = #{begin}
+            </if>
+            <if test="end != null and end != ''">
+                and end = #{end}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="scoreId" useGeneratedKeys="true">
+        insert into kaoshi.score(user_id, exam_id, mark, begin, end)
+        values (#{userId}, #{examId}, #{mark}, #{begin}, #{end})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update kaoshi.score
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="examId != null">
+                exam_id = #{examId},
+            </if>
+            <if test="mark != null">
+                mark = #{mark},
+            </if>
+            <if test="begin != null and begin != ''">
+                begin = #{begin},
+            </if>
+            <if test="end != null and end != ''">
+                end = #{end},
+            </if>
+        </set>
+        where score_id = #{scoreId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from kaoshi.score where score_id = #{scoreId}
+    </delete>
+
+</mapper>

@@ -60,6 +60,16 @@
         values (#{judgeId}, #{userId}, #{examId}, #{score}, #{answer})
     </insert>
 
+    <!--插入题目list    -->
+    <insert id="insertList" parameterType="java.util.List" keyProperty="answerId" useGeneratedKeys="true">
+        insert into kaoshi.judge_answer
+        (judge_id, user_id, exam_id, score, answer)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.judgeId}, #{item.userId}, #{item.examId}, #{item.score}, #{item.answer})
+        </foreach>
+    </insert>
+
     <!--通过主键修改数据-->
     <update id="update">
         update kaoshi.judge_answer

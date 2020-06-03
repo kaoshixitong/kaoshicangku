@@ -47,6 +47,14 @@ public interface EssayAnswerMapper {
      */
     int insert(EssayAnswer essayAnswer);
 
+
+    /**
+     * 批量插入应用题答案
+     * @param essayAnswerList
+     * @return
+     */
+    int insertList(List<EssayAnswer> essayAnswerList);
+
     /**
      * 修改数据
      *

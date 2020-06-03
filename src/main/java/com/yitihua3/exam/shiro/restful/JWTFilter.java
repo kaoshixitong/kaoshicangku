@@ -51,7 +51,7 @@ public class JWTFilter extends AuthenticatingFilter {
 
     @Override
     protected void postHandle(ServletRequest request, ServletResponse response){
-        this.fillCorsHeader(WebUtils.toHttp(request), WebUtils.toHttp(response));
+        fillCorsHeader(WebUtils.toHttp(request), WebUtils.toHttp(response));
     }
 
     @Override

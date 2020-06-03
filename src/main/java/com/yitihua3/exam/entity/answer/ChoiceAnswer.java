@@ -2,6 +2,7 @@ package com.yitihua3.exam.entity.answer;
 
 import com.yitihua3.exam.dto.answer.ChoiceAnswerDTO;
 import com.yitihua3.exam.dto.common.AbstractRelationMapper;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.io.Serializable;
  * @since 2020-04-18 12:01:41
  */
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class ChoiceAnswer extends AbstractRelationMapper<ChoiceAnswer, ChoiceAnswerDTO> implements Serializable {
     private static final long serialVersionUID = -47835140791467993L;
@@ -42,10 +44,12 @@ public class ChoiceAnswer extends AbstractRelationMapper<ChoiceAnswer, ChoiceAns
     private String answer;
 
 
-    public ChoiceAnswer(int choiceId, int score, String answer) {
-        this.choiceId=choiceId;
-        this.score=score;
-        this.answer=answer;
+    public ChoiceAnswer(Integer choiceId, Integer userId, Integer examId, Integer score, String answer) {
+        this.choiceId = choiceId;
+        this.userId = userId;
+        this.examId = examId;
+        this.score = score;
+        this.answer = answer;
     }
 
     @Override

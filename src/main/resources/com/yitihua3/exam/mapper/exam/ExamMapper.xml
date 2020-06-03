@@ -20,6 +20,22 @@
     </select>
 
 
+    <resultMap type="com.yitihua3.exam.entity.exam.Exam" id="ExamMap1">
+        <result property="examId" column="exam_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="begin" column="begin" jdbcType="VARCHAR"/>
+        <result property="end" column="end" jdbcType="VARCHAR"/>
+        <result property="during" column="during" jdbcType="INTEGER"/>
+        <result property="paperId" column="paper_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryTest" resultMap="ExamMap1">
+        select
+          exam_id, `name`, `begin`, `end`, during, paper_id
+        from kaoshi.exam
+        where exam_id = #{examId}
+    </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ExamMap">

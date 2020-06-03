@@ -1,5 +1,6 @@
 package com.yitihua3.exam.controller.user;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yitihua3.exam.dto.user.TeacherInformationDTO;
 import com.yitihua3.exam.entity.user.Teacher;
 import com.yitihua3.exam.entity.user.User;
@@ -11,6 +12,7 @@ import com.yitihua3.exam.service.user.UserService;
 import com.yitihua3.exam.utils.DTOConverterUtils;
 import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 
@@ -64,13 +66,16 @@ public class TeacherController {
 
     @ApiOperation(value = "可用于教师个人信息与账号的绑定",  notes = "修改教师的用户id",httpMethod = "PUT")
     @PutMapping("bindInformation")
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="teacherId",value="教师id",required=true),
+            @ApiImplicitParam(name="name",value="教师姓名",required=true)
+    })
+
     public Result bindInformation(@RequestBody(required = false)
-            @ApiParam(name="teacherId",value="教师id",required=true)
-                    Long teacherId,
-            @ApiParam(name="name",value="教师姓名",required=true)
-                    String name) {
-        Teacher teacher = teacherService.selectTeacherById(teacherId);
-        if(!teacher.getName().equals(name)){
+                                  @ApiIgnore JSONObject jsonObject) {
+        Teacher teacher = teacherService.selectTeacherById(jsonObject.getLong("teacherId"));
+        if(!teacher.getName().equals(jsonObject.getString("name"))){
             return ResultGenerator.genFailedResult("教师绑定失败");
         }
         Integer userId = jwtService.getSubjectUser().getUserId();

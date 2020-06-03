@@ -4,7 +4,7 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/kaoshi?useUnicode=true&amp;characterEncoding=UTF8&amp;serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/kaoshi?useUnicode=true&amp;characterEncoding=UTF8&amp;serverTimezone=UTC&amp;allowMultiQueries=true
     type: com.alibaba.druid.pool.DruidDataSource
     #    数据源其他配置
     initialSize: 5
@@ -19,7 +19,7 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     #    配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-    filters: stat,wall
+    filters: stat
     maxPoolPerparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
@@ -30,7 +30,6 @@ filter:
   #   过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->: 这是一个坑，一不小心代码就不好使了
   filterChainDefinitionMap:
     [/register]: origin
-#    [/login]: anon
     [/index]: anon
     [/]: anon
     [/css/**]: anon

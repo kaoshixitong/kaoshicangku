@@ -1,19 +1,18 @@
 package com.yitihua3.exam.controller.user;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yitihua3.exam.entity.user.Student;
 import com.yitihua3.exam.entity.user.Teacher;
 import com.yitihua3.exam.response.Result;
 import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.user.StudentService;
 import com.yitihua3.exam.service.user.TeacherService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -33,13 +32,17 @@ public class AdminController {
 
     @ApiOperation(value = "管理员查询所有学生",  notes = "可用于管理员查询所有学生",httpMethod = "GET")
     @GetMapping("queryAllStudent")
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
+
     public Result<List<Student>> queryAllStudent(@RequestBody(required = false)
-             @NotNull(message = "page不能为空") @ApiParam(name="page",value="分页页码",required=true)
-                     Integer page,
-             @NotNull(message = "size不能为空") @ApiParam(name="size",value="分页数量",required=true)
-                     Integer size
+             @ApiIgnore JSONObject jsonObject
     ) {
-        List<Student> studentList = studentService.selectAllPage(page, size);
+
+        List<Student> studentList = studentService.selectAllPage(jsonObject.getInteger("page"), jsonObject.getInteger("size"));
         return ResultGenerator.genOkResult("查询所有学生成功",studentList);
     }
 
@@ -59,13 +62,16 @@ public class AdminController {
 
     @ApiOperation(value = "管理员查询所有教师",  notes = "可用于管理员查询所有教师",httpMethod = "GET")
     @GetMapping("queryAllTeacher")
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
+
     public Result<List<Teacher>> queryAllTeacher(@RequestBody(required = false)
-            @NotNull(message = "page不能为空") @ApiParam(name="page",value="分页页码",required=true)
-                    Integer page,
-            @NotNull(message = "size不能为空")  @ApiParam(name="size",value="分页数量",required=true)
-                    Integer size
+                                                         @ApiIgnore JSONObject jsonObject
     ) {
-        List<Teacher> teacherList = teacherService.selectAllPage(page, size);
+        List<Teacher> teacherList = teacherService.selectAllPage(jsonObject.getInteger("page"), jsonObject.getInteger("size"));
         return ResultGenerator.genOkResult("查询所有教师成功",teacherList);
     }
 

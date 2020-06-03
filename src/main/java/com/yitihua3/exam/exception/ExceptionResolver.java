@@ -79,7 +79,6 @@ public class ExceptionResolver {
   @ExceptionHandler({ServiceException.class})
   public Result serviceException(final ServiceException e) {
     ExceptionResolver.log.error("==> 服务异常: {}", e.getMessage());
-    e.printStackTrace();
     return ResultGenerator.genFailedResult(e.getResultCode(), e.getMessage());
   }
 
@@ -103,7 +102,6 @@ public class ExceptionResolver {
   @ExceptionHandler({ClientException.class})
   public Result clientException(final ClientException e) {
     ExceptionResolver.log.error("==> 客户端操作异常: {}", e.getMessage());
-    e.printStackTrace();
     return ResultGenerator.genFailedResult(e.getResultCode(), e.getMessage());
   }
 

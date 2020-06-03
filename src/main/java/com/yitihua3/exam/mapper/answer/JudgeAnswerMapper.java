@@ -48,6 +48,13 @@ public interface JudgeAnswerMapper {
     int insert(JudgeAnswer judgeAnswer);
 
     /**
+     * 批量插入判断题答案
+     * @param judgeAnswerList
+     * @return
+     */
+    int insertList(List<JudgeAnswer> judgeAnswerList);
+
+    /**
      * 修改数据
      *
      * @param judgeAnswer 实例对象

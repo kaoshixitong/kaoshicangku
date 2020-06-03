@@ -3,6 +3,7 @@ package com.yitihua3.exam.utils;
 import com.zhaofujun.automapper.AutoMapper;
 import com.zhaofujun.automapper.IMapper;
 import com.zhaofujun.automapper.builder.ClassMappingBuilder;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class DTOConverterUtils {
         IMapper mapper=new AutoMapper();
         //允许映射包括没有setter的字段
         ClassMappingBuilder builder = mapper.mapping(dto.getClass(), doClass, true);
-        if (fieldMap!=null){
+        if (!CollectionUtils.isEmpty(fieldMap)){
             for (Map.Entry<String,String> entry : fieldMap.entrySet()) {
                 builder.field(entry.getKey(), entry.getKey());
             }
@@ -39,7 +40,7 @@ public class DTOConverterUtils {
         IMapper mapper=new AutoMapper();
         //允许映射包括没有setter的字段
         ClassMappingBuilder builder = mapper.mapping(dto.getClass(), doClass, true);
-        if(excludeArray!=null) {
+        if(excludeArray!=null&&!"".equals(excludeArray[0])) {
             String excludes = Arrays.toString(excludeArray).substring(0, excludeArray.length - 1);
             builder.excludes(excludes);
         }
@@ -52,12 +53,12 @@ public class DTOConverterUtils {
         IMapper mapper=new AutoMapper();
         //允许映射包括没有setter的字段
         ClassMappingBuilder builder = mapper.mapping(dto.getClass(), doClass, true);
-        if(fieldMap!=null) {
+        if(!CollectionUtils.isEmpty(fieldMap)) {
             for (Map.Entry<String, String> entry : fieldMap.entrySet()) {
                 builder.field(entry.getKey(), entry.getValue());
             }
         }
-        if(excludeArray!=null) {
+        if(excludeArray!=null&&!"".equals(excludeArray[0])) {
             builder.excludes(excludeArray);
         }
         DO aDo = mapper.map(dto, doClass);

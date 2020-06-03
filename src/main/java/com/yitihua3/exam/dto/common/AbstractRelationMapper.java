@@ -170,7 +170,7 @@ public abstract class AbstractRelationMapper<S,T> {
         }
         String[] excludeAnnotations = clazz.getAnnotation(FieldMapper.class).exclude();
 
-        if(!ArrayUtils.isEmpty(excludeAnnotations)){
+        if(!"".equals(excludeAnnotations[0])){
             excludes=excludeAnnotations;
             return excludes;
         }return null;
