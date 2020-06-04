@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -68,7 +68,7 @@ public class ExamController {
     @ApiOperation(value = "添加考试",notes = "添加考试",httpMethod = "POST")
     @GetMapping("/addExam")
     public Result addExam(
-            @RequestParam  Exam exam
+            @RequestBody  Exam exam
 //            @ApiParam(name = "examId",value = "考试编号",required = true)Integer examId,
 //            @ApiParam(name = "examName",value = "考试名称",required = true)String examName,
 //            @ApiParam(name = "begin",value = "开始时间",required = true)String begin,
@@ -93,7 +93,7 @@ public class ExamController {
 
     @ApiOperation(value = "更新考试",notes = "更新考试",httpMethod = "PUT")
     @GetMapping("/updateExam")
-    public Result updateExam(@RequestParam Exam exam,Model model
+    public Result updateExam(@RequestBody Exam exam,Model model
                             //            @ApiParam(name = "examId",value = "考试编号",required = true)Integer examId,
 //            @ApiParam(name = "examName",value = "考试名称",required = true)String examName,
 //            @ApiParam(name = "begin",value = "开始时间",required = true)String begin,

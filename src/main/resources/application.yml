@@ -3,8 +3,8 @@ spring:
     #  数据源基本配置
     username: root
     password: root
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/kaoshi?useUnicode=true&amp;characterEncoding=UTF8&amp;serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/kaoshi?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     type: com.alibaba.druid.pool.DruidDataSource
     #    数据源其他配置
     initialSize: 5
@@ -23,7 +23,18 @@ spring:
     maxPoolPerparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-
+  #配置邮件信息
+  mail:
+    host: smtp.qq.com
+    #邮箱地址
+    username: 1608665578@qq.com
+    #授权码
+    password: gefwxuyirhhafegg
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
 filter:
   #   shiro.setSuccessUrl("/index");
   #   配置访问权限 必须是LinkedHashMap，因为它必须保证有序

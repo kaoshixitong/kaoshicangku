@@ -81,7 +81,7 @@ public class JudgeController {
 //                                        Integer subject,
 //                            @ApiParam(name="chapter",value="添加具体章节",required=true)
 //                                        Integer chapter
-                            @RequestParam Judge judge)
+                            @RequestBody Judge judge)
     {
         Judge insert = judgeService.insert(judge);
         if(insert ==null){
@@ -187,7 +187,7 @@ public class JudgeController {
     @GetMapping("/queryJudgeScoreById")
     public Result queryJudgeScoreById(
             @ApiParam(name = "judgeId",value = "判断题编号",required = true)
-            @RequestParam Integer judgeId
+            @RequestBody Integer judgeId
     ){
         Judge judge = judgeService.queryScoreById(judgeId);
         if(judge==null){
@@ -215,7 +215,7 @@ public class JudgeController {
     @GetMapping("/queryJudgeRightById")
     public Result queryJudgeRightById(
             @ApiParam(name="judgeId",value="判断题编号",required=true)
-            @RequestParam Integer judgeId){
+            @RequestBody Integer judgeId){
         Judge judge = judgeService.queryRightById(judgeId);
         if(judge==null){
             return ResultGenerator.genFailedResult("查询第"+judgeId+"道判断题答案失败");
@@ -242,7 +242,7 @@ public class JudgeController {
     @GetMapping("/queryJudgeSubjectById")
     public Result queryJudgeSubjectById(
             @ApiParam(name="judgeId",value="判断题编号",required=true)
-            @RequestParam Integer judgeId ){
+            @RequestBody Integer judgeId ){
         Judge judge = judgeService.querySubjectId(judgeId);
         if(judge==null){
             return ResultGenerator.genFailedResult("查询第"+judgeId+"道判断题所属科目失败");
@@ -256,7 +256,7 @@ public class JudgeController {
     @GetMapping("/queryJudgeChapterById")
     public Result queryJudgeChapterById(
             @ApiParam(name="judgeId",value="判断题编号",required=true)
-            @RequestParam Integer judgeId ){
+            @RequestBody Integer judgeId ){
         Judge judge = judgeService.queryChapterId(judgeId);
         if(judge==null){
             return ResultGenerator.genFailedResult("查询第"+judgeId+"道判断题所属章节失败");

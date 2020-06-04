@@ -27,6 +27,35 @@ public class Paper implements Serializable {
     */
     private Integer total;
 
+    /**
+     *
+     * 科目编号
+     */
+    private Integer subjectId;
+
+    /**
+     *
+     * 章节编号
+     */
+    private Integer chapterId;
+
+
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public Integer getChapterId() {
+        return chapterId;
+    }
+
+    public void setChapterId(Integer chapterId) {
+        this.chapterId = chapterId;
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -55,9 +84,17 @@ public class Paper implements Serializable {
         this.total = total;
     }
 
-    public Paper(Integer paperId, String name, Integer total) {
+    public Paper(Integer paperId, String name, Integer total,Integer subjectId,Integer chapterId) {
         this.paperId = paperId;
         this.name = name;
         this.total = total;
+        this.subjectId = subjectId;
+        this.chapterId = chapterId;
+    }
+    public Paper( String name, Integer total,Integer subjectId,Integer chapterId) {
+        this.name = name;
+        this.total = total;
+        this.subjectId = subjectId;
+        this.chapterId = chapterId;
     }
 }

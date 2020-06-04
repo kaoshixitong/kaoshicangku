@@ -100,5 +100,12 @@ public class Exam implements Serializable {
         this.paperId = paperId;
     }
 
+    public Exam( String name, String begin, String end, Integer during, Integer paperId) {
+        this.name = name;
+        this.begin = begin;
+        this.end = end;
+        this.during = during;
+        this.paperId = paperId;
+    }
 
 }

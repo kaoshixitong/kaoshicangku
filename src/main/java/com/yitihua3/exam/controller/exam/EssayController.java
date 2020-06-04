@@ -74,7 +74,7 @@ public class EssayController {
 //                           @ApiParam(name="chapter",value="添加具体章节",required=true)
 //                                       Integer chapter)
             @ApiParam(name="essay",value="选择题集合",required=true)
-            @RequestParam Essay essay)
+            @RequestBody Essay essay)
     {
         Essay insert = essayService.insert(essay);
         if(insert==null){
@@ -118,7 +118,7 @@ public class EssayController {
     
     @ApiOperation(value = "根据简答题编号更新简答题",  notes = "根据简答题编号更新简答题",httpMethod = "PUT")
     @GetMapping("/updateEssayById")
-    public Result updateEssayById(@RequestParam Essay essay, Model model)
+    public Result updateEssayById(@RequestBody Essay essay, Model model)
     
 //            @ApiParam(name="essayId",value="简答题编号",required=true)
 //                    Integer essayId,
@@ -173,7 +173,7 @@ public class EssayController {
     @GetMapping("/queryEssayScoreById")
     public Result queryEssayScoreById(
             @ApiParam(name = "essayId",value = "简答题编号",required = true)
-            @RequestParam Integer essayId
+            @RequestBody Integer essayId
     ){
         Essay essay = essayService.queryScoreById(essayId);
         if (essay==null){
@@ -199,7 +199,7 @@ public class EssayController {
     @GetMapping("/queryEssayReferenceById")
     public Result queryEssayReferenceById(
             @ApiParam(name="essayId",value="简答题编号",required=true)
-            @RequestParam Integer essayId){
+            @RequestBody Integer essayId){
         Essay essay = essayService.queryReferenceById(essayId);
         if (essay==null){
             return ResultGenerator.genFailedResult("按编号查询第"+essayId+"道简答题答案失败");
@@ -225,7 +225,7 @@ public class EssayController {
     @GetMapping("/queryEssaySubjectById")
     public Result queryEssaySubjectById(
             @ApiParam(name="essayId",value="简答题编号",required=true)
-            @RequestParam Integer essayId ){
+            @RequestBody Integer essayId ){
         Essay essay = essayService.querySubjectId(essayId);
         if(essay==null)
             return ResultGenerator.genFailedResult("查询第"+essayId+"道简答题所属科目失败");
@@ -238,7 +238,7 @@ public class EssayController {
     @GetMapping("/queryEssayChapterById")
     public Result queryEssayChapter(
             @ApiParam(name="essayId",value="简答题编号",required=true)
-            @RequestParam Integer essayId ){
+            @RequestBody Integer essayId ){
         Essay essay = essayService.queryChapterId(essayId);
         if(essay==null){
             return ResultGenerator.genFailedResult("查询第"+essayId+"道简答题所属章节失败");

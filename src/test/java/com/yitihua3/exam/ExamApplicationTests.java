@@ -1,12 +1,18 @@
 package com.yitihua3.exam;
 
 //import com.yitihua3.exam.dto.answer.AnswerDTO;
-//import com.yitihua3.exam.dto.answer.JudgeAnswerDTO;
+//import com.yitihua3.exam.dto.answer.EssayAnswerDTO;
 
+import com.yitihua3.exam.entity.exam.Essay;
 import com.yitihua3.exam.entity.exam.Exam;
+import com.yitihua3.exam.entity.exam.Essay;
+import com.yitihua3.exam.entity.exam.Paper;
+import com.yitihua3.exam.mapper.exam.EssayMapper;
 import com.yitihua3.exam.mapper.exam.ExamMapper;
+import com.yitihua3.exam.mapper.exam.EssayMapper;
+import com.yitihua3.exam.mapper.exam.PaperMapper;
 import org.junit.*;
-import com.yitihua3.exam.controller.exam.ChoiceController;
+import com.yitihua3.exam.controller.exam.EssayController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,26 +26,35 @@ import org.springframework.test.web.servlet.MockMvc;
 class ExamApplicationTests {
 //    @Autowired
 //    private ExamMapper examMapper;
+//
 //    @Test
-//    void run2(){
-//        Exam exam = new Exam(1,"lsb","111","222",111,1);
-//        examMapper.insert(exam);
-//        System.out.println(examMapper.queryAll());
-//        System.out.println(examMapper.queryById(1));
+//    void run2() {
+//        Exam exam = new Exam("erha", "1111", "4424", 2, 111);
+////        examMapper.insert(exam);
+////        examMapper.queryAll();
+////        System.out.println(examMapper.queryById(1));
 //        examMapper.update(exam);
-//        examMapper.deleteById(1);
+//        examMapper.deleteById(4);
 //    }
+//}
 
 
-    @Autowired
-    private ChoiceController choiceController;
-   @Test
-    void run1(){
-       choiceController.queryAll();
-   }
-
-
-}
+//    @Autowired
+//    private EssayController essayController;
+//    @Autowired
+//    private EssayMapper essayMapper;
+//   @Test
+//    void run1(){
+//       Essay essay  = new Essay("er","a","b","c","d","a",1,1,1,1);
+////       System.out.println(essayController.queryAll());
+////       essayController.addEssay(essay);
+//       System.out.println(essayMapper.queryAll());
+//
+//
+//   }
+//
+//
+//}
 
 
 
@@ -65,57 +80,58 @@ class ExamApplicationTests {
 //        essayMapper.deleteById(2);
 //    }
 //    @Autowired
-//    JudgeMapper judgeMapper;
+//    EssayMapper essayMapper;
 //    @Resource
 //    UserMapper userMapper;
 //    @Test
 //    void contextLoads() throws Exception {
 //        System.out.println(userMapper.selectCompleteUser("小明"));
-//        Judge judge=new Judge(1,"题目","A选项","B选项","C选项","D选项","A",1,1,1,1);
+//        Essay essay=new Essay(1,"题目","A选项","B选项","C选项","D选项","A",1,1,1,1);
 //
 ////
-////        ExamDTO dto=new ExamDTO(1,"模拟卷",100 , list,null,null);
-////        Judge judge1 = DTOConverterUtils.commonConverter(judge, Judge.class);
+////        PaperDTO dto=new ExamDTO(1,"模拟卷",100 , list,null,null);
+////        Essay essay1 = DTOConverterUtils.commonConverter(essay, Essay.class);
 ////        LoginDTO loginDTO=new LoginDTO("admin","123","salt",1);
 ////        User user = DTOConverterUtils.commonConverter(loginDTO, User.class);
-////        System.out.println(judge1);
+////        System.out.println(essay1);
 ////        System.out.println("user = " + user);
-//        JudgeAnswerDTO judgeAnswerDTO=new JudgeAnswerDTO(null,1,1,"A") ;
-//        JudgeAnswerDTO judgeAnswerDTO2=new JudgeAnswerDTO(null,1,2,"B") ;
-//        JudgeAnswerDTO judgeAnswerDTO3=new JudgeAnswerDTO(null,1,3,"C") ;
+//        EssayAnswerDTO essayAnswerDTO=new EssayAnswerDTO(null,1,1,"A") ;
+//        EssayAnswerDTO essayAnswerDTO2=new EssayAnswerDTO(null,1,2,"B") ;
+//        EssayAnswerDTO essayAnswerDTO3=new EssayAnswerDTO(null,1,3,"C") ;
 //        AnswerDTO answerDTO=new AnswerDTO();
 //        answerDTO.setExamId(1);
 //        answerDTO.setUserId(2018);
-//        ArrayList<JudgeAnswerDTO> list = new ArrayList<>();
+//        ArrayList<EssayAnswerDTO> list = new ArrayList<>();
 //
-//        list.add(judgeAnswerDTO);
-//        list.add(judgeAnswerDTO2);
-//        list.add(judgeAnswerDTO3);
-//        answerDTO.setJudgeAnswerList(list);
-////        System.out.println(judgeAnswerDTO.convert().add(answerDTO));
-////        System.out.println(AbstractRelationMapper.listConvertAndAdd(answerDTO.getJudgeAnswerList(),answerDTO));
-////        System.out.println(judgeAnswerDTO.convert());
-////        System.out.println(judge.convert());
+//        list.add(essayAnswerDTO);
+//        list.add(essayAnswerDTO2);
+//        list.add(essayAnswerDTO3);
+//        answerDTO.setEssayAnswerList(list);
+////        System.out.println(essayAnswerDTO.convert().add(answerDTO));
+////        System.out.println(AbstractRelationMapper.listConvertAndAdd(answerDTO.getEssayAnswerList(),answerDTO));
+////        System.out.println(essayAnswerDTO.convert());
+////        System.out.println(essay.convert());
 //
 //    }
 
-//    @Test
-//    void run1(){
-////        Judge judge = new Judge(1,"今天是个好日子","嗯","b","c",1,2,3);
-////        judgeMapper.insert(judge);
-////        System.out.println(judgeMapper.queryById(1));
-////        System.out.println(judgeMapper.queryAll());
-////        System.out.println(judgeMapper.queryAllTest());
-////        System.out.println(judgeMapper.queryScoreById(1));
-////        System.out.println(judgeMapper.queryScore());
-////        System.out.println(judgeMapper.queryRightById(1));
-////        System.out.println(judgeMapper.queryRight());
-////        Judge judge1 = new Judge(1,"今天是个好","ty","b","c",1,2,3);
-////        Judge judge2 = new Judge(2,"今天是个好","ty","b","c",1,2,3);
-////        judgeMapper.update(judge1);
-////        judgeMapper.insert(judge2);
-////        System.out.println(judgeMapper.querySubjectById(1));
-////        System.out.println(judgeMapper.queryChapterById(1));
-////          judgeMapper.deleteById(2);
-////    }
-//}
+    @Autowired
+    private EssayMapper essayMapper;
+    @Test
+    void run1(){
+        Essay essay = new Essay("哈哈",1,"嘻嘻",1,1);
+        essayMapper.insert(essay);
+        System.out.println(essayMapper.queryById(1));
+        System.out.println(essayMapper.queryAll());
+        System.out.println(essayMapper.queryAllTest());
+        System.out.println(essayMapper.queryScoreById(1));
+        System.out.println(essayMapper.queryScore());
+        System.out.println(essayMapper.queryReferenceById(1));
+        System.out.println(essayMapper.queryReference());
+        Essay essay1 = new Essay(3,"哈哈",1,"嘻嘻",1,1);
+//        Essay essay2 = new Essay("哈哈","a","b","c","d","a",1,1,1,1);
+        essayMapper.update(essay1);
+        System.out.println(essayMapper.querySubjectById(1));
+        System.out.println(essayMapper.queryChapterById(1));
+          essayMapper.deleteById(3);
+    }
+}

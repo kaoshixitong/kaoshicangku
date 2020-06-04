@@ -3,32 +3,32 @@
 <mapper namespace="com.yitihua3.exam.mapper.exam.JudgeMapper">
 
     <resultMap type="com.yitihua3.exam.entity.exam.Judge" id="JudgeMap">
-        <result property="judgeId" column="judgeId" jdbcType="INTEGER"/>
+        <result property="judgeId" column="judge_id" jdbcType="INTEGER"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
         <result property="typeA" column="typeA" jdbcType="VARCHAR"/>
         <result property="typeB" column="typeB" jdbcType="VARCHAR"/>
         <result property="right" column="right" jdbcType="VARCHAR"/>
         <result property="score" column="score" jdbcType="INTEGER"/>
-        <result property="subjectId" column="subjectId" jdbcType="INTEGER"/>
-        <result property="chapterId" column="chapterId" jdbcType="INTEGER"/>
+        <result property="subjectId" column="subject_id" jdbcType="INTEGER"/>
+        <result property="chapterId" column="chapter_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="JudgeMap">
         select
           *
-        from db_examsystem.judge
-        where judgeId = #{judgeId}
+        from kaoshi.judge
+        where judge_id = #{judgeId}
     </select>
 
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="JudgeMap">
-        select judgeId, title, typeA, typeB,"right", score, subjectId, chapterId
-        from db_examsystem.judge
+        select judge_id, title, typeA, typeB,`right`, score, subject_id, chapter_id
+        from kaoshi.judge
         <where>
-            <if test="judgeId != null">
-                and judgeId = #{judgeId}
+            <if test="judge_id != null">
+                and judge_id = #{judgeId}
             </if>
             <if test="title != null and title != ''">
                 and title = #{title}
@@ -45,21 +45,21 @@
             <if test="score != null">
                 and score = #{score}
             </if>
-            <if test="subjectId != null">
-                and subjectId = #{subjectId}
+            <if test="subject_id != null">
+                and subject_id = #{subjectId}
             </if>
-            <if test="chapterId != null">
-                and chapterId = #{chapterId}
+            <if test="chapter_id != null">
+                and chapter_id = #{chapterId}
             </if>
         </where>
     </select>
 
     <!--考生显示题目-->
     <select id="queryAllTest" resultMap="JudgeMap">
-        select judgeId, title, typeA, typeB
-        from db_examsystem.judge
+        select judge_id, title, typeA, typeB
+        from kaoshi.judge
         <where>
-            <if test="judgeId != null">
+            <if test="judge_id != null">
                 and judgeId = #{judgeId}
             </if>
             <if test="score != null">
@@ -80,53 +80,53 @@
     <!--查询某一成绩-->
     <select id="queryScoreById" resultMap="JudgeMap">
         select score
-        from db_examsystem.judge
-        where judgeId = #{judgeId}
+        from kaoshi.judge
+        where judge_id = #{judgeId}
     </select>
 
     <!--查询成绩-->
     <select id="queryScore" resultMap="JudgeMap">
         select count(score)
-        from db_examsystem.judge
+        from kaoshi.judge
     </select>
 
     <!--查询某一答案-->
     <select id="queryRightById" resultMap="JudgeMap">
         select "right"
-        from db_examsystem.judge
-         where judgeId = #{judgeId}
+        from kaoshi.judge
+         where judge_id = #{judgeId}
     </select>
 
     <!--查询答案-->
     <select id="queryRight" resultMap="JudgeMap">
         select "right"
-        from db_examsystem.judge
+        from kaoshi.judge
     </select>
 
     <!--查询所属类别-->
     <select id="querySubjectById" resultMap="JudgeMap">
-        select subjectId
-        from db_examsystem.judge
-         where judgeId = #{judgeId}
+        select subject_id
+        from kaoshi.judge
+         where judge_id = #{judgeId}
     </select>
 
     <!--查询所属章节-->
     <select id="queryChapterById" resultMap="JudgeMap">
-        select chapterId
-        from db_examsystem.judge
-        where judgeId = #{judgeId}
+        select chapter_id
+        from kaoshi.judge
+        where judge_id = #{judgeId}
     </select>
 
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="judgeId" useGeneratedKeys="true">
-        insert into db_examsystem.judge values (#{title},#{typeA},#{typeB},#{right},#{score},#{subjectId},#{chapterId})
+        insert into kaoshi.judge(title, typeA, typeB, `right`, score, subject_id, chapter_id) values (#{title},#{typeA},#{typeB},#{right},#{score},#{subjectId},#{chapterId})
     </insert>
 
 
     <!--通过主键修改数据-->
     <update id="update">
-        update db_examsystem.judge
+        update kaoshi.judge
         <set>
             <if test="title != null and title != ''">
                 title = #{title},
@@ -145,18 +145,18 @@
                 score = #{score},
             </if>
             <if test="subjectId != null">
-                subjectId = #{subjectId},
+                subject_id = #{subjectId},
             </if>
             <if test="chapterId != null">
-                chapterId = #{chapterId},
+                chapter_id = #{chapterId},
             </if>
         </set>
-        where judgeId = #{judgeId}
+        where judge_id = #{judgeId}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from db_examsystem.judge where judgeId = #{judgeId}
+        delete from kaoshi.judge where judge_id = #{judgeId}
     </delete>
 
 </mapper>

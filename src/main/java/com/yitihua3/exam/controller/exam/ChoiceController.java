@@ -43,7 +43,7 @@ public class ChoiceController {
     @GetMapping("/queryChoiceById")
     public Result queryChoiceById(
             @ApiParam(name="choiceId",value="选择题编号",required=true)
-                    @RequestParam Integer choiceId) {
+                    @RequestBody Integer choiceId) {
         choiceService.queryById(choiceId);
         return ResultGenerator.genOkResult("按编号查询选择题成功");
     }
@@ -56,27 +56,27 @@ public class ChoiceController {
     @GetMapping("/addChoice")
     public Result addChoice(
 //            @ApiParam(name="title",value="添加题目",required=true)
-//                    @RequestParam String title,
+//                    @RequestBody String title,
 //            @ApiParam(name="typeA",value="添加选项A",required=true)
-//                   @RequestParam String typeA,
+//                   @RequestBody String typeA,
 //            @ApiParam(name="typeB",value="添加选项B",required=true)
-//                    @RequestParam String typeB,
+//                    @RequestBody String typeB,
 //            @ApiParam(name="typeC",value="添加选项C",required=true)
-//                   @RequestParam String typeC,
+//                   @RequestBody String typeC,
 //            @ApiParam(name="typeD",value="添加选项D",required=true)
-//                   @RequestParam String typeD,
+//                   @RequestBody String typeD,
 //            @ApiParam(name="right",value="添加选择题答案",required=true)
-//                   @RequestParam String right,
+//                   @RequestBody String right,
 //            @ApiParam(name="score",value="添加选择题得分",required=true)
-//                    @RequestParam Integer score,
+//                    @RequestBody Integer score,
 //            @ApiParam(name="subjectId",value="添加科目类型编号",required=true)
-//                   @RequestParam Integer subjectId,
+//                   @RequestBody Integer subjectId,
 //            @ApiParam(name="chapterId",value="添加具体章节编号",required=true)
-//                   @RequestParam Integer chapterId,
+//                   @RequestBody Integer chapterId,
 //            @ApiParam(name="single",value="添加是否单选",required=true,defaultValue = "1")
-//                   @RequestParam Integer single,
+//                   @RequestBody Integer single,
             @ApiParam(name="choice",value="选择题集合",required=true)
-            @RequestParam Choice choice)
+            @RequestBody Choice choice)
 //            @ApiParam(name="subject",value="添加科目类型",required=true)
 //                    Integer subject,
 //            @ApiParam(name="chapter",value="添加具体章节",required=true)
@@ -110,7 +110,7 @@ public class ChoiceController {
     @GetMapping("/deleteChoiceById")
     public Result deleteChoiceById(
             @ApiParam(name="choiceId",value="选择题编号",required=true)
-                   @RequestParam Integer choiceId) {
+                   @RequestBody Integer choiceId) {
         boolean b = choiceService.deleteById(choiceId);
         if (!b){
             return ResultGenerator.genFailedResult("删除选择题失败");
@@ -128,32 +128,32 @@ public class ChoiceController {
     @GetMapping("/updateChoiceById")
     public Result updateChoiceById(
 //            @ApiParam(name="choiceId",value="选择题编号",required=true)
-//                    @RequestParam Integer choiceId,
+//                    @RequestBody Integer choiceId,
 //            @ApiParam(name="title",value="更新题目",required=true)
-//                   @RequestParam String title,
+//                   @RequestBody String title,
 //            @ApiParam(name="typeA",value="更新选项A",required=true)
-//                   @RequestParam String typeA,
+//                   @RequestBody String typeA,
 //            @ApiParam(name="typeB",value="更新选项B",required=true)
-//                   @RequestParam String typeB,
+//                   @RequestBody String typeB,
 //            @ApiParam(name="typeC",value="更新选项C",required=true)
-//                   @RequestParam String typeC,
+//                   @RequestBody String typeC,
 //            @ApiParam(name="typeD",value="更新选项D",required=true)
-//                   @RequestParam String typeD,
+//                   @RequestBody String typeD,
 //            @ApiParam(name="right",value="更新选择题答案",required=true)
-//                    @RequestParam String right,
+//                    @RequestBody String right,
 //            @ApiParam(name="score",value="更新选择题得分",required=true)
-//                   @RequestParam Integer score,
+//                   @RequestBody Integer score,
 //            @ApiParam(name="subjectId",value="更新科目类型编号",required=true)
-//                   @RequestParam Integer subjectId,
+//                   @RequestBody Integer subjectId,
 //            @ApiParam(name="chapterId",value="更新具体章节编号",required=true)
-//                   @RequestParam Integer chapterId,
+//                   @RequestBody Integer chapterId,
 //            @ApiParam(name="single",value="更新是否单选",required=true,defaultValue = "1")
-//                   @RequestParam Integer single,
-            Model model,@ApiParam(name = "choice",value = "选择题集合",required = true) @RequestParam Choice choice
+//                   @RequestBody Integer single,
+            Model model,@ApiParam(name = "choice",value = "选择题集合",required = true) @RequestBody Choice choice
 //            @ApiParam(name="subject",value="更新科目类型",required=true)
-//                  @RequestParam  Integer subject,
+//                  @RequestBody  Integer subject,
 //            @ApiParam(name="chapter",value="更新具体章节",required=true)
-//                  @RequestParam  Integer chapter
+//                  @RequestBody  Integer chapter
                   ){
         Choice update = choiceService.update(choice);
         choice = choiceService.queryById(choice.getChoiceId());
@@ -194,7 +194,7 @@ public class ChoiceController {
     @GetMapping("/queryChoiceScoreById")
     public Result queryChoiceScoreById(
             @ApiParam(name = "choiceId",value = "选择题编号",required = true)
-            @RequestParam Integer choiceId
+            @RequestBody Integer choiceId
     ){
 
         Choice choice = choiceService.queryScoreById(choiceId);
@@ -222,7 +222,7 @@ public class ChoiceController {
     @GetMapping("/queryChoiceRightById")
     public Result queryChoiceRightById(
             @ApiParam(name="choiceId",value="选择题编号",required=true)
-            @RequestParam Integer choiceId){
+            @RequestBody Integer choiceId){
         Choice choice = choiceService.queryRightById(choiceId);
         if (choice==null){
             return ResultGenerator.genFailedResult("获取第"+choiceId+"的章节失败");
@@ -250,7 +250,7 @@ public class ChoiceController {
     @GetMapping("/queryChoiceSubjectById")
     public Result queryChoiceSubjectById(
             @ApiParam(name="choiceId",value="选择题编号",required=true)
-            @RequestParam Integer choiceId ){
+            @RequestBody Integer choiceId ){
         Choice choice = choiceService.querySubjectId(choiceId);
         if (choice==null){
             return ResultGenerator.genFailedResult("获取科目失败");
@@ -265,7 +265,7 @@ public class ChoiceController {
     @GetMapping("/queryChoiceChapterById")
     public Result queryChoiceChapter(
             @ApiParam(name="choiceId",value="选择题编号",required=true)
-            @RequestParam Integer choiceId ){
+            @RequestBody Integer choiceId ){
         Choice choice = choiceService.queryChapterId(choiceId);
         if (choice==null){
             return ResultGenerator.genFailedResult("获取章节失败");

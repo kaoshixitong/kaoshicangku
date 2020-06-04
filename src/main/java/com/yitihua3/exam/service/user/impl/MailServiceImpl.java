@@ -1,6 +1,6 @@
 package com.yitihua3.exam.service.user.impl;
 
-import com.yitihua3.exam.service.user.EmailService;
+import com.yitihua3.exam.service.user.MailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,9 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 
+
 @Service
-public class EmailServiceImpl implements EmailService {
+public class MailServiceImpl implements MailService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     //注入邮件处理
     @Autowired

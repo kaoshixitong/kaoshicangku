@@ -157,4 +157,13 @@ public class Judge extends AbstractRelationMapper<Judge, JudgeDTO> implements Se
         this.subjectId = subjectId;
         this.chapterId = chapterId;
     }
+    public Judge( String title, String typeA, String typeB, String right, Integer score, Integer subjectId, Integer chapterId) {
+        this.title = title;
+        this.typeA = typeA;
+        this.typeB = typeB;
+        this.right = right;
+        this.score = score;
+        this.subjectId = subjectId;
+        this.chapterId = chapterId;
+    }
 }

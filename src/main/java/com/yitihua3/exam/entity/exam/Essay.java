@@ -124,5 +124,13 @@ public class Essay extends AbstractRelationMapper<Essay, EssayDTO> implements Se
         this.chapterId = chapterId;
     }
 
+    public Essay( String title, Integer score, String reference, Integer subjectId, Integer chapterId) {
+        this.title = title;
+        this.score = score;
+        this.reference = reference;
+        this.subjectId = subjectId;
+        this.chapterId = chapterId;
+    }
+
 
 }

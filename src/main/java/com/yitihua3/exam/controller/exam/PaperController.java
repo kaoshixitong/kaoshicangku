@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -90,7 +90,7 @@ public class PaperController {
     @ApiOperation(value = "添加试卷",notes = "添加试卷",httpMethod = "POST")
     @GetMapping("/addPaper")
     public Result addPaper(
-            @RequestParam Paper paper
+            @RequestBody Paper paper
 //            @ApiParam(name = "paperId",value = "试卷编号",required = true)Integer paperId,
 //            @ApiParam(name = "paperName",value = "试卷名称",required = true)String paperName,
 //            @ApiParam(name = "begin",value = "开始时间",required = true)String begin,
@@ -114,7 +114,7 @@ public class PaperController {
 
     @ApiOperation(value = "更新试卷",notes = "更新试卷",httpMethod = "PUT")
     @GetMapping("/updatePaper")
-    public Result updatePaper(@RequestParam Paper paper, Model model
+    public Result updatePaper(@RequestBody Paper paper, Model model
                              //            @ApiParam(name = "paperId",value = "试卷编号",required = true)Integer paperId,
 //            @ApiParam(name = "paperName",value = "试卷名称",required = true)String paperName,
 //            @ApiParam(name = "begin",value = "开始时间",required = true)String begin,
