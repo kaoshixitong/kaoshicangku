@@ -1,7 +1,9 @@
 package com.yitihua3.exam.service.answer.impl;
 
+import com.yitihua3.exam.dto.answer.ChoiceScoreDTO;
 import com.yitihua3.exam.entity.answer.ChoiceAnswer;
 import com.yitihua3.exam.mapper.answer.ChoiceAnswerMapper;
+import com.yitihua3.exam.mapper.exam.ChoiceMapper;
 import com.yitihua3.exam.service.answer.ChoiceAnswerService;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,38 @@ import java.util.List;
 public class ChoiceAnswerServiceImpl implements ChoiceAnswerService {
     @Resource
     private ChoiceAnswerMapper choiceAnswerMapper;
+
+    @Resource
+    private ChoiceMapper choiceMapper;
+
+
+    @Override
+    public List<ChoiceScoreDTO> selectChoiceScore(Integer examId, Integer userId) {
+        return choiceAnswerMapper.selectChoiceScore(examId, userId);
+    }
+
+    @Override
+    public int updateAnswerScore(List<ChoiceScoreDTO> answerScoreList){
+        int choiceMark = compareAndScore(answerScoreList);
+        choiceAnswerMapper.updateScoreList(answerScoreList);
+        return choiceMark;
+    }
+
+    private int compareAndScore(List<ChoiceScoreDTO> answerScoreList){
+        int choiceMark=0;
+        for (ChoiceScoreDTO choiceScoreDTO:answerScoreList){
+            String right = choiceScoreDTO.getRight();
+            String answer = choiceScoreDTO.getChoiceAnswer();
+            Integer score = choiceScoreDTO.getScore();
+            if (right.equals(answer)){
+                choiceScoreDTO.setChoiceAnswerScore(score);
+                choiceMark+=score;
+            }else {
+                choiceScoreDTO.setChoiceAnswerScore(0);
+            }
+        }
+        return choiceMark;
+    }
 
     /**
      * 通过ID查询单条数据

@@ -8,6 +8,7 @@ import com.yitihua3.exam.entity.answer.JudgeAnswer;
 import com.yitihua3.exam.entity.answer.Score;
 import com.yitihua3.exam.entity.exam.Exam;
 import com.yitihua3.exam.exception.ClientException;
+import com.yitihua3.exam.exception.ServiceException;
 import com.yitihua3.exam.mapper.answer.ChoiceAnswerMapper;
 import com.yitihua3.exam.mapper.answer.EssayAnswerMapper;
 import com.yitihua3.exam.mapper.answer.JudgeAnswerMapper;
@@ -49,7 +50,7 @@ public class AnswerServiceImpl implements AnswerService {
         Integer examId = score.getExamId();
         Integer userId = score.getUserId();
 
-        List<Score> scoreList = scoreMapper.queryAll(new Score(examId, userId));
+        List<Score> scoreList = scoreMapper.queryAll(new Score(userId,examId));
         if(!CollectionUtils.isEmpty(scoreList))
             throw new ClientException(ResultCode.ANSWER_EXCEPTION,"你已完成作答,不能再次作答");
 
@@ -61,9 +62,11 @@ public class AnswerServiceImpl implements AnswerService {
         String begin = TypeConverter.dateToString(new Date(beginMillis));
         score.setBegin(begin);
         scoreMapper.insert(score);
+
         List<ChoiceAnswer> choiceAnswerList = AbstractRelationMapper.listConvertAndAdd(answerDTO.getChoiceAnswerList(), answerDTO);
         List<EssayAnswer> essayAnswerList = AbstractRelationMapper.listConvertAndAdd(answerDTO.getEssayAnswerList(), answerDTO);
         List<JudgeAnswer> judgeAnswerList = AbstractRelationMapper.listConvertAndAdd(answerDTO.getJudgeAnswerList(), answerDTO);
+
         choiceAnswerMapper.insertList(choiceAnswerList);
         judgeAnswerMapper.insertList(judgeAnswerList);
         essayAnswerMapper.insertList(essayAnswerList);
@@ -93,9 +96,18 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public Long getRemaining(int examId,int userId) {
+        List<Score> scoreList = scoreMapper.queryAll(new Score(userId,examId));
+        if(!CollectionUtils.isEmpty(scoreList))
+            throw new ClientException(ResultCode.ANSWER_EXCEPTION,"该考生已作答过,不用计算时间");
+
+
         //数据库获取考试时长
         Exam exam = examMapper.queryTest(examId);
+        if(exam==null)
+            throw new ServiceException(ResultCode.DATABASE_EXCEPTION,"相关考试为空");
         Integer during = exam.getDuring();
+        if(during==null)
+            throw new ServiceException(ResultCode.DATABASE_EXCEPTION,"存入考试的时间为空");
 
         String key = generatorKey(examId, userId);
         //如果用户开始的考试未存进数据库，就存；否则计算剩余时间

@@ -1,5 +1,6 @@
 package com.yitihua3.exam.mapper.answer;
 
+import com.yitihua3.exam.dto.answer.ChoiceScoreDTO;
 import com.yitihua3.exam.entity.answer.ChoiceAnswer;
 import org.apache.ibatis.annotations.Param;
 
@@ -40,6 +41,14 @@ public interface ChoiceAnswerMapper {
     List<ChoiceAnswer> queryAll(ChoiceAnswer choiceAnswer);
 
     /**
+     * 为选择题评分前查询原题
+     * @param examId
+     * @param userId
+     * @return
+     */
+    List<ChoiceScoreDTO> selectChoiceScore(Integer examId, Integer userId);
+
+    /**
      * 新增数据
      *
      * @param choiceAnswer 实例对象
@@ -62,6 +71,12 @@ public interface ChoiceAnswerMapper {
      */
     int update(ChoiceAnswer choiceAnswer);
 
+    /**
+     * 批量更新作答分数
+     * @param answerScoreList
+     * @return
+     */
+    int updateScoreList(List answerScoreList);
     /**
      * 通过主键删除数据
      *

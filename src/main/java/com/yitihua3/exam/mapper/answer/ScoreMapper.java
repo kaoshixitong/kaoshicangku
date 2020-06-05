@@ -1,5 +1,6 @@
 package com.yitihua3.exam.mapper.answer;
 
+import com.yitihua3.exam.dto.answer.ExamUserDTO;
 import com.yitihua3.exam.entity.answer.Score;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -11,6 +12,12 @@ import java.util.List;
  * @since 2020-06-03 15:55:51
  */
 public interface ScoreMapper {
+    /**
+     * 查询某场考试所有的作答者
+     * @param examId
+     * @return
+     */
+    List<ExamUserDTO>queryExamUser(Integer examId);
 
     /**
      * 通过ID查询单条数据
@@ -53,6 +60,13 @@ public interface ScoreMapper {
      * @return 影响行数
      */
     int update(Score score);
+
+    /**
+     * 更新总分
+     * @param score
+     * @return
+     */
+    int updateMark(Score score);
 
     /**
      * 通过主键删除数据

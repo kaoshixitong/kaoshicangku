@@ -32,4 +32,5 @@ public class StudentInformationDTO {
      */
     @ApiModelProperty(value = "学生信息", name = "student")
     private Student student;
+
 }

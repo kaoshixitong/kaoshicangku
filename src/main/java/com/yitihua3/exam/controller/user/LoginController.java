@@ -45,7 +45,7 @@ public class LoginController {
     @PostMapping("/login")
     public Result login(
             @ApiParam(name="loginDTO",value="登录对象",required=true)
-            @RequestBody(required = false) LoginDTO loginDTO,
+            @RequestBody LoginDTO loginDTO,
             HttpServletResponse response)
     {
         //获取当前用户
@@ -90,7 +90,7 @@ public class LoginController {
     @ApiOperation(value = "用户注册",  notes = "注册对象",httpMethod = "POST")
     @PostMapping("/register")
     public Result register(
-            @ApiParam(name="registerDTO",value="注册对象",required=true) @RequestBody(required = false)
+            @ApiParam(name="registerDTO",value="注册对象",required=true) @RequestBody
             @Validated RegisterDTO registerDTO){
         User user = DTOConverterUtils.commonConverter(registerDTO, User.class);
         registerService.check(registerDTO);

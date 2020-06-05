@@ -34,7 +34,7 @@ public class UserController {
 
     @ApiResponses({
             @ApiResponse(code = 200, message = "HTTP状态码，返回值JSON code字段值，描述：成功"),
-            @ApiResponse(code = 4008, message = "非HTTP状态码，返回值JSON code字段值，描述：注册异常")
+            @ApiResponse(code = 1000, message = "非HTTP状态码，返回值JSON code字段值，描述：绑定失败")
     })
 
     @ApiOperation(value = "根据用户名查询用户",  notes = "可用于注册时登录查重",httpMethod = "GET")
@@ -43,7 +43,7 @@ public class UserController {
     @ApiImplicitParam(name="username",value="用户名",required=true,example = "小明")
 
     public Result queryUser(
-            @RequestBody(required = false) @ApiIgnore JSONObject jsonObject) {
+            @RequestBody @ApiIgnore JSONObject jsonObject) {
         String username = jsonObject.getString("username");
         User user = userService.selectByUsername(username);
         if(user!=null)

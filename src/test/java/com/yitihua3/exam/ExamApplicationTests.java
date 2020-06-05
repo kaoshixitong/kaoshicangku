@@ -10,12 +10,15 @@ import com.yitihua3.exam.entity.user.Classes;
 import com.yitihua3.exam.mapper.answer.ChoiceAnswerMapper;
 import com.yitihua3.exam.mapper.answer.EssayAnswerMapper;
 import com.yitihua3.exam.mapper.answer.JudgeAnswerMapper;
+import com.yitihua3.exam.mapper.exam.ChoiceMapper;
 import com.yitihua3.exam.mapper.user.ClassesMapper;
 import com.yitihua3.exam.mapper.user.UserMapper;
+import com.yitihua3.exam.service.answer.ChoiceAnswerService;
 import com.yitihua3.exam.service.user.UserService;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
@@ -71,29 +74,43 @@ class ExamApplicationTests {
     ChoiceAnswerMapper choiceAnswerMapper;
 
     @Resource
+    ChoiceMapper choiceMapper;
+
+    @Resource
     JudgeAnswerMapper judgeAnswerMapper;
 
     @Resource
     EssayAnswerMapper essayAnswerMapper;
+
+    @Autowired
+    ChoiceAnswerService choiceAnswerService;
     @Test
-    void insertList() {
+    void updateChoiceScore(){
+
+
+    }
+
+    @Test
+    void selectList() {
         ArrayList list = new ArrayList<>();
         ChoiceAnswer choiceAnswer1=new ChoiceAnswer(1,1,1,null,"A");
         ChoiceAnswer choiceAnswer2=new ChoiceAnswer(2,1,1,null,"B");
         ChoiceAnswer choiceAnswer3=new ChoiceAnswer(3,1,1,null,"C");
-        ChoiceAnswer choiceAnswer4=new ChoiceAnswer(3,1,1,null,"D");
+        ChoiceAnswer choiceAnswer4=new ChoiceAnswer(4,1,1,null,"D");
         JudgeAnswer judgeAnswer1=new JudgeAnswer(1,1,1,null,"A");
         JudgeAnswer judgeAnswer2=new JudgeAnswer(1,1,1,null,"B");
         EssayAnswer essayAnswer1=new EssayAnswer(1,1,1,null,"参考百度");
         EssayAnswer essayAnswer2=new EssayAnswer(1,1,1,null,"复制粘贴的答案");
         EssayAnswer essayAnswer3=new EssayAnswer(1,1,1,null,"版权声明：本文为CSDN博主「Hello-Coder」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。");
-        list.add(essayAnswer1);
-        list.add(essayAnswer2);
-        list.add(essayAnswer3);
-//        list.add(choiceAnswer3);
+        list.add(choiceAnswer1);
+        list.add(choiceAnswer2);
+        list.add(choiceAnswer3);
 //        list.add(choiceAnswer4);
-//        choiceAnswerMapper.insertList(list);
-        essayAnswerMapper.insertList(list);
+        System.out.println("hhhhhhhhhhhhhhhhhhhhhhhh");
+//        int score = choiceAnswerService.updateAnswerScore(list);
+//        System.out.println("score = " + score);
+//        System.out.println("choiceList = " + choiceList);
+//        essayAnswerMapper.insertList(list);
     }
 
     @Test

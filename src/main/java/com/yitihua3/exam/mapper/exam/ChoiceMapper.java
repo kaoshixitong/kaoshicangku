@@ -2,7 +2,6 @@
 package com.yitihua3.exam.mapper.exam;
 import com.yitihua3.exam.entity.exam.Choice;
 
-import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
@@ -101,5 +100,4 @@ public interface ChoiceMapper {
      * @return 影响行数
      */
     int deleteById(Integer choiceId);
-
 }

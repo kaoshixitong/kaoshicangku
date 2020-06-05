@@ -34,7 +34,7 @@ filter:
     [/]: anon
     [/css/**]: anon
     [/js/**]: anon
-    [/imgs/**]: anon
+    [/photo/**]: anon
     [/druid/**]: anon
     [/shiroCache]: anon
     [/springCache]: anon

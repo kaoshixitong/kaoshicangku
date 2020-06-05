@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldMapper
 public class EssayAnswerDTO extends AbstractRelationMapper<EssayAnswerDTO, EssayAnswer> {
     /**
      * 应用题编号

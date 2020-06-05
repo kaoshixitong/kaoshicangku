@@ -5,6 +5,7 @@ import com.yitihua3.exam.dto.user.StudentInformationDTO;
 import com.yitihua3.exam.entity.user.Student;
 import com.yitihua3.exam.entity.user.User;
 import com.yitihua3.exam.response.Result;
+import com.yitihua3.exam.response.ResultCode;
 import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.user.JWTService;
 import com.yitihua3.exam.service.user.StudentService;
@@ -50,7 +51,7 @@ public class StudentController {
     @PutMapping("updateInformation")
     public Result updateInformation(
             @ApiParam(name="studentInformationDTO",value="修改学生个人信息对象",required=true)
-            @RequestBody(required = false) StudentInformationDTO studentInformationDTO
+            @RequestBody StudentInformationDTO studentInformationDTO
     ) {
         User user = jwtService.getSubjectUser();
         user.setUsername(studentInformationDTO.getUsername());
@@ -69,11 +70,18 @@ public class StudentController {
             @ApiImplicitParam(name="name",value="学生姓名",required=true)
     })
 
-    public Result bindInformation(@RequestBody(required = false)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "HTTP状态码，返回值JSON code字段值，描述：成功"),
+            @ApiResponse(code = 4008, message = "非HTTP状态码，返回值JSON code字段值，描述：注册异常")
+    })
+
+    public Result bindInformation(@RequestBody
                                   @ApiIgnore JSONObject jsonObject) {
         Student student = studentService.selectStudentById(jsonObject.getLong("studentId"));
+        if (student==null)
+            return ResultGenerator.genFailedResult(ResultCode.SUCCEED_REQUEST_FAILED_RESULT,"学生绑定失败");
         if(!student.getName().equals(jsonObject.getString("name"))){
-            return ResultGenerator.genFailedResult("学生绑定失败");
+            return ResultGenerator.genFailedResult(ResultCode.SUCCEED_REQUEST_FAILED_RESULT,"学生绑定失败");
         }
         Integer userId = jwtService.getSubjectUser().getUserId();
         student.setUserId(userId);

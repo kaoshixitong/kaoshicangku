@@ -1,7 +1,9 @@
 package com.yitihua3.exam.entity.user;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 /**
@@ -11,6 +13,8 @@ import java.io.Serializable;
  * @since 2020-04-19 17:16:57
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Classes implements Serializable {
     private static final long serialVersionUID = -11222330554396474L;
     /**
@@ -24,23 +28,7 @@ public class Classes implements Serializable {
     @ApiModelProperty(value = "班级名字", name = "name", required = true, example = "软件一班")
     private String name;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public Integer getClassId() {
-        return classId;
-    }
-
-    public void setClassId(Integer classId) {
-        this.classId = classId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Classes(String name) {
         this.name = name;
     }
 }

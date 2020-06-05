@@ -54,6 +54,26 @@
         </where>
     </select>
 
+    <resultMap type="com.yitihua3.exam.dto.answer.ChoiceScoreDTO" id="ChoiceScoreDTOMap">
+        <result property="choiceId" column="choice_id" jdbcType="INTEGER"/>
+        <result property="choiceAnswerId" column="answer_id" jdbcType="INTEGER"/>
+        <result property="choiceAnswerScore" column="choice_answer_score" jdbcType="INTEGER"/>
+        <result property="choiceAnswer" column="answer" jdbcType="VARCHAR"/>
+        <result property="right" column="right" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--为选择题评分前查询原题-->
+    <select id="selectChoiceScore" resultMap="ChoiceScoreDTOMap">
+        select
+        choice.choice_id,answer_id, choice_answer.score 'choice_answer_score', answer,`right`, choice.score
+        from kaoshi.choice_answer
+        left join kaoshi.choice
+        on choice_answer.choice_id=choice.choice_id
+        where choice_answer.exam_id=#{examId}
+        and choice_answer.user_id=#{userId}
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="answerId" useGeneratedKeys="true">
         insert into kaoshi.choice_answer(choice_id, user_id, exam_id, score, answer)
@@ -69,6 +89,23 @@
             (#{item.choiceId}, #{item.userId}, #{item.examId}, #{item.score}, #{item.answer})
         </foreach>
     </insert>
+<!--    批量更新选择题分数-->
+    <update id="updateScoreList" parameterType="java.util.List">
+        update kaoshi.choice_answer
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="score=case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.choiceAnswerScore!=null">
+                        when answer_id=#{item.choiceAnswerId} then #{item.choiceAnswerScore}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where
+        <foreach collection="list" separator="or" item="item" index="index">
+            answer_id=#{item.choiceAnswerId}
+        </foreach>
+    </update>
 
     <!--通过主键修改数据-->
     <update id="update">

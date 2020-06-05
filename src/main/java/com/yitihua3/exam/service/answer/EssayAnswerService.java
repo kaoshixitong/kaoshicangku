@@ -1,5 +1,6 @@
 package com.yitihua3.exam.service.answer;
 
+import com.yitihua3.exam.dto.answer.EssayScoreDTO;
 import com.yitihua3.exam.entity.answer.EssayAnswer;
 
 import java.util.List;
@@ -11,6 +12,14 @@ import java.util.List;
  * @since 2020-06-01 19:13:09
  */
 public interface EssayAnswerService {
+
+    /**
+     * 根据考试id和用户id查询作答的简答题和原题
+     * @param examId
+     * @param userId
+     * @return
+     */
+    List<EssayScoreDTO> selectEssayScore(Integer examId, Integer userId);
 
     /**
      * 通过ID查询单条数据
@@ -29,6 +38,8 @@ public interface EssayAnswerService {
      */
     List<EssayAnswer> queryAllByLimit(int offset, int limit);
 
+
+
     /**
      * 新增数据
      *
@@ -44,6 +55,13 @@ public interface EssayAnswerService {
      * @return 实例对象
      */
     EssayAnswer update(EssayAnswer essayAnswer);
+
+    /**
+     * 批量更新应用题分数
+     * @param essayScoreList
+     * @return
+     */
+    int updateEssayScore(List<EssayScoreDTO> essayScoreList);
 
     /**
      * 通过主键删除数据

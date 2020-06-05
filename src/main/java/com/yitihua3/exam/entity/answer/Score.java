@@ -47,4 +47,10 @@ public class Score implements Serializable {
         this.userId = userId;
         this.examId = examId;
     }
+
+    public Score(Integer userId, Integer examId, Integer mark) {
+        this.userId = userId;
+        this.examId = examId;
+        this.mark = mark;
+    }
 }

@@ -1,5 +1,6 @@
 package com.yitihua3.exam.service.answer;
 
+import com.yitihua3.exam.dto.answer.ExamUserDTO;
 import com.yitihua3.exam.entity.answer.Score;
 import java.util.List;
 
@@ -45,6 +46,13 @@ public interface ScoreService {
     Score update(Score score);
 
     /**
+     * 更新分数
+     * @param score
+     * @return
+     */
+    int updateMark(Score score);
+
+    /**
      * 通过主键删除数据
      *
      * @param scoreId 主键
@@ -52,4 +60,19 @@ public interface ScoreService {
      */
     boolean deleteById(Integer scoreId);
 
+    /**
+     * 查询某场考试所有的作答者
+     * @param examId
+     * @return
+     */
+    List<ExamUserDTO> selectExamUser(Integer examId);
+
+    /**
+     * 查询某场考试所有的作答者分页
+     * @param examId
+     * @param page
+     * @param size
+     * @return
+     */
+    List<ExamUserDTO> selectExamUserPage(Integer examId,Integer page,Integer size);
 }

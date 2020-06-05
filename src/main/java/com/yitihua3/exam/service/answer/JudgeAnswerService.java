@@ -1,5 +1,6 @@
 package com.yitihua3.exam.service.answer;
 
+import com.yitihua3.exam.dto.answer.JudgeScoreDTO;
 import com.yitihua3.exam.entity.answer.JudgeAnswer;
 
 import java.util.List;
@@ -11,7 +12,19 @@ import java.util.List;
  * @since 2020-06-01 19:14:32
  */
 public interface JudgeAnswerService {
-
+    /**
+     * 根据考试id和用户id查询判断题作答和原题
+     * @param examId
+     * @param userId
+     * @return
+     */
+    List<JudgeScoreDTO>selectJudgeScore(Integer examId, Integer userId);
+    /**
+     * 批量计算答题的分数
+     * @param answerList
+     * @return 这部分的总分
+     */
+    public int updateAnswerScore(List<JudgeScoreDTO> answerList);
     /**
      * 通过ID查询单条数据
      *

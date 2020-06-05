@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@FieldMapper(share = {"examId","userId"})
+@FieldMapper(share = {"examId"})
 public class AnswerDTO extends AbstractRelationMapper<AnswerDTO, Score> {
     /**
      * 考试编号
@@ -28,8 +28,8 @@ public class AnswerDTO extends AbstractRelationMapper<AnswerDTO, Score> {
     /**
      * 用户编号
      */
-    @ApiModelProperty(value = "用户编号", name = "userId", required = true, example = "1")
-    @NotNull(message = "用户编号不能为空")
+    @ApiModelProperty(value = "用户编号", name = "userId", example = "1")
+
     private Integer userId;
     /**
      * 答题结束时间

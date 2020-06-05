@@ -38,6 +38,9 @@ public class AnswerController {
             @ApiParam(name="answerDTO",value="答题接收对象",required=true)
             @Validated AnswerDTO answerDTO
     ) {
+
+        User user = jwtService.getSubjectUser();
+        answerDTO.setUserId(user.getUserId());
         answerService.insertAnswer(answerDTO);
         return ResultGenerator.genOkResult("考试作答提交成功");
     }
@@ -48,7 +51,7 @@ public class AnswerController {
     @ApiOperation(value = "查询答题剩余时间",  notes = "可用于超时作答的提交",httpMethod = "GET")
     @GetMapping("queryRemaining")
     @ApiImplicitParam(name="examId",value="考试编号",required=true,example = "1")
-    public Result<Long> queryRemaining(@RequestBody(required = false)
+    public Result<Long> queryRemaining(@RequestBody
                                            @ApiIgnore JSONObject jsonObject
     ) {
         //获取当前用户
@@ -57,5 +60,7 @@ public class AnswerController {
         Long remaining = answerService.getRemaining(examIdInteger, user.getUserId());
         return ResultGenerator.genOkResult("查询答题剩余时长成功",remaining);
     }
+
+
 
 }

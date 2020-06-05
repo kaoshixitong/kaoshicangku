@@ -1,5 +1,6 @@
 package com.yitihua3.exam.mapper.answer;
 
+import com.yitihua3.exam.dto.answer.JudgeScoreDTO;
 import com.yitihua3.exam.entity.answer.JudgeAnswer;
 import org.apache.ibatis.annotations.Param;
 
@@ -40,6 +41,14 @@ public interface JudgeAnswerMapper {
     List<JudgeAnswer> queryAll(JudgeAnswer judgeAnswer);
 
     /**
+     * 为判断题评分前查询原题
+     * @param examId
+     * @param userId
+     * @return
+     */
+    List<JudgeScoreDTO> selectJudgeScore(Integer examId, Integer userId);
+    
+    /**
      * 新增数据
      *
      * @param judgeAnswer 实例对象
@@ -54,6 +63,12 @@ public interface JudgeAnswerMapper {
      */
     int insertList(List<JudgeAnswer> judgeAnswerList);
 
+    /**
+     * 批量更新作答分数
+     * @param answerScoreList
+     * @return
+     */
+    int updateScoreList(List answerScoreList);
     /**
      * 修改数据
      *

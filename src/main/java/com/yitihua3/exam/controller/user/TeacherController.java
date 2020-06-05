@@ -51,7 +51,7 @@ public class TeacherController {
 
     @ApiOperation(value = "修改教师用户的个人信息",  notes = "可用于教师个人信息的修改",httpMethod = "PUT")
     @PutMapping("updateInformation")
-    public Result updateInformation(@RequestBody(required = false)
+    public Result updateInformation(@RequestBody
             @ApiParam(name="teacherInformationDTO",value="修改教师个人信息对象",required=true)
                     TeacherInformationDTO teacherInformationDTO
     ) {
@@ -72,7 +72,7 @@ public class TeacherController {
             @ApiImplicitParam(name="name",value="教师姓名",required=true)
     })
 
-    public Result bindInformation(@RequestBody(required = false)
+    public Result bindInformation(@RequestBody
                                   @ApiIgnore JSONObject jsonObject) {
         Teacher teacher = teacherService.selectTeacherById(jsonObject.getLong("teacherId"));
         if(!teacher.getName().equals(jsonObject.getString("name"))){

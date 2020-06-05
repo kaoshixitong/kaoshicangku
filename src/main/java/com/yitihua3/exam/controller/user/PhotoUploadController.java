@@ -43,11 +43,11 @@ public class PhotoUploadController {
     @PostMapping("photoUpload")
     public Result photoUpload(
             @ApiParam(name="file",value="文件流",required=true)
-            @RequestBody(required = false) @RequestParam("file") final MultipartFile file) throws FileNotFoundException {
+            @RequestBody @RequestParam("file") final MultipartFile file) throws FileNotFoundException {
         String photoName = PhotoUploadUtils.photoUpload(file);
         User user = jwtService.getSubjectUser();
         userService.updatePhoto(photoName,user);
         PhotoUploadUtils.deleteOldPhoto(user.getPhoto());
-        return ResultGenerator.genOkResult("头像上传成功");
+        return ResultGenerator.genOkResult("头像上传成功",photoName);
     }
 }

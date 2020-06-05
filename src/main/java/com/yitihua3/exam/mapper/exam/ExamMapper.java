@@ -23,6 +23,7 @@ public interface ExamMapper {
      * 通过id查询exam
      * @param examId
      * @return
+     * @author aiwoqe
      */
     Exam queryTest(Integer examId);
 

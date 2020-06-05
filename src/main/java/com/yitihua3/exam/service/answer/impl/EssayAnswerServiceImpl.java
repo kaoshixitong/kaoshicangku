@@ -1,5 +1,6 @@
 package com.yitihua3.exam.service.answer.impl;
 
+import com.yitihua3.exam.dto.answer.EssayScoreDTO;
 import com.yitihua3.exam.entity.answer.EssayAnswer;
 import com.yitihua3.exam.mapper.answer.EssayAnswerMapper;
 import com.yitihua3.exam.service.answer.EssayAnswerService;
@@ -18,6 +19,11 @@ import java.util.List;
 public class EssayAnswerServiceImpl implements EssayAnswerService {
     @Resource
     private EssayAnswerMapper essayAnswerMapper;
+
+    @Override
+    public List<EssayScoreDTO> selectEssayScore(Integer examId, Integer userId) {
+        return essayAnswerMapper.selectEssayScore(examId, userId);
+    }
 
     /**
      * 通过ID查询单条数据
@@ -64,6 +70,11 @@ public class EssayAnswerServiceImpl implements EssayAnswerService {
     public EssayAnswer update(EssayAnswer essayAnswer) {
         this.essayAnswerMapper.update(essayAnswer);
         return this.queryById(essayAnswer.getAnswerId());
+    }
+
+    @Override
+    public int updateEssayScore(List<EssayScoreDTO> essayScoreList) {
+        return essayAnswerMapper.updateEssayScore(essayScoreList);
     }
 
     /**

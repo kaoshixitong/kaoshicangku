@@ -1,7 +1,9 @@
 package com.yitihua3.exam.service.answer.impl;
 
+import com.yitihua3.exam.dto.answer.JudgeScoreDTO;
 import com.yitihua3.exam.entity.answer.JudgeAnswer;
 import com.yitihua3.exam.mapper.answer.JudgeAnswerMapper;
+import com.yitihua3.exam.mapper.exam.JudgeMapper;
 import com.yitihua3.exam.service.answer.JudgeAnswerService;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,37 @@ import java.util.List;
 public class JudgeAnswerServiceImpl implements JudgeAnswerService {
     @Resource
     private JudgeAnswerMapper judgeAnswerMapper;
+
+    @Resource
+    private JudgeMapper judgeMapper;
+
+    @Override
+    public List<JudgeScoreDTO> selectJudgeScore(Integer examId, Integer userId) {
+        return judgeAnswerMapper.selectJudgeScore(examId, userId);
+    }
+
+    @Override
+    public int updateAnswerScore(List<JudgeScoreDTO> answerScoreList){
+        int judgeMark = compareAndScore(answerScoreList);
+        judgeAnswerMapper.updateScoreList(answerScoreList);
+        return judgeMark;
+    }
+
+    private int compareAndScore(List<JudgeScoreDTO> answerScoreList){
+        int judgeMark=0;
+        for (JudgeScoreDTO judgeScoreDTO:answerScoreList){
+            String right = judgeScoreDTO.getRight();
+            String answer = judgeScoreDTO.getJudgeAnswer();
+            Integer score = judgeScoreDTO.getScore();
+            if (right.equals(answer)){
+                judgeScoreDTO.setJudgeAnswerScore(score);
+                judgeMark+=score;
+            }else {
+                judgeScoreDTO.setJudgeAnswerScore(0);
+            }
+        }
+        return judgeMark;
+    }
 
     /**
      * 通过ID查询单条数据

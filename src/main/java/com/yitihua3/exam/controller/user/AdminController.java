@@ -38,7 +38,7 @@ public class AdminController {
             @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
     })
 
-    public Result<List<Student>> queryAllStudent(@RequestBody(required = false)
+    public Result<List<Student>> queryAllStudent(@RequestBody
              @ApiIgnore JSONObject jsonObject
     ) {
 
@@ -48,7 +48,7 @@ public class AdminController {
 
     @ApiOperation(value = "管理员添加学生",  notes = "可用于管理员添加学生",httpMethod = "POST")
     @PostMapping("addStudent")
-    public Result addStudent(@RequestBody(required = false)
+    public Result addStudent(@RequestBody
             @ApiParam(name="student",value="学生对象",required=true)
             Student student
     ) {
@@ -68,7 +68,7 @@ public class AdminController {
             @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
     })
 
-    public Result<List<Teacher>> queryAllTeacher(@RequestBody(required = false)
+    public Result<List<Teacher>> queryAllTeacher(@RequestBody
                                                          @ApiIgnore JSONObject jsonObject
     ) {
         List<Teacher> teacherList = teacherService.selectAllPage(jsonObject.getInteger("page"), jsonObject.getInteger("size"));
@@ -77,7 +77,7 @@ public class AdminController {
 
     @ApiOperation(value = "管理员添加教师",  notes = "可用于管理员添加教师",httpMethod = "POST")
     @PostMapping("addTeacher")
-    public Result addTeacher(@RequestBody(required = false)
+    public Result addTeacher(@RequestBody
             @ApiParam(name="teacher",value="教师对象",required=true)
             Teacher teacher
     ) {

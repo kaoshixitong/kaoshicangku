@@ -31,7 +31,7 @@ public class ClassesController {
     @Autowired
     ClassesService classesService;
 
-    @ApiOperation(value = "个人信息界面返回所有班级的名字和id",  notes = "用于个人信息修改",httpMethod = "GET")
+    @ApiOperation(value = "个人信息界面返回所有班级",  notes = "用于个人信息修改",httpMethod = "GET")
     @GetMapping("/queryClasses")
     public Result<List<Classes>> queryClasses()
     {
@@ -41,11 +41,15 @@ public class ClassesController {
 
     @ApiOperation(value = "增加班级",  notes = "增加班级",httpMethod = "POST")
     @PostMapping("/addClasses")
-    public Result addClasses(
-            @ApiParam(name="classes",value="班级id和班级名字",required=true)
-            @RequestBody(required = false)       Classes classes
+
+    @ApiImplicitParam(name="name",value="班级名字",required=true)
+
+    public Result addClasses(@RequestBody
+
+            @ApiIgnore JSONObject jsonObject
     )
     {
+        Classes classes = new Classes(jsonObject.getString("name"));
         classesService.insertClasses(classes);
         return ResultGenerator.genOkResult("增加班级成功");
     }
@@ -54,7 +58,7 @@ public class ClassesController {
     @PutMapping("/updateClasses")
     public Result updateClasses(
             @ApiParam(name="classes",value="班级id和班级名字",required=true)
-            @RequestBody(required = false)        Classes classes
+            @RequestBody        Classes classes
     )
     {
         classesService.updateClasses(classes);
@@ -64,8 +68,7 @@ public class ClassesController {
     @ApiOperation(value = "删除班级",  notes = "删除班级",httpMethod = "DELETE")
     @DeleteMapping("/deleteClasses")
     @ApiImplicitParam(name = "classId", value = "班级id", required = true, example = "1")
-    public Result deleteClasses(@RequestBody(required = false)
-
+    public Result deleteClasses(@RequestBody
                                             @ApiIgnore JSONObject jsonObject
     )
     {
@@ -85,7 +88,7 @@ public class ClassesController {
             @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
     })
 
-    public Result<List<Student>> queryStudents(@RequestBody(required = false)
+    public Result<List<Student>> queryStudents(@RequestBody
              @ApiIgnore JSONObject jsonObject
     )
     {

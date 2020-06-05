@@ -1,5 +1,6 @@
 package com.yitihua3.exam.mapper.answer;
 
+import com.yitihua3.exam.dto.answer.EssayScoreDTO;
 import com.yitihua3.exam.entity.answer.EssayAnswer;
 import org.apache.ibatis.annotations.Param;
 
@@ -40,6 +41,14 @@ public interface EssayAnswerMapper {
     List<EssayAnswer> queryAll(EssayAnswer essayAnswer);
 
     /**
+     * 根据考试id和用户id查询作答的简答题和原题
+     * @param examId
+     * @param userId
+     * @return
+     */
+    List<EssayScoreDTO> selectEssayScore(Integer examId,Integer userId);
+
+    /**
      * 新增数据
      *
      * @param essayAnswer 实例对象
@@ -62,6 +71,13 @@ public interface EssayAnswerMapper {
      * @return 影响行数
      */
     int update(EssayAnswer essayAnswer);
+
+    /**
+     * 批量更新应用题分数
+      * @param essayScoreList
+     * @return
+     */
+    int updateEssayScore(List<EssayScoreDTO> essayScoreList);
 
     /**
      * 通过主键删除数据

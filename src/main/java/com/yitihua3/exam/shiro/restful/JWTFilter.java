@@ -26,9 +26,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+/**
+ * @author aiwoqe
+ */
 public class JWTFilter extends AuthenticatingFilter {
 
-    private static final int tokenRefreshInterval = 300000000;
+    private static final long tokenRefreshInterval = 3600*24*3;
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
