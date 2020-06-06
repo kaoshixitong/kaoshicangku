@@ -116,14 +116,14 @@
 
     <!--查询某一答案-->
     <select id="queryRightById" resultMap="ChoiceMap">
-        select "right"
+        select 'right'
         from kaoshi.choice
          where choice_id = #{choiceId}
     </select>
 
     <!--查询答案-->
     <select id="queryRight" resultMap="ChoiceMap">
-        select "right"
+        select 'right'
         from kaoshi.choice
     </select>
 

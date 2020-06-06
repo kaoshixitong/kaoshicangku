@@ -92,14 +92,14 @@
 
     <!--查询某一答案-->
     <select id="queryRightById" resultMap="JudgeMap">
-        select "right"
+        select 'right'
         from kaoshi.judge
          where judge_id = #{judgeId}
     </select>
 
     <!--查询答案-->
     <select id="queryRight" resultMap="JudgeMap">
-        select "right"
+        select 'right'
         from kaoshi.judge
     </select>
 
