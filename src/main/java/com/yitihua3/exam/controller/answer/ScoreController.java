@@ -1,6 +1,5 @@
 package com.yitihua3.exam.controller.answer;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yitihua3.exam.dto.answer.*;
 import com.yitihua3.exam.entity.answer.Score;
 import com.yitihua3.exam.response.Result;
@@ -16,7 +15,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -43,12 +41,10 @@ public class ScoreController {
             @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
     })
 
-    public Result<List<ExamUserDTO>> queryExamUser(@RequestBody
-                                                   @ApiIgnore JSONObject jsonObject
+    public Result<List<ExamUserDTO>> queryExamUser(
+            Integer examId,Integer page,Integer size
     ) {
-        Integer examId=jsonObject.getInteger("examId");
-        Integer page = jsonObject.getInteger("page");
-        Integer size = jsonObject.getInteger("size");
+
 
         List<ExamUserDTO> examUserList = scoreService.selectExamUserPage(examId,page,size);
 
@@ -66,12 +62,11 @@ public class ScoreController {
             @ApiImplicitParam(name="userId",value="用户id",required=true,example = "1")
     })
 
-    public Result<List<EssayScoreDTO>> queryEssayList(@RequestBody
-                                     @ApiIgnore JSONObject jsonObject
+    public Result<List<EssayScoreDTO>> queryEssayList(
+            Integer examId,Integer userId
 
     ) {
-        Integer examId = jsonObject.getInteger("examId");
-        Integer userId = jsonObject.getInteger("userId");
+
         List<EssayScoreDTO> essayScoreList = essayAnswerService.selectEssayScore(examId, userId);
         return ResultGenerator.genOkResult("查询学生应用题试题结果成功",essayScoreList);
     }

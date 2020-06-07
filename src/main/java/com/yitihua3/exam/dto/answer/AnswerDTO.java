@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@FieldMapper(share = {"examId"})
+@FieldMapper(share = {"examId","userId"})
 public class AnswerDTO extends AbstractRelationMapper<AnswerDTO, Score> {
     /**
      * 考试编号

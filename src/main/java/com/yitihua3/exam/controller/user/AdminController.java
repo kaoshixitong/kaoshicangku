@@ -1,6 +1,5 @@
 package com.yitihua3.exam.controller.user;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yitihua3.exam.entity.user.Student;
 import com.yitihua3.exam.entity.user.Teacher;
 import com.yitihua3.exam.response.Result;
@@ -10,7 +9,6 @@ import com.yitihua3.exam.service.user.TeacherService;
 import io.swagger.annotations.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -38,11 +36,10 @@ public class AdminController {
             @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
     })
 
-    public Result<List<Student>> queryAllStudent(@RequestBody
-             @ApiIgnore JSONObject jsonObject
+    public Result<List<Student>> queryAllStudent(Integer page,Integer size
     ) {
 
-        List<Student> studentList = studentService.selectAllPage(jsonObject.getInteger("page"), jsonObject.getInteger("size"));
+        List<Student> studentList = studentService.selectAllPage(page,size);
         return ResultGenerator.genOkResult("查询所有学生成功",studentList);
     }
 
@@ -68,10 +65,9 @@ public class AdminController {
             @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
     })
 
-    public Result<List<Teacher>> queryAllTeacher(@RequestBody
-                                                         @ApiIgnore JSONObject jsonObject
+    public Result<List<Teacher>> queryAllTeacher(Integer page,Integer size
     ) {
-        List<Teacher> teacherList = teacherService.selectAllPage(jsonObject.getInteger("page"), jsonObject.getInteger("size"));
+        List<Teacher> teacherList = teacherService.selectAllPage(page,size);
         return ResultGenerator.genOkResult("查询所有教师成功",teacherList);
     }
 

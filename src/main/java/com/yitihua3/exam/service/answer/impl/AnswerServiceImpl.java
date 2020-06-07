@@ -85,7 +85,7 @@ public class AnswerServiceImpl implements AnswerService {
     /**
      * 分钟到毫秒的转换
      */
-    private final static int rate=60*1000;
+    private final static long rate=60*1000;
     /**
      * 存入答题开始时间
      */
@@ -110,16 +110,17 @@ public class AnswerServiceImpl implements AnswerService {
             throw new ServiceException(ResultCode.DATABASE_EXCEPTION,"存入考试的时间为空");
 
         String key = generatorKey(examId, userId);
-        //如果用户开始的考试未存进数据库，就存；否则计算剩余时间
+        long deadline = rate*during;
+        //如果用户开始的考试未存进hashtable，就存；否则计算剩余时间
         if (!hashtable.containsKey(key)) {
             Long beginMillis=System.currentTimeMillis();
             hashtable.put(key,beginMillis);
-            return beginMillis;
+            return deadline;
         }
         long beginMillis = (long)hashtable.get(key);
-        int deadline = during * rate;
+
         //超时检测
-        if(beginMillis+deadline>=System.currentTimeMillis()){
+        if(beginMillis+deadline<=System.currentTimeMillis()){
             return 0L;
         }
         return deadline+beginMillis-System.currentTimeMillis();

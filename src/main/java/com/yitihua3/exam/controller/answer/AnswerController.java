@@ -1,6 +1,5 @@
 package com.yitihua3.exam.controller.answer;
 
-import com.alibaba.fastjson.JSONObject;
 import com.yitihua3.exam.dto.answer.AnswerDTO;
 import com.yitihua3.exam.entity.user.User;
 import com.yitihua3.exam.response.Result;
@@ -14,7 +13,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 
@@ -51,13 +49,12 @@ public class AnswerController {
     @ApiOperation(value = "查询答题剩余时间",  notes = "可用于超时作答的提交",httpMethod = "GET")
     @GetMapping("queryRemaining")
     @ApiImplicitParam(name="examId",value="考试编号",required=true,example = "1")
-    public Result<Long> queryRemaining(@RequestBody
-                                           @ApiIgnore JSONObject jsonObject
+    public Result<Long> queryRemaining(
+                                           Integer examId
     ) {
         //获取当前用户
-        Integer examIdInteger=jsonObject.getInteger("examId");
         User user = jwtService.getSubjectUser();
-        Long remaining = answerService.getRemaining(examIdInteger, user.getUserId());
+        Long remaining = answerService.getRemaining(examId, user.getUserId());
         return ResultGenerator.genOkResult("查询答题剩余时长成功",remaining);
     }
 
