@@ -3,7 +3,9 @@ package com.yitihua3.exam.entity.exam;
 import com.yitihua3.exam.dto.exam.JudgeDTO;
 import com.yitihua3.exam.dto.common.AbstractRelationMapper;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 /**
@@ -14,6 +16,8 @@ import java.io.Serializable;
  */
 @Data
 @NoArgsConstructor
+@Getter
+@Setter
 public class Judge extends AbstractRelationMapper<Judge, JudgeDTO> implements Serializable {
     private static final long serialVersionUID = 270882539600710585L;
     /**
@@ -39,7 +43,7 @@ public class Judge extends AbstractRelationMapper<Judge, JudgeDTO> implements Se
     /**
     * 分数
     */
-    private String score;
+    private Integer score;
     /**
     * 科目类型
     */
@@ -49,6 +53,74 @@ public class Judge extends AbstractRelationMapper<Judge, JudgeDTO> implements Se
     */
     private Integer chapterId;
 
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Integer getJudgeId() {
+        return judgeId;
+    }
+
+    public void setJudgeId(Integer judgeId) {
+        this.judgeId = judgeId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTypeA() {
+        return typeA;
+    }
+
+    public void setTypeA(String typeA) {
+        this.typeA = typeA;
+    }
+
+    public String getTypeB() {
+        return typeB;
+    }
+
+    public void setTypeB(String typeB) {
+        this.typeB = typeB;
+    }
+
+    public String getRight() {
+        return right;
+    }
+
+    public void setRight(String right) {
+        this.right = right;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public Integer getChapterId() {
+        return chapterId;
+    }
+
+    public void setChapterId(Integer chapterId) {
+        this.chapterId = chapterId;
+    }
 
     @Override
     protected Judge setSource() {
@@ -60,4 +132,29 @@ public class Judge extends AbstractRelationMapper<Judge, JudgeDTO> implements Se
         return false;
     }
 
+    public Judge(String right) {
+        this.right = right;
+    }
+
+    public Judge(Integer score) {
+        this.score = score;
+    }
+
+    public Judge(Integer judgeId, String title, String typeA, String typeB) {
+        this.judgeId = judgeId;
+        this.title = title;
+        this.typeA = typeA;
+        this.typeB = typeB;
+    }
+
+    public Judge(Integer judgeId, String title, String typeA, String typeB, String right, Integer score, Integer subjectId, Integer chapterId) {
+        this.judgeId = judgeId;
+        this.title = title;
+        this.typeA = typeA;
+        this.typeB = typeB;
+        this.right = right;
+        this.score = score;
+        this.subjectId = subjectId;
+        this.chapterId = chapterId;
+    }
 }

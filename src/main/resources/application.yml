@@ -45,5 +45,9 @@ filter:
     [/v2/**]: anon
     [/doc.html]: anon
     [/401]: anon
+<<<<<<< HEAD
     [/logout]: "jwt[permissive]"
+=======
+    [/logout]: logout
     [/**]: jwt
+>>>>>>> 1de8b11470374ab95a07891848a3ae274f25c9c0
