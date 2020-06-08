@@ -2,6 +2,7 @@ package com.yitihua3.exam.entity.exam;
 
 import com.yitihua3.exam.dto.exam.JudgeDTO;
 import com.yitihua3.exam.dto.common.AbstractRelationMapper;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,6 +54,19 @@ public class Judge extends AbstractRelationMapper<Judge, JudgeDTO> implements Se
     */
     private Integer chapterId;
 
+    /**
+     * 所属试卷
+     *
+     */
+    private Integer paperId;
+
+    public Integer getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(Integer paperId) {
+        this.paperId = paperId;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -140,14 +154,15 @@ public class Judge extends AbstractRelationMapper<Judge, JudgeDTO> implements Se
         this.score = score;
     }
 
-    public Judge(Integer judgeId, String title, String typeA, String typeB) {
+    public Judge(Integer judgeId, String title,Integer score, String typeA, String typeB) {
         this.judgeId = judgeId;
         this.title = title;
         this.typeA = typeA;
         this.typeB = typeB;
+        this.score = score;
     }
 
-    public Judge(Integer judgeId, String title, String typeA, String typeB, String right, Integer score, Integer subjectId, Integer chapterId) {
+    public Judge(Integer judgeId, String title, String typeA, String typeB, String right, Integer score, Integer subjectId, Integer chapterId, Integer paperId) {
         this.judgeId = judgeId;
         this.title = title;
         this.typeA = typeA;
@@ -156,8 +171,9 @@ public class Judge extends AbstractRelationMapper<Judge, JudgeDTO> implements Se
         this.score = score;
         this.subjectId = subjectId;
         this.chapterId = chapterId;
+        this.paperId = paperId;
     }
-    public Judge( String title, String typeA, String typeB, String right, Integer score, Integer subjectId, Integer chapterId) {
+    public Judge( String title, String typeA, String typeB, String right, Integer score, Integer subjectId, Integer chapterId,Integer paperId) {
         this.title = title;
         this.typeA = typeA;
         this.typeB = typeB;
@@ -165,5 +181,6 @@ public class Judge extends AbstractRelationMapper<Judge, JudgeDTO> implements Se
         this.score = score;
         this.subjectId = subjectId;
         this.chapterId = chapterId;
+        this.paperId = paperId;
     }
 }

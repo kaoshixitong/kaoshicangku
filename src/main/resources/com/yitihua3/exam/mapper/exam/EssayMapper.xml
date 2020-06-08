@@ -9,6 +9,7 @@
         <result property="reference" column="reference" jdbcType="VARCHAR"/>
         <result property="subjectId" column="subject_id" jdbcType="INTEGER"/>
         <result property="chapterId" column="chapter_id" jdbcType="INTEGER"/>
+        <result property="paperId" column="paper_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
@@ -29,6 +30,9 @@
     <select id="queryScore" resultMap="EssayMap">
         select count(score)
         from kaoshi.essay
+       left join kaoshi.paper_essay
+        on essay.essay_id = paper_essay.essay_id
+        where paper_essay.paper_id = #{paperId}
     </select>
     
     <!--查询某一答案-->
@@ -42,6 +46,9 @@
     <select id="queryReference" resultMap="EssayMap">
         select reference
         from kaoshi.essay
+   left join kaoshi.paper_essay
+        on essay.essay_id = paper_essay.essay_id
+        where paper_essay.paper_id = #{paperId}
     </select>
     
       <!--查询所属科目-->
@@ -138,4 +145,12 @@
         delete from kaoshi.essay where essay_id = #{essayId}
     </delete>
 
+    <!--根据paperId查询简答题试卷-->
+    <select id="queryAllTestById" resultMap="EssayMap">
+        select essay.essay_id,title,score,reference
+        from kaoshi.essay
+       left join kaoshi.paper_essay
+        on essay.essay_id = paper_essay.essay_id
+        where paper_essay.paper_id = #{paperId}
+    </select>
 </mapper>

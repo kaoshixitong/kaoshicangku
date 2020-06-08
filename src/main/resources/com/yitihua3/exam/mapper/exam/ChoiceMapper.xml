@@ -14,6 +14,7 @@
         <result property="subjectId" column="subject_id" jdbcType="INTEGER"/>
         <result property="chapterId" column="chapter_id" jdbcType="INTEGER"/>
         <result property="single" column="single" jdbcType="INTEGER"/>
+        <result property="paperId" column="paper_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
@@ -112,6 +113,9 @@
     <select id="queryScore" resultMap="ChoiceMap">
         select count(score)
         from kaoshi.choice
+       left join kaoshi.paper_choice
+        on choice.choice_id = paper_choice.choice_id
+        where paper_choice.paper_id = #{paperId}
     </select>
 
     <!--查询某一答案-->
@@ -125,6 +129,9 @@
     <select id="queryRight" resultMap="ChoiceMap">
         select 'right'
         from kaoshi.choice
+       left join kaoshi.paper_choice
+        on choice.choice_id = paper_choice.choice_id
+        where paper_choice.paper_id = #{paperId}
     </select>
 
     <!--查询所属类别-->
@@ -192,4 +199,12 @@
         delete from kaoshi.choice where choice_id = #{choiceId}
     </delete>
 
+    <!--根据paperId查询选择题试卷-->
+    <select id="queryAllTestById" resultMap="ChoiceMap">
+        select choice.choice_id, title, score,typeA, typeB, typeC, typeD
+        from kaoshi.choice
+        left join kaoshi.paper_choice
+        on choice.choice_id = paper_choice.choice_id
+        where paper_choice.paper_id = #{paperId}
+    </select>
 </mapper>

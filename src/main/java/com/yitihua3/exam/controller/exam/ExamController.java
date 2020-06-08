@@ -4,9 +4,7 @@ import com.yitihua3.exam.entity.exam.Exam;
 import com.yitihua3.exam.response.Result;
 import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.exam.ExamService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -33,8 +31,8 @@ public class ExamController {
      * @param examId 主键
      * @return 单条数据
      */
-    @ApiOperation(value = "根据考试编号查询考试",  notes = "根据考试编号查询考试",httpMethod = "GET")
-    @GetMapping("/queryExamById")
+    @ApiOperation(value = "根据考试编号查询考试",  notes = "学生、教师均可查询某一考试",httpMethod = "GET")
+    @GetMapping("queryExamById")
     public Result queryExamById(
             @ApiParam(name="examId",value="考试编号",required=true)
                     Integer examId) {
@@ -46,8 +44,8 @@ public class ExamController {
         return ResultGenerator.genOkResult("按编号查询考试成功");
     }
 
-    @ApiOperation(value = "根据考试编号删除考试",notes = "根据考试编号删除考试",httpMethod = "DELETE")
-    @GetMapping("/deleteExamById")
+    @ApiOperation(value = "根据考试编号删除考试",notes = "用于教师删除某一考试",httpMethod = "DELETE")
+    @GetMapping("deleteExamById")
     public Result deleteExamById(
             @ApiParam(name = "examId",value = "考试编号",required = true) Integer examId
     ){
@@ -60,13 +58,13 @@ public class ExamController {
         return ResultGenerator.genOkResult("删除考试成功"); 
     }
 
-    @RequestMapping("/toAddExam")
+    @RequestMapping("toAddExam")
     public String toAddExam(){
         return "addExam";
     }
 
-    @ApiOperation(value = "添加考试",notes = "添加考试",httpMethod = "POST")
-    @GetMapping("/addExam")
+    @ApiOperation(value = "添加考试",notes = "用于教师添加考试相关信息",httpMethod = "POST")
+    @GetMapping("addExam")
     public Result addExam(
             @RequestBody  Exam exam
 //            @ApiParam(name = "examId",value = "考试编号",required = true)Integer examId,
@@ -84,15 +82,15 @@ public class ExamController {
         return ResultGenerator.genOkResult("添加考试成功");
     }
 
-    @RequestMapping("/toUpdateExam")
+    @RequestMapping("toUpdateExam")
     public String toUpdateExam(Integer examId, Model model){
         examService.queryById(examId);
         model.addAttribute("examId",examId);
         return "updateExam";
     }
 
-    @ApiOperation(value = "更新考试",notes = "更新考试",httpMethod = "PUT")
-    @GetMapping("/updateExam")
+    @ApiOperation(value = "更新考试",notes = "用于教师更改考试相关信息",httpMethod = "PUT")
+    @GetMapping("updateExam")
     public Result updateExam(@RequestBody Exam exam,Model model
                             //            @ApiParam(name = "examId",value = "考试编号",required = true)Integer examId,
 //            @ApiParam(name = "examName",value = "考试名称",required = true)String examName,
@@ -110,8 +108,12 @@ public class ExamController {
         return ResultGenerator.genOkResult("按编号更新考试成功");
     }
 
-    @ApiOperation(value = "显示所有考试",notes = "显示所有考试",httpMethod = "GET")
-    @GetMapping("/queryAll")
+    @ApiOperation(value = "显示所有考试",notes = "学生、教师均可显示所有考试",httpMethod = "GET")
+    @GetMapping("queryAll")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
     public Result queryAll(){
         List<Exam> exams = examService.queryAll();
         if (exams!=null && exams.size()>0){

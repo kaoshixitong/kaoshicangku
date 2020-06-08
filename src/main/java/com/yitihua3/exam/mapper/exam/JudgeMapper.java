@@ -1,4 +1,5 @@
 package com.yitihua3.exam.mapper.exam;
+import com.yitihua3.exam.entity.exam.Essay;
 import com.yitihua3.exam.entity.exam.Judge;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -20,6 +21,11 @@ public interface JudgeMapper {
     Judge queryById(Integer judgeId);
 
     /**
+     * 按试卷编号列举判断题
+     */
+
+    List<Judge> queryAllTestById(Integer paperId);
+    /**
     
     /**
      * 通过Id查询成绩
@@ -35,7 +41,7 @@ public interface JudgeMapper {
      * 查询总成绩
      * 
      */
-   List<Judge> queryScore();
+   List<Judge> queryScore(Integer paperId);
     
     /**
      * 通过Id查询答案
@@ -49,7 +55,7 @@ public interface JudgeMapper {
      * 查询所有答案
      *
      */
-    List<Judge> queryRight();
+    List<Judge> queryRight(Integer paperId);
     
     /**
      * 通过Id查询科目

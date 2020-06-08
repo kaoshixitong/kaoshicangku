@@ -10,17 +10,12 @@ import com.yitihua3.exam.service.exam.ChoiceService;
 import com.yitihua3.exam.service.exam.EssayService;
 import com.yitihua3.exam.service.exam.JudgeService;
 import com.yitihua3.exam.service.exam.PaperService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import io.swagger.models.auth.In;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -57,8 +52,8 @@ public class PaperController {
      * @param paperId 主键
      * @return 单条数据
      */
-    @ApiOperation(value = "根据试卷编号查询试卷",  notes = "根据试卷编号查询试卷",httpMethod = "GET")
-    @GetMapping("/queryPaperById")
+    @ApiOperation(value = "根据试卷编号查询试卷",  notes = "学生、教师均可查询某一试卷",httpMethod = "GET")
+    @GetMapping("queryPaperById")
     public Result queryPaperById(
             @ApiParam(name="paperId",value="试卷编号",required=true)
                     Integer paperId) {
@@ -70,8 +65,8 @@ public class PaperController {
         return ResultGenerator.genOkResult("按编号查询试卷成功");
     }
 
-    @ApiOperation(value = "根据试卷编号删除试卷",notes = "根据试卷编号删除试卷",httpMethod = "DELETE")
-    @GetMapping("/deletePaperById")
+    @ApiOperation(value = "根据试卷编号删除试卷",notes = "用于教师删除某一试卷",httpMethod = "DELETE")
+    @GetMapping("deletePaperById")
     public Result deletePaperById(
             @ApiParam(name = "paperId",value = "试卷编号",required = true) Integer paperId
     ){
@@ -87,8 +82,8 @@ public class PaperController {
         return "addPaper";
     }
 
-    @ApiOperation(value = "添加试卷",notes = "添加试卷",httpMethod = "POST")
-    @GetMapping("/addPaper")
+    @ApiOperation(value = "添加试卷",notes = "用于教师添加试卷",httpMethod = "POST")
+    @GetMapping("addPaper")
     public Result addPaper(
             @RequestBody Paper paper
 //            @ApiParam(name = "paperId",value = "试卷编号",required = true)Integer paperId,
@@ -105,15 +100,15 @@ public class PaperController {
         return ResultGenerator.genOkResult("添加试卷成功");
     }
 
-    @RequestMapping("/toUpdatePaper")
+    @RequestMapping("toUpdatePaper")
     public String toUpdatePaper(Integer paperId, Model model){
         paperService.queryById(paperId);
         model.addAttribute("paperId",paperId);
         return "updatePaper";
     }
 
-    @ApiOperation(value = "更新试卷",notes = "更新试卷",httpMethod = "PUT")
-    @GetMapping("/updatePaper")
+    @ApiOperation(value = "更新试卷",notes = "用于教师修改某一试卷信息",httpMethod = "PUT")
+    @GetMapping("updatePaper")
     public Result updatePaper(@RequestBody Paper paper, Model model
                              //            @ApiParam(name = "paperId",value = "试卷编号",required = true)Integer paperId,
 //            @ApiParam(name = "paperName",value = "试卷名称",required = true)String paperName,
@@ -131,8 +126,12 @@ public class PaperController {
         return ResultGenerator.genOkResult("按编号更新试卷成功");
     }
 
-    @ApiOperation(value = "显示所有试卷信息",notes = "显示所有试卷信息",httpMethod = "GET")
-    @GetMapping("/queryAll")
+    @ApiOperation(value = "显示所有试卷信息",notes = "学生、教师均可显示试卷信息",httpMethod = "GET")
+    @GetMapping("queryAll")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
     public Result queryAll(){
         List<Paper> papers = paperService.queryAll();
         if (papers!=null && papers.size()>0){
@@ -143,8 +142,12 @@ public class PaperController {
 
     }
 
-    @ApiOperation(value = "显示所有考试试卷",notes = "显示所有考试试卷",httpMethod = "GET")
-    @GetMapping("/queryAllTest")
+    @ApiOperation(value = "显示所有考试试卷",notes = "用于教师、学生显示所有考试试卷",httpMethod = "GET")
+    @GetMapping("queryAllTest")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
     public Result queryAllTest(){
         List<Choice> choices = choiceService.queryAllTest();
         List<Judge> judges = judgeService.queryAllTest();
@@ -155,8 +158,12 @@ public class PaperController {
                 return ResultGenerator.genFailedResult("查询所有考试试卷失败");
     }
 
-    @ApiOperation(value = "显示所有试卷内容信息",notes = "显示所有试卷内容信息",httpMethod = "GET")
-    @GetMapping("/queryAllContent")
+    @ApiOperation(value = "显示所有试卷题目信息",notes = "用于教师显示所有试卷题目信息",httpMethod = "GET")
+    @GetMapping("queryAllContent")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
     public Result queryAllContent(){
         List<Choice> choices = choiceService.queryAll();
         List<Judge> judges = judgeService.queryAll();
@@ -166,4 +173,54 @@ public class PaperController {
         else
             return ResultGenerator.genFailedResult("查询所有试卷内容信息失败");
     }
+
+    @ApiOperation(value = "根据试卷编号查询试卷内容",notes = "用于学生、教师查询某一试卷的题目",httpMethod = "GET")
+    @GetMapping("queryAllTestById")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
+    public Result queryAllTestById(@ApiParam(name = "paperId",value = "试卷编号",required = true)@RequestBody Integer paperId){
+        List<Choice> choice = choiceService.queryAllTestById(paperId);
+        List<Judge> judge = judgeService.queryAllTestById(paperId);
+        List<Essay> essay = essayService.queryAllTestById(paperId);
+        if (choice == null || judge == null || essay == null|| choice.size()<=0 || judge.size()<=0 || essay.size()<=0){
+            return ResultGenerator.genFailedResult("查询"+paperId+"试卷题目失败");
+        }
+        else return ResultGenerator.genOkResult("查询"+paperId+"试卷题目成功");
+    }
+
+    @ApiOperation(value = "根据试卷编号查询试卷总分",notes = "用于学生、教师查询某一试卷的总分",httpMethod = "GET")
+    @GetMapping("queryScore")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
+    public Result queryScore(@ApiParam(name = "paperId",value = "试卷编号",required = true)@RequestBody Integer paperId){
+        List<Choice> choices = choiceService.queryScore(paperId);
+        List<Judge> judges = judgeService.queryScore(paperId);
+        List<Essay> essays = essayService.queryScore(paperId);
+        if (choices!=null && judges!=null && essays!=null && choices.size()>0 && judges.size()>0 && essays.size()>0)
+            return ResultGenerator.genOkResult("查询"+paperId+"总分成功");
+        else
+            return ResultGenerator.genFailedResult("查询"+paperId+"总分失败");
+    }
+
+    @ApiOperation(value = "根据试卷编号查询试卷答案",notes = "用于学生、教师查询某一试卷的答案",httpMethod = "GET")
+    @GetMapping("queryRight")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
+    public Result queryRight(@ApiParam(name = "paperId",value = "试卷编号",required = true)@RequestBody Integer paperId){
+        List<Choice> choices = choiceService.queryRight(paperId);
+        List<Judge> judges = judgeService.queryRight(paperId);
+        List<Essay> essays = essayService.queryReference(paperId);
+        if (choices!=null && judges!=null && essays!=null && choices.size()>0 && judges.size()>0 && essays.size()>0)
+            return ResultGenerator.genOkResult("查询"+paperId+"答案成功");
+        else
+            return ResultGenerator.genFailedResult("查询"+paperId+"答案失败");
+    }
+
+
 }

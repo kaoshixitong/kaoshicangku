@@ -62,6 +62,18 @@ public class Choice extends AbstractRelationMapper<Choice,ChoiceDTO> implements 
     * 是否单选(1单选0多选)
     */
     private Integer single;
+    /**
+     * 所属试卷
+     */
+    private Integer paperId;
+
+    public Integer getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(Integer paperId) {
+        this.paperId = paperId;
+    }
 
     @Override
     protected Choice setSource() {
@@ -165,7 +177,7 @@ public class Choice extends AbstractRelationMapper<Choice,ChoiceDTO> implements 
         this.single = single;
     }
 
-    public Choice( String title, String typeA, String typeB, String typeC, String typeD, String right, Integer score, Integer subjectId, Integer chapterId, Integer single) {
+    public Choice( String title, String typeA, String typeB, String typeC, String typeD, String right, Integer score, Integer subjectId, Integer chapterId, Integer single,Integer paperId) {
         this.title = title;
         this.typeA = typeA;
         this.typeB = typeB;
@@ -176,9 +188,10 @@ public class Choice extends AbstractRelationMapper<Choice,ChoiceDTO> implements 
         this.subjectId = subjectId;
         this.chapterId = chapterId;
         this.single = single;
+        this.paperId = paperId;
     }
 
-    public Choice(Integer choiceId, String title, String typeA, String typeB, String typeC, String typeD, String right, Integer score, Integer subjectId, Integer chapterId, Integer single) {
+    public Choice(Integer choiceId, String title, String typeA, String typeB, String typeC, String typeD, String right, Integer score, Integer subjectId, Integer chapterId, Integer single,Integer paperId) {
         this.choiceId = choiceId;
         this.title = title;
         this.typeA = typeA;
@@ -190,15 +203,17 @@ public class Choice extends AbstractRelationMapper<Choice,ChoiceDTO> implements 
         this.subjectId = subjectId;
         this.chapterId = chapterId;
         this.single = single;
+        this.paperId = paperId;
     }
 
-    public Choice(Integer choiceId, String title, String typeA, String typeB, String typeC, String typeD) {
+    public Choice(Integer choiceId, String title,Integer score, String typeA, String typeB, String typeC, String typeD) {
         this.choiceId = choiceId;
         this.title = title;
         this.typeA = typeA;
         this.typeB = typeB;
         this.typeC = typeC;
         this.typeD = typeD;
+        this.score = score;
 
     }
 

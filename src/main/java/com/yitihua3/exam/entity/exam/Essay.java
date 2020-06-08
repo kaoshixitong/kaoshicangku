@@ -45,6 +45,20 @@ public class Essay extends AbstractRelationMapper<Essay, EssayDTO> implements Se
     */
     private Integer chapterId;
 
+    /**
+     * 所属试卷
+     *
+     */
+    private Integer paperId;
+
+    public Integer getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(Integer paperId) {
+        this.paperId = paperId;
+    }
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -115,21 +129,23 @@ public class Essay extends AbstractRelationMapper<Essay, EssayDTO> implements Se
         this.reference = reference;
     }
 
-    public Essay(Integer essayId, String title, Integer score, String reference, Integer subjectId, Integer chapterId) {
+    public Essay(Integer essayId, String title, Integer score, String reference, Integer subjectId, Integer chapterId,Integer paperId) {
         this.essayId = essayId;
         this.title = title;
         this.score = score;
         this.reference = reference;
         this.subjectId = subjectId;
         this.chapterId = chapterId;
+        this.paperId = paperId;
     }
 
-    public Essay( String title, Integer score, String reference, Integer subjectId, Integer chapterId) {
+    public Essay( String title, Integer score, String reference, Integer subjectId, Integer chapterId,Integer paperId) {
         this.title = title;
         this.score = score;
         this.reference = reference;
         this.subjectId = subjectId;
         this.chapterId = chapterId;
+        this.paperId = paperId;
     }
 
 

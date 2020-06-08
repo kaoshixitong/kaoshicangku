@@ -17,17 +17,17 @@ import java.util.List;
 @Service("EssayService")
 public class EssayServiceImpl implements EssayService {
     @Resource
-    private EssayMapper EssayMapper;
+    private EssayMapper essayMapper;
 
     /**
      * 通过ID查询单条数据
      *
-     * @param EssayId 主键
+     * @param essayId 主键
      * @return 实例对象
      */
     @Override
-    public Essay queryById(Integer EssayId) {
-        Essay essay = EssayMapper.queryById(EssayId);
+    public Essay queryById(Integer essayId) {
+        Essay essay = essayMapper.queryById(essayId);
         return essay;
     }
 
@@ -37,45 +37,49 @@ public class EssayServiceImpl implements EssayService {
      *
      */
     public List<Essay> queryAll(){
-        List<Essay> essays = EssayMapper.queryAll();
+        List<Essay> essays = essayMapper.queryAll();
         return essays;
     }
-
+    @Override
+    public List<Essay> queryAllTestById(Integer paperId) {
+        List<Essay> essay = essayMapper.queryAllTestById(paperId);
+        return essay;
+    }
 
     /**
      * 新增数据
      *
-     * @param Essay 实例对象
+     * @param essay 实例对象
      * @return 实例对象
      */
     @Override
-    public Essay insert(Essay Essay) {
-        int result = this.EssayMapper.insert(Essay);
-        return Essay;
+    public Essay insert(Essay essay) {
+        int result = essayMapper.insert(essay);
+        return essay;
     }
 
     /**
      * 修改数据
      *
-     * @param Essay 实例对象
+     * @param essay 实例对象
      * @return 实例对象
      */
     @Override
-    public Essay update(Essay Essay) {
-        int result = EssayMapper.update(Essay);
-        Essay Essay1 = queryById(Essay.getEssayId());
-        return Essay1;
+    public Essay update(Essay essay) {
+        int result = essayMapper.update(essay);
+        Essay essay1 = queryById(essay.getEssayId());
+        return essay1;
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param EssayId 主键
+     * @param essayId 主键
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer EssayId) {
-        int result = EssayMapper.deleteById(EssayId);
+    public boolean deleteById(Integer essayId) {
+        int result = essayMapper.deleteById(essayId);
         if(result>0)
             return true;
         else return false;
@@ -83,45 +87,45 @@ public class EssayServiceImpl implements EssayService {
 
     @Override
     public List<Essay> queryAllTest() {
-        List<Essay> list = EssayMapper.queryAllTest();
+        List<Essay> list = essayMapper.queryAllTest();
         return list;
     }
 
     @Override
-    public Essay queryReferenceById(Integer EssayId) {
-        Essay essay = EssayMapper.queryReferenceById(EssayId);
+    public Essay queryReferenceById(Integer essayId) {
+        Essay essay = essayMapper.queryReferenceById(essayId);
         return essay;
     }
 
     @Override
-    public List<Essay> queryReference(){
-        List<Essay> essays = EssayMapper.queryReference();
+    public List<Essay> queryReference(Integer paperId){
+        List<Essay> essays = essayMapper.queryReference(paperId);
         return essays;
     }
 
 
     @Override
-    public Essay queryScoreById(Integer EssayId) {
-        Essay essay = EssayMapper.queryScoreById(EssayId);
+    public Essay queryScoreById(Integer essayId) {
+        Essay essay = essayMapper.queryScoreById(essayId);
         return essay;
     }
 
     @Override
-    public List<Essay> queryScore() {
-        List<Essay> essays = EssayMapper.queryScore();
+    public List<Essay> queryScore(Integer paperId) {
+        List<Essay> essays = essayMapper.queryScore(paperId);
         return essays;
     }
 
 
     @Override
-    public Essay querySubjectId(Integer EssayId) {
-        Essay essay = EssayMapper.querySubjectById(EssayId);
+    public Essay querySubjectId(Integer essayId) {
+        Essay essay = essayMapper.querySubjectById(essayId);
         return essay;
     }
 
     @Override
-    public Essay queryChapterId(Integer EssayId) {
-        Essay essay = EssayMapper.queryChapterById(EssayId);
+    public Essay queryChapterId(Integer essayId) {
+        Essay essay = essayMapper.queryChapterById(essayId);
         return essay;
     }
 }

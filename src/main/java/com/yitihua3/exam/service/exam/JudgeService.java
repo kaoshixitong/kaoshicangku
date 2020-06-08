@@ -1,5 +1,6 @@
 package com.yitihua3.exam.service.exam;
 
+import com.yitihua3.exam.entity.exam.Essay;
 import com.yitihua3.exam.entity.exam.Judge;
 import java.util.List;
 
@@ -14,10 +15,10 @@ public interface JudgeService {
     /**
      * 通过ID查询单条数据
      *
-     * @param JudgeId 主键
+     * @param judgeId 主键
      * @return 实例对象
      */
-    Judge queryById(Integer JudgeId);
+    Judge queryById(Integer judgeId);
 
     /**
      * 显示所有数据
@@ -34,18 +35,23 @@ public interface JudgeService {
     List<Judge> queryAllTest();
 
     /**
+     * 按试卷编号显示考题
+     */
+    List<Judge> queryAllTestById(Integer paperId);
+    /**
+    /**
      * 显示某一正确答案
      *
      *
      */
-    Judge queryRightById(Integer JudgeId);
+    Judge queryRightById(Integer judgeId);
 
     /**
      * 显示正确答案
      *
      *
      */
-    List<Judge> queryRight();
+    List<Judge> queryRight(Integer paperId);
 
 
     /**
@@ -53,50 +59,50 @@ public interface JudgeService {
      *
      *
      */
-    Judge queryScoreById(Integer JudgeId);
+    Judge queryScoreById(Integer judgeId);
 
     /**
      * 显示得分
      *
      *
      */
-    List<Judge> queryScore();
+    List<Judge> queryScore(Integer paperId);
     /**
      * 显示所属科目
      *
      *
      */
-    Judge querySubjectId(Integer JudgeId);
+    Judge querySubjectId(Integer judgeId);
 
     /**
      * 显示章节
      *
      *
      */
-    Judge queryChapterId(Integer JudgeId);
+    Judge queryChapterId(Integer judgeId);
 
     /**
      * 新增数据
      *
-     * @param Judge 实例对象
+     * @param judge 实例对象
      * @return 实例对象
      */
-    Judge insert(Judge Judge);
+    Judge insert(Judge judge);
 
     /**
      * 修改数据
      *
-     * @param Judge 实例对象
+     * @param judge 实例对象
      * @return 实例对象
      */
-    Judge update(Judge Judge);
+    Judge update(Judge judge);
 
     /**
      * 通过主键删除数据
      *
-     * @param JudgeId 主键
+     * @param judgeId 主键
      * @return 是否成功
      */
-    boolean deleteById(Integer JudgeId);
+    boolean deleteById(Integer judgeId);
 
 }

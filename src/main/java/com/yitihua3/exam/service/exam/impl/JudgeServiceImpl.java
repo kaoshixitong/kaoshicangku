@@ -17,18 +17,18 @@ import java.util.List;
 @Service("JudgeService")
 public class JudgeServiceImpl implements JudgeService {
     @Resource
-    private JudgeMapper JudgeMapper;
+    private JudgeMapper judgeMapper;
 
     /**
      * 通过ID查询单条数据
      *
-     * @param JudgeId 主键
+     * @param judgeId 主键
      * @return 实例对象
      */
     @Override
-    public Judge queryById(Integer JudgeId) {
-        Judge Judge = JudgeMapper.queryById(JudgeId);
-        return Judge;
+    public Judge queryById(Integer judgeId) {
+        Judge judge = judgeMapper.queryById(judgeId);
+        return judge;
     }
 
     /**
@@ -38,45 +38,50 @@ public class JudgeServiceImpl implements JudgeService {
      */
     public List<Judge> queryAll()
     {
-        List<Judge> judges = JudgeMapper.queryAll();
+        List<Judge> judges = judgeMapper.queryAll();
         return judges;
     }
 
+    @Override
+    public List<Judge> queryAllTestById(Integer paperId) {
+        List<Judge> judge = judgeMapper.queryAllTestById(paperId);
+        return judge;
+    }
 
     /**
      * 新增数据
      *
-     * @param Judge 实例对象
+     * @param judge 实例对象
      * @return 实例对象
      */
     @Override
-    public Judge insert(Judge Judge) {
-        int result = this.JudgeMapper.insert(Judge);
-        return Judge;
+    public Judge insert(Judge judge) {
+        int result = this.judgeMapper.insert(judge);
+        return judge;
     }
 
     /**
      * 修改数据
      *
-     * @param Judge 实例对象
+     * @param judge 实例对象
      * @return 实例对象
      */
     @Override
-    public Judge update(Judge Judge) {
-        int result = JudgeMapper.update(Judge);
-        Judge Judge1 = queryById(Judge.getJudgeId());
-        return Judge1;
+    public Judge update(Judge judge) {
+        int result = judgeMapper.update(judge);
+        Judge judge1 = queryById(judge.getJudgeId());
+        return judge1;
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param JudgeId 主键
+     * @param judgeId 主键
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer JudgeId) {
-        int result = JudgeMapper.deleteById(JudgeId);
+    public boolean deleteById(Integer judgeId) {
+        int result = judgeMapper.deleteById(judgeId);
         if(result>0)
             return true;
         else return false;
@@ -84,45 +89,45 @@ public class JudgeServiceImpl implements JudgeService {
 
     @Override
     public List<Judge> queryAllTest() {
-        List<Judge> list = JudgeMapper.queryAllTest();
+        List<Judge> list = judgeMapper.queryAllTest();
         return list;
     }
 
     @Override
-    public Judge queryRightById(Integer JudgeId) {
-        Judge judge = JudgeMapper.queryRightById(JudgeId);
+    public Judge queryRightById(Integer judgeId) {
+        Judge judge = judgeMapper.queryRightById(judgeId);
         return judge;
     }
 
     @Override
-    public List<Judge> queryRight(){
-        List<Judge> judges = JudgeMapper.queryRight();
+    public List<Judge> queryRight(Integer paperId){
+        List<Judge> judges = judgeMapper.queryRight(paperId);
         return judges;
     }
 
 
     @Override
-    public Judge queryScoreById(Integer JudgeId) {
-        Judge judge = JudgeMapper.queryScoreById(JudgeId);
+    public Judge queryScoreById(Integer judgeId) {
+        Judge judge = judgeMapper.queryScoreById(judgeId);
         return judge;
     }
 
     @Override
-    public List<Judge> queryScore() {
-        List<Judge> judges = JudgeMapper.queryScore();
+    public List<Judge> queryScore(Integer paperId) {
+        List<Judge> judges = judgeMapper.queryScore(paperId);
         return judges;
     }
 
 
     @Override
-    public Judge querySubjectId(Integer JudgeId) {
-        Judge judge = JudgeMapper.querySubjectById(JudgeId);
+    public Judge querySubjectId(Integer judgeId) {
+        Judge judge = judgeMapper.querySubjectById(judgeId);
         return judge;
     }
 
     @Override
-    public Judge queryChapterId(Integer JudgeId) {
-        Judge judge = JudgeMapper.queryChapterById(JudgeId);
+    public Judge queryChapterId(Integer judgeId) {
+        Judge judge = judgeMapper.queryChapterById(judgeId);
         return judge;
     }
 }

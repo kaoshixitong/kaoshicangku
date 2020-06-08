@@ -11,6 +11,7 @@
         <result property="score" column="score" jdbcType="INTEGER"/>
         <result property="subjectId" column="subject_id" jdbcType="INTEGER"/>
         <result property="chapterId" column="chapter_id" jdbcType="INTEGER"/>
+        <result property="paperId" column="paper_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
@@ -56,7 +57,7 @@
 
     <!--考生显示题目-->
     <select id="queryAllTest" resultMap="JudgeMap">
-        select judge_id, title, typeA, typeB
+        select judge_id, title,score, typeA, typeB
         from kaoshi.judge
         <where>
             <if test="judge_id != null">
@@ -88,6 +89,9 @@
     <select id="queryScore" resultMap="JudgeMap">
         select count(score)
         from kaoshi.judge
+ left join kaoshi.paper_judge
+        on judge.judge_id = paper_judge.judge_id
+        where paper_judge.paper_id = #{paperId}
     </select>
 
     <!--查询某一答案-->
@@ -101,6 +105,9 @@
     <select id="queryRight" resultMap="JudgeMap">
         select 'right'
         from kaoshi.judge
+  left join kaoshi.paper_judge
+        on judge.judge_id = paper_judge.judge_id
+        where paper_judge.paper_id = #{paperId}
     </select>
 
     <!--查询所属类别-->
@@ -158,5 +165,14 @@
     <delete id="deleteById">
         delete from kaoshi.judge where judge_id = #{judgeId}
     </delete>
+
+    <!--根据paperId查询选择题试卷-->
+    <select id="queryAllTestById" resultMap="JudgeMap">
+        select judge.judge_id,title,score,typeA,typeB
+        from kaoshi.judge
+ left join kaoshi.paper_judge
+        on judge.judge_id = paper_judge.judge_id
+        where paper_judge.paper_id = #{paperId}
+    </select>
 
 </mapper>
