@@ -61,12 +61,16 @@
         <result property="judgeAnswer" column="answer" jdbcType="VARCHAR"/>
         <result property="right" column="right" jdbcType="VARCHAR"/>
         <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="judgeTypeA" column="typeA" jdbcType="VARCHAR"/>
+        <result property="judgeTypeB" column="typeB" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--为判断题评分前查询原题-->
     <select id="selectJudgeScore" resultMap="JudgeScoreDTOMap">
         select
-        judge.judge_id,answer_id, judge_answer.score 'judge_answer_score', answer,`right`, judge.score
+        judge.judge_id,answer_id, judge_answer.score 'judge_answer_score', answer,`right`, judge.score ,judge.title
+        ,judge.typeA ,judge.typeB
         from kaoshi.judge_answer
         left join kaoshi.judge
         on judge_answer.judge_id=judge.judge_id

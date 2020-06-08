@@ -2,6 +2,7 @@ package com.yitihua3.exam.service.answer.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.yitihua3.exam.dto.answer.ExamUserDTO;
+import com.yitihua3.exam.dto.exam.ExamDTO;
 import com.yitihua3.exam.entity.answer.Score;
 import com.yitihua3.exam.mapper.answer.ScoreMapper;
 import com.yitihua3.exam.service.answer.ScoreService;
@@ -93,5 +94,10 @@ public class ScoreServiceImpl implements ScoreService {
     public List<ExamUserDTO> selectExamUserPage(Integer examId, Integer page, Integer size) {
         PageHelper.startPage(page, size);
         return scoreMapper.queryExamUser(examId);
+    }
+
+    @Override
+    public List<ExamDTO> selectStudentExams(Integer userId) {
+        return scoreMapper.selectStudentExams(userId);
     }
 }

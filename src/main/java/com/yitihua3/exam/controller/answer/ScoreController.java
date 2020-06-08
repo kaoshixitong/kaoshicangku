@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -92,23 +93,29 @@ public class ScoreController {
         Integer userId = scoreSubmitDTO.getUserId();
         //查询原题比对后更新成绩
         List<ChoiceScoreDTO> choiceScoreList = choiceAnswerService.selectChoiceScore(examId, userId);
-        int choiceMark = choiceAnswerService.updateAnswerScore(choiceScoreList);
+        int choiceMark = 0;
+        if(!CollectionUtils.isEmpty(choiceScoreList))
+            choiceMark = choiceAnswerService.updateAnswerScore(choiceScoreList);
         //查询原题比对后更新成绩
         List<JudgeScoreDTO> judgeScoreList = judgeAnswerService.selectJudgeScore(examId, userId);
-        int judgeMark = judgeAnswerService.updateAnswerScore(judgeScoreList);
+        int judgeMark = 0;
+        if(!CollectionUtils.isEmpty(judgeScoreList))
+            judgeMark = judgeAnswerService.updateAnswerScore(judgeScoreList);
 
         int autoMark=choiceMark+judgeMark;
 
         int manualMark=0;
         List<EssayScoreDTO> essayScoreList =  scoreSubmitDTO.getEssayScoreList();
-        essayAnswerService.updateEssayScore(essayScoreList);
+        if(!CollectionUtils.isEmpty(essayScoreList))
+            essayAnswerService.updateEssayScore(essayScoreList);
         for (EssayScoreDTO essayScoreDTO:essayScoreList) {
             manualMark+=essayScoreDTO.getEssayAnswerScore();
         }
         //算出总分后更新总分
         int mark=autoMark+manualMark;
-        scoreService.updateMark(new Score(examId,userId,mark));
+        scoreService.updateMark(new Score(userId,examId,mark));
         return ResultGenerator.genOkResult("教师对应用题评分成功");
     }
+
 
 }

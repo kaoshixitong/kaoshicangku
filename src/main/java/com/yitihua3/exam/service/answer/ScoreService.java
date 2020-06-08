@@ -75,4 +75,11 @@ public interface ScoreService {
      * @return
      */
     List<ExamUserDTO> selectExamUserPage(Integer examId,Integer page,Integer size);
+
+    /**
+     * 查询学生所有的考试
+     * @param userId
+     * @return
+     */
+    List selectStudentExams(Integer userId);
 }

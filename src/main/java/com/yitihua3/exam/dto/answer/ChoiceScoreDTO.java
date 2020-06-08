@@ -34,6 +34,12 @@ public class ChoiceScoreDTO {
     @ApiModelProperty(value = "原题分数", name = "score", required = true,example = "2")
     private Integer score;
     /**
+     * 题目内容
+     */
+    @ApiModelProperty(value = "题目内容", name = "title", example =
+            "  __________是最常用的方法，用来隐藏小数据块，比如加密密钥和数字签名中所用的散列函数值。")
+    private String title;
+    /**
      * 得分
      */
     @FieldMapper(value = "score")
@@ -51,4 +57,28 @@ public class ChoiceScoreDTO {
     @FieldMapper(value = "answerId")
     @ApiModelProperty(value = "选择题回答编号", name = "choiceAnswerId", required = true,example = "1")
     private Integer choiceAnswerId;
+    /**
+     * A选项
+     */
+    @FieldMapper(value = "typeA")
+    @ApiModelProperty(value = "A选项", name = "choiceTypeA", required = true,example = "数据完整性")
+    private String choiceTypeA;
+    /**
+     * B选项
+     */
+    @FieldMapper(value = "typeB")
+    @ApiModelProperty(value = "B选项", name = "choiceTypeB", required = true,example = "认证协议")
+    private String choiceTypeB;
+    /**
+     * C选项
+     */
+    @FieldMapper(value = "typeC")
+    @ApiModelProperty(value = "C选项", name = "choiceTypeC", required = true,example = "对称密码")
+    private String choiceTypeC;
+    /**
+     * D选项
+     */
+    @FieldMapper(value = "typeD")
+    @ApiModelProperty(value = "D选项", name = "choiceTypeD", required = true,example = "非对称密码(公钥密码)")
+    private String choiceTypeD;
 }

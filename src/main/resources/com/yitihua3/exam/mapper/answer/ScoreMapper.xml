@@ -75,6 +75,57 @@
         where score.exam_id=#{examId}
     </select>
 
+    <resultMap type="com.yitihua3.exam.dto.answer.ScoreResultDTO" id="ScoreMap2">
+        <result property="examName" column="exam_name" jdbcType="VARCHAR"/>
+        <result property="subjectName" column="subject_name" jdbcType="VARCHAR"/>
+        <result property="chapterName" column="chapter_name" jdbcType="VARCHAR"/>
+        <result property="begin" column="begin" jdbcType="VARCHAR"/>
+        <result property="end" column="end" jdbcType="VARCHAR"/>
+        <result property="during" column="during" jdbcType="VARCHAR"/>
+        <result property="mark" column="mark" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询考试的结果信息，包括作答情况-->
+    <select id="selectScoreResult" resultMap="ScoreMap2">
+        select score.begin,score.end,score.mark,paper.total
+        ,exam.name exam_name,exam.during,subject.name subject_name,chapter.name chapter_name
+        from kaoshi.score
+        left join kaoshi.exam
+        on score.exam_id=exam.exam_id
+        left join kaoshi.paper
+        on exam.paper_id=paper.paper_id
+        left join kaoshi.subject
+        on paper.subject_id=subject.subject_id
+        left join kaoshi.chapter
+        on paper.chapter_id=chapter.chapter_id
+        where score.exam_id=#{examId}
+        and score.user_id=#{userId}
+    </select>
+
+    <resultMap type="com.yitihua3.exam.dto.exam.ExamDTO" id="ScoreMap3">
+        <result property="examName" column="exam_name" jdbcType="VARCHAR"/>
+        <result property="examId" column="exam_id" jdbcType="INTEGER"/>
+        <association property="paperDTO" javaType="com.yitihua3.exam.dto.exam.PaperDTO">
+            <result property="paperSubject" column="subject_name" jdbcType="VARCHAR"/>
+            <result property="paperChapter" column="chapter_name" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!--查询考试的结果信息，包括作答情况-->
+    <select id="selectStudentExams" parameterType="java.lang.Integer" resultMap="ScoreMap3">
+        select exam.exam_id, exam.name exam_name,subject.name subject_name,chapter.name chapter_name
+        from kaoshi.score
+        left join kaoshi.exam
+        on score.exam_id=exam.exam_id
+        left join kaoshi.paper
+        on exam.paper_id=paper.paper_id
+        left join kaoshi.subject
+        on paper.subject_id=subject.subject_id
+        left join kaoshi.chapter
+        on paper.chapter_id=chapter.chapter_id
+        where score.user_id=#{userId}
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="scoreId" useGeneratedKeys="true">
         insert into kaoshi.score(user_id, exam_id, mark, begin, end)

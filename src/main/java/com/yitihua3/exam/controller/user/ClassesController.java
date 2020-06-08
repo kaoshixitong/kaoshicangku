@@ -88,12 +88,12 @@ public class ClassesController {
             @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
     })
 
-    public Result<List<Student>> queryStudents(@RequestBody
-             @ApiIgnore JSONObject jsonObject
+    public Result<List<Student>> queryStudents(
+            Integer classId,Integer page,Integer size
     )
     {
-        List<Student> studentList = studentService.selectByClassPage(jsonObject.getInteger("classId"), jsonObject.getInteger("page"), jsonObject.getInteger("size"));
+    List<Student> studentList = studentService.selectByClassPage(classId, page, size);
         return ResultGenerator.genOkResult("按照班级查询学生成功",studentList);
-    }
+}
 
 }

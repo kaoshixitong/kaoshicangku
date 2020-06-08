@@ -1,6 +1,6 @@
 package com.yitihua3.exam.service.answer.impl;
 
-import com.yitihua3.exam.dto.answer.AnswerDTO;
+import com.yitihua3.exam.dto.answer.*;
 import com.yitihua3.exam.dto.common.AbstractRelationMapper;
 import com.yitihua3.exam.entity.answer.ChoiceAnswer;
 import com.yitihua3.exam.entity.answer.EssayAnswer;
@@ -124,6 +124,18 @@ public class AnswerServiceImpl implements AnswerService {
             return 0L;
         }
         return deadline+beginMillis-System.currentTimeMillis();
+    }
+
+    @Override
+    public ScoreResultDTO selectScoreResult(Integer examId, Integer userId) {
+        List<ChoiceScoreDTO> choiceScoreList = choiceAnswerMapper.selectChoiceScore(examId, userId);
+        List<JudgeScoreDTO> judgeScoreList = judgeAnswerMapper.selectJudgeScore(examId, userId);
+        List<EssayScoreDTO> essayScoreList = essayAnswerMapper.selectEssayScore(examId, userId);
+        ScoreResultDTO scoreResult = scoreMapper.selectScoreResult(examId, userId);
+        scoreResult.setChoiceScoreList(choiceScoreList);
+        scoreResult.setJudgeScoreList(judgeScoreList);
+        scoreResult.setEssayScoreList(essayScoreList);
+        return scoreResult;
     }
 
 }

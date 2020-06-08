@@ -1,6 +1,7 @@
 package com.yitihua3.exam.service.answer;
 
 import com.yitihua3.exam.dto.answer.AnswerDTO;
+import com.yitihua3.exam.dto.answer.ScoreResultDTO;
 
 /**
  * @author aiwoqe
@@ -19,4 +20,12 @@ public interface AnswerService {
      * @return
      */
     Long getRemaining(int examId,int userId);
+
+    /**
+     * 查询考试的结果信息，包括作答情况
+     * @param examId
+     * @param userId
+     * @return
+     */
+    ScoreResultDTO selectScoreResult(Integer examId, Integer userId);
 }

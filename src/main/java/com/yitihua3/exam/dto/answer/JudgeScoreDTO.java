@@ -34,6 +34,12 @@ public class JudgeScoreDTO {
     @ApiModelProperty(value = "原题分数", name = "score", required = true,example = "2")
     private Integer score;
     /**
+     * 题目内容
+     */
+    @ApiModelProperty(value = "题目内容", name = "title", example =
+            "随着多年的研究和部署，目前能够开发出没有安全缺陷的，而且能阻止所有的非授权行为的安全设计和实现技术。")
+    private String title;
+    /**
      * 得分
      */
     @FieldMapper(value = "score")
@@ -49,6 +55,19 @@ public class JudgeScoreDTO {
      * 判断题回答编号
      */
     @FieldMapper(value = "answerId")
-    @ApiModelProperty(value = "选择题回答编号", name = "判断题回答编号", required = true,example = "1")
+    @ApiModelProperty(value = "选择题回答编号", name = "judgeAnswerId", required = true,example = "1")
     private Integer judgeAnswerId;
+    /**
+     * 选项A
+     */
+    @FieldMapper(value = "typeA")
+    @ApiModelProperty(value = "选项A", name = "judgeTypeA", required = true,example = "√")
+    private String judgeTypeA;
+    /**
+     * 选项B
+     */
+    @FieldMapper(value = "typeB")
+    @ApiModelProperty(value = "选项B", name = "judgeTypeB", required = true,example = "x")
+    private String judgeTypeB;
+
 }

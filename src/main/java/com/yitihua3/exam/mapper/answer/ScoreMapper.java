@@ -1,6 +1,8 @@
 package com.yitihua3.exam.mapper.answer;
 
 import com.yitihua3.exam.dto.answer.ExamUserDTO;
+import com.yitihua3.exam.dto.answer.ScoreResultDTO;
+import com.yitihua3.exam.dto.exam.ExamDTO;
 import com.yitihua3.exam.entity.answer.Score;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -76,4 +78,18 @@ public interface ScoreMapper {
      */
     int deleteById(Integer scoreId);
 
+    /**
+     * 查询考试的结果信息，包括作答情况
+     * @param examId
+     * @param userId
+     * @return
+     */
+    ScoreResultDTO selectScoreResult(Integer examId, Integer userId);
+
+    /**
+     * 查询学生所有的考试
+     * @param userId
+     * @return
+     */
+    List<ExamDTO> selectStudentExams(Integer userId);
 }

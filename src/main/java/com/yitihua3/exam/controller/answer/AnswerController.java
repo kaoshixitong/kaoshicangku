@@ -1,10 +1,13 @@
 package com.yitihua3.exam.controller.answer;
 
 import com.yitihua3.exam.dto.answer.AnswerDTO;
+import com.yitihua3.exam.dto.answer.ScoreResultDTO;
+import com.yitihua3.exam.dto.exam.ExamDTO;
 import com.yitihua3.exam.entity.user.User;
 import com.yitihua3.exam.response.Result;
 import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.answer.AnswerService;
+import com.yitihua3.exam.service.answer.ScoreService;
 import com.yitihua3.exam.service.user.JWTService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author aiwoqe
@@ -45,6 +49,17 @@ public class AnswerController {
 
     @Autowired
     JWTService jwtService;
+    @Autowired
+    ScoreService scoreService;
+
+    @ApiOperation(value = "查询学生所有考试",  notes = "可用于学生查询考试前选择考试",httpMethod = "GET")
+    @GetMapping("queryStudentExams")
+    public Result<List<ExamDTO>> queryStudentExams() {
+        //获取当前用户
+        User user = jwtService.getSubjectUser();
+        List<ExamDTO> studentExamList = scoreService.selectStudentExams( user.getUserId());
+        return ResultGenerator.genOkResult("查询答学生所有考试成功",studentExamList);
+    }
 
     @ApiOperation(value = "查询答题剩余时间",  notes = "可用于超时作答的提交",httpMethod = "GET")
     @GetMapping("queryRemaining")
@@ -59,5 +74,16 @@ public class AnswerController {
     }
 
 
+    @ApiOperation(value = "学生查询考试结果",  notes = "可用于学生查询自己的考试结果",httpMethod = "GET")
+    @GetMapping("queryScoreResult")
+    @ApiImplicitParam(name="examId",value="考试编号",required=true,example = "1")
+    public Result<ScoreResultDTO> queryScoreResult(
+            Integer examId
+    ) {
+        //获取当前用户
+        User user = jwtService.getSubjectUser();
+        ScoreResultDTO scoreResult = answerService.selectScoreResult(examId, user.getUserId());
+        return ResultGenerator.genOkResult("查询考试结果成功",scoreResult);
+    }
 
 }

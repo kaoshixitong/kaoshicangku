@@ -61,12 +61,18 @@
         <result property="choiceAnswer" column="answer" jdbcType="VARCHAR"/>
         <result property="right" column="right" jdbcType="VARCHAR"/>
         <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="choiceTypeA" column="typeA" jdbcType="VARCHAR"/>
+        <result property="choiceTypeB" column="typeB" jdbcType="VARCHAR"/>
+        <result property="choiceTypeC" column="typeC" jdbcType="VARCHAR"/>
+        <result property="choiceTypeD" column="typeD" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--为选择题评分前查询原题-->
     <select id="selectChoiceScore" resultMap="ChoiceScoreDTOMap">
         select
-        choice.choice_id,answer_id, choice_answer.score 'choice_answer_score', answer,`right`, choice.score
+        choice.choice_id,answer_id, choice_answer.score 'choice_answer_score', answer,`right`, choice.score ,choice.title
+        ,choice.typeA ,choice.typeB,choice.typeC,choice.typeD,choice.single
         from kaoshi.choice_answer
         left join kaoshi.choice
         on choice_answer.choice_id=choice.choice_id
