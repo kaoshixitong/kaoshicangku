@@ -1,6 +1,8 @@
 package com.yitihua3.exam.controller.exam;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yitihua3.exam.entity.exam.Exam;
+
 import com.yitihua3.exam.response.Result;
 import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.exam.ExamService;
@@ -8,16 +10,14 @@ import io.swagger.annotations.*;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
 @Api("考试的controller")
 @RestController
-@RequestMapping("/exam")
+@RequestMapping("/exam/exam")
 public class ExamController {
     /**
         服务对象
@@ -45,11 +45,12 @@ public class ExamController {
     }
 
     @ApiOperation(value = "根据考试编号删除考试",notes = "用于教师删除某一考试",httpMethod = "DELETE")
-    @GetMapping("deleteExamById")
+    @DeleteMapping("deleteExamById")
     public Result deleteExamById(
-            @ApiParam(name = "examId",value = "考试编号",required = true) Integer examId
+            @ApiParam(name = "examId",value = "考试编号",required = true)
+            @ApiIgnore @RequestBody  JSONObject jsonObject
     ){
-        boolean b = examService.deleteById(examId);
+        boolean b = examService.deleteById(jsonObject.getInteger("examId"));
         if (!b){
             return ResultGenerator.genFailedResult("删除考试失败");
         }
@@ -64,7 +65,7 @@ public class ExamController {
     }
 
     @ApiOperation(value = "添加考试",notes = "用于教师添加考试相关信息",httpMethod = "POST")
-    @GetMapping("addExam")
+    @PostMapping("addExam")
     public Result addExam(
             @RequestBody  Exam exam
 //            @ApiParam(name = "examId",value = "考试编号",required = true)Integer examId,
@@ -90,7 +91,7 @@ public class ExamController {
     }
 
     @ApiOperation(value = "更新考试",notes = "用于教师更改考试相关信息",httpMethod = "PUT")
-    @GetMapping("updateExam")
+    @PutMapping("updateExam")
     public Result updateExam(@RequestBody Exam exam,Model model
                             //            @ApiParam(name = "examId",value = "考试编号",required = true)Integer examId,
 //            @ApiParam(name = "examName",value = "考试名称",required = true)String examName,

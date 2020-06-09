@@ -1,14 +1,17 @@
 package com.yitihua3.exam.controller.exam;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yitihua3.exam.entity.exam.Choice;
 import com.yitihua3.exam.response.Result;
 import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.exam.ChoiceService;
 import io.swagger.annotations.*;
 import org.apache.coyote.RequestGroupInfo;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -22,7 +25,7 @@ import java.util.Map;
  */
 @Api(value = "选择题的controller")
 @RestController
-@RequestMapping("/choice")
+@RequestMapping("/exam/choice")
 @ResponseBody
 public class ChoiceController {
     /**
@@ -45,7 +48,7 @@ public class ChoiceController {
     })
     public Result queryChoiceById(
             @ApiParam(name="choiceId",value="选择题编号",required=true)
-                    @RequestBody Integer choiceId) {
+                     Integer choiceId) {
         choiceService.queryById(choiceId);
         return ResultGenerator.genOkResult("按编号查询选择题成功");
     }
@@ -55,7 +58,7 @@ public class ChoiceController {
     }
 
     @ApiOperation(value = "添加选择题",  notes = "添加选择题",httpMethod = "POST")
-    @GetMapping("addChoice")
+    @PostMapping("addChoice")
     public Result addChoice(
 //            @ApiParam(name="title",value="添加题目",required=true)
 //                    @RequestBody String title,
@@ -79,14 +82,15 @@ public class ChoiceController {
 //                   @RequestBody Integer single,
             @ApiParam(name="choice",value="选择题集合",required=true)
             @RequestBody Choice choice)
+//            @ApiIgnore JSONObject jsonObject)
 //            @ApiParam(name="subject",value="添加科目类型",required=true)
 //                    Integer subject,
 //            @ApiParam(name="chapter",value="添加具体章节",required=true)
 //                    Integer chapter)
            {
+//               Choice choice = new Choice(jsonObject.getInteger("title"),jsonObject.getString("typeA"),jsonObject.getString("typeB"),jsonObject.getString("typeC"),jsonObject.getString("typeD"),
+//                       jsonObject.getString("right"),jsonObject.getInteger("score"),jsonObject.getInteger("subjectId"),jsonObject.getInteger("chapterId"),jsonObject.getInteger("single"));
                Choice insert = choiceService.insert(choice);
-//               Choice choice = new Choice(title,typeA,typeB,typeC,typeD,right,score,subjectId,chapterId,single);
-//               choiceService.update(choice);
                if (insert==null){
                    return ResultGenerator.genFailedResult("添加选择题失败");
                }
@@ -95,7 +99,7 @@ public class ChoiceController {
     }
 
     @ApiOperation(value = "上传excel表格添加选择题",notes = "上传excel表格添加选择题",httpMethod = "GET")
-    @GetMapping("addChoiceByExcel")
+    @PostMapping("addChoiceByExcel")
     public Result addChoiceByExcel(@RequestBody Map<String,Object> obj){
         Choice choiceList =(Choice) obj.get("choiceList");
         Choice insert = choiceService.insert(choiceList);
@@ -109,11 +113,12 @@ public class ChoiceController {
 
 
     @ApiOperation(value = "根据选择题编号删除选择题",  notes = "根据选择题编号删除选择题",httpMethod = "DELETE")
-    @GetMapping("deleteChoiceById")
+    @DeleteMapping("deleteChoiceById")
     public Result deleteChoiceById(
             @ApiParam(name="choiceId",value="选择题编号",required=true)
-                   @RequestBody Integer choiceId) {
-        boolean b = choiceService.deleteById(choiceId);
+            @ApiIgnore @RequestBody JSONObject jsonObject
+            ) {
+        boolean b = choiceService.deleteById(jsonObject.getInteger("choiceId"));
         if (!b){
             return ResultGenerator.genFailedResult("删除选择题失败");
         }
@@ -127,7 +132,7 @@ public class ChoiceController {
             }
 
     @ApiOperation(value = "根据选择题编号更新选择题",  notes = "根据选择题编号更新选择题",httpMethod = "PUT")
-    @GetMapping("updateChoiceById")
+    @PutMapping("updateChoiceById")
     public Result updateChoiceById(
 //            @ApiParam(name="choiceId",value="选择题编号",required=true)
 //                    @RequestBody Integer choiceId,
@@ -204,7 +209,7 @@ public class ChoiceController {
     @GetMapping("queryChoiceScoreById")
     public Result queryChoiceScoreById(
             @ApiParam(name = "choiceId",value = "选择题编号",required = true)
-            @RequestBody Integer choiceId
+             Integer choiceId
     ){
 
         Choice choice = choiceService.queryScoreById(choiceId);
@@ -236,7 +241,7 @@ public class ChoiceController {
     @GetMapping("queryChoiceRightById")
     public Result queryChoiceRightById(
             @ApiParam(name="choiceId",value="选择题编号",required=true)
-            @RequestBody Integer choiceId){
+             Integer choiceId){
         Choice choice = choiceService.queryRightById(choiceId);
         if (choice==null){
             return ResultGenerator.genFailedResult("获取第"+choiceId+"的章节失败");
@@ -268,7 +273,7 @@ public class ChoiceController {
     @GetMapping("queryChoiceSubjectById")
     public Result queryChoiceSubjectById(
             @ApiParam(name="choiceId",value="选择题编号",required=true)
-            @RequestBody Integer choiceId ){
+             Integer choiceId ){
         Choice choice = choiceService.querySubjectId(choiceId);
         if (choice==null){
             return ResultGenerator.genFailedResult("获取科目失败");
@@ -283,7 +288,7 @@ public class ChoiceController {
     @GetMapping("queryChoiceChapterById")
     public Result queryChoiceChapter(
             @ApiParam(name="choiceId",value="选择题编号",required=true)
-            @RequestBody Integer choiceId ){
+             Integer choiceId ){
         Choice choice = choiceService.queryChapterId(choiceId);
         if (choice==null){
             return ResultGenerator.genFailedResult("获取章节失败");
@@ -296,7 +301,7 @@ public class ChoiceController {
     @ApiOperation(value = "按试卷编号查询选择题",notes = "用于区分选择题所属试卷",httpMethod = "GET")
     @GetMapping("queryAllTestById")
     public Result queryAllTestById(@ApiParam(name = "paperId",value = "试卷编号",required = true)
-                                   @RequestBody Integer paperId){
+                                    Integer paperId){
         List<Choice> choice = choiceService.queryAllTestById(paperId);
         if (choice==null){
             return ResultGenerator.genFailedResult("根据试卷编号获取选择题失败");
