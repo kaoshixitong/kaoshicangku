@@ -3,6 +3,7 @@ package com.yitihua3.exam.response;
 
 import cn.hutool.json.JSONUtil;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,13 +15,13 @@ import lombok.Data;
 @ApiModel(value = "响应结果")
 @AllArgsConstructor()
 public class Result<T> {
-//    @ApiModelProperty(value = "状态码")
+    @ApiModelProperty(value = "状态码",name = "code")
     private Integer code;
 
-//    @ApiModelProperty(value = "消息")
+    @ApiModelProperty(value = "消息",name = "message")
     private String message;
 
-//    @ApiModelProperty(value = "数据")
+    @ApiModelProperty(value = "数据",name = "data")
     private T data;
 
     public Result(Integer code,String message){

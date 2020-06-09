@@ -2,6 +2,8 @@ package com.yitihua3.exam.service.user;
 
 import com.yitihua3.exam.entity.user.Teacher;
 
+import java.util.List;
+
 /**
  * (Teacher)表服务接口
  *
@@ -36,4 +38,24 @@ public interface TeacherService {
      * @return
      */
     Teacher updateByUser(Teacher teacher);
+
+    /**
+     * 查询所有教师
+     * @return
+     */
+    List<Teacher> selectAll();
+
+    /**
+     * 查询所有教师分页
+     * @param page
+     * @param size
+     * @return
+     */
+    List<Teacher> selectAllPage(int page, int size);
+
+    /**
+     * 增加教师
+     * @param teacher
+     */
+    void insert(Teacher teacher);
 }

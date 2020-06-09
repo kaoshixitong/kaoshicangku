@@ -14,7 +14,7 @@ public class ServiceException extends RuntimeException {
   private ResultCode resultCode;
 
   public ServiceException(final String message) {
-    super(message);
+    this(ResultCode.DATABASE_EXCEPTION,message);
   }
 
   public ServiceException(final String message, final Throwable cause) {

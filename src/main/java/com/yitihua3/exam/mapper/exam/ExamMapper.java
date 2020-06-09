@@ -1,6 +1,6 @@
 package com.yitihua3.exam.mapper.exam;
 import com.yitihua3.exam.entity.exam.Exam;
-import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -19,6 +19,13 @@ public interface ExamMapper {
      */
     Exam queryById(Integer examId);
 
+    /**
+     * 通过id查询exam
+     * @param examId
+     * @return
+     * @author aiwoqe
+     */
+    Exam queryTest(Integer examId);
 
     /**
      * 通过实体作为筛选条件查询

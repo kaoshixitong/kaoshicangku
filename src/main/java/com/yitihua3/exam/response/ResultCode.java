@@ -53,7 +53,10 @@ public enum ResultCode {
     PHOTO_EXCEPTION(4006, "图片上传异常"),
 
     /** 注册异常 */
-    REGISTER_EXCEPTION(4007, "注册异常");
+    REGISTER_EXCEPTION(4007, "注册异常"),
+
+    /** 答题异常 */
+    ANSWER_EXCEPTION(4008, "答题异常");
 
     private final int value;
 

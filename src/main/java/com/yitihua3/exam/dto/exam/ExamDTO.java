@@ -9,6 +9,7 @@ package com.yitihua3.exam.dto.exam;
  */
 
 import com.yitihua3.exam.dto.common.FieldMapper;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,12 @@ public class ExamDTO {
     /**
      * 考试编号
      */
+    @ApiModelProperty(value = "考试编号", name = "examId", required = true, example = "1")
     private Integer examId;
     /**
      * 考试名字
      */
+    @ApiModelProperty(value = "考试名字", name = "examName", required = true, example = "一模")
     private String examName;
     /**
      * 考试开始时间
