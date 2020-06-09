@@ -1,6 +1,8 @@
 package com.yitihua3.exam.service.exam;
 
 import com.yitihua3.exam.entity.exam.Choice;
+import io.swagger.models.auth.In;
+
 import java.util.List;
 
 /**
@@ -34,6 +36,10 @@ public interface ChoiceService {
     List<Choice> queryAllTest();
 
     /**
+     * 按试卷编号显示考题
+     */
+    List<Choice> queryAllTestById(Integer paperId);
+    /**
      * 显示某一正确答案
      *
      *
@@ -45,7 +51,7 @@ public interface ChoiceService {
      *
      *
      */
-    List<Choice> queryRight();
+    List<Choice> queryRight(Integer paperId);
 
 
     /**
@@ -60,7 +66,7 @@ public interface ChoiceService {
      *
      *
      */
-    List<Choice> queryScore();
+    List<Choice> queryScore(Integer paperId);
     /**
      * 显示所属科目
      *

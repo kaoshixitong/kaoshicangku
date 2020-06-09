@@ -39,7 +39,17 @@ public class ChoiceServiceImpl implements ChoiceService {
         List<Choice> choices = choiceMapper.queryAll();
         return choices;
     }
-  
+
+    /**
+     * 通过paperId查询
+     * @param paperId
+     * @return
+     */
+    @Override
+    public List<Choice> queryAllTestById(Integer paperId) {
+        List<Choice> choice = choiceMapper.queryAllTestById(paperId);
+        return choice;
+    }
 
     /**
      * 新增数据
@@ -93,8 +103,8 @@ public class ChoiceServiceImpl implements ChoiceService {
     }
 
     @Override
-    public List<Choice> queryRight(){
-        List<Choice> choices = choiceMapper.queryRight();
+    public List<Choice> queryRight(Integer paperId){
+        List<Choice> choices = choiceMapper.queryRight(paperId);
         return choices;
     }
 
@@ -106,8 +116,8 @@ public class ChoiceServiceImpl implements ChoiceService {
     }
 
     @Override
-    public List<Choice> queryScore() {
-        List<Choice> choices = choiceMapper.queryScore();
+    public List<Choice> queryScore(Integer paperId) {
+        List<Choice> choices = choiceMapper.queryScore(paperId);
         return choices;
     }
 

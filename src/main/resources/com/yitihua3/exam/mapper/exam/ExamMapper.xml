@@ -3,20 +3,20 @@
 <mapper namespace="com.yitihua3.exam.mapper.exam.ExamMapper">
 
     <resultMap type="com.yitihua3.exam.entity.exam.Exam" id="ExamMap">
-        <result property="examId" column="examId" jdbcType="INTEGER"/>
+        <result property="examId" column="exam_id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="begin" column="begin" jdbcType="VARCHAR"/>
         <result property="end" column="end" jdbcType="VARCHAR"/>
         <result property="during" column="during" jdbcType="INTEGER"/>
-        <result property="paperId" column="paperId" jdbcType="INTEGER"/>
+        <result property="paperId" column="paper_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="ExamMap">
         select
-          examId, `name`, `begin`, `end`, during, paperId
-        from db_examsystem.exam
-        where examId = #{examId}
+          exam_id, `name`, `begin`, `end`, during, paper_id
+        from kaoshi.exam
+        where exam_id = #{examId}
     </select>
 
 <!--    @author aiwoqe-->
@@ -40,11 +40,11 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ExamMap">
         select
-          examId, `name`, `begin`, `end`, during, paperId
-        from db_examsystem.exam
+          exam_id, `name`, `begin`, `end`, during, paper_id
+        from kaoshi.exam
         <where>
-            <if test="examId != null">
-                and examId = #{examId}
+            <if test="exam_id != null">
+                and exam_id = #{examId}
             </if>
             <if test="name != null and name != ''">
                 and `name` = #{name}
@@ -58,21 +58,21 @@
             <if test="during != null">
                 and during = #{during}
             </if>
-            <if test="paperId != null">
-                and paperId = #{paperId}
+            <if test="paper_id != null">
+                and paper_id = #{paperId}
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="examId" useGeneratedKeys="true">
-        insert into db_examsystem.exam(`name`, `begin`, `end`, during, paperId)
+        insert into kaoshi.exam(`name`, `begin`, `end`, during, paper_id)
         values (#{name}, #{begin}, #{end}, #{during}, #{paperId})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update db_examsystem.exam
+        update kaoshi.exam
         <set>
             <if test="name != null and name != ''">
                 `name` = #{name},
@@ -87,15 +87,15 @@
                 during = #{during},
             </if>
             <if test="paperId != null">
-                paperId = #{paperId},
+                paper_id = #{paperId},
             </if>
         </set>
-        where examId = #{examId}
+        where exam_id = #{examId}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from db_examsystem.exam where examId = #{examId}
+        delete from kaoshi.exam where exam_id = #{examId}
     </delete>
 
 </mapper>

@@ -3,7 +3,7 @@
 <mapper namespace="com.yitihua3.exam.mapper.exam.ChoiceMapper">
 
     <resultMap type="com.yitihua3.exam.entity.exam.Choice" id="ChoiceMap">
-        <result property="choiceId" column="choiceId" jdbcType="INTEGER"/>
+        <result property="choiceId" column="choice_id" jdbcType="INTEGER"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
         <result property="typeA" column="typeA" jdbcType="VARCHAR"/>
         <result property="typeB" column="typeB" jdbcType="VARCHAR"/>
@@ -11,33 +11,34 @@
         <result property="typeD" column="typeD" jdbcType="VARCHAR"/>
         <result property="right" column="right" jdbcType="VARCHAR"/>
         <result property="score" column="score" jdbcType="INTEGER"/>
-        <result property="subjectId" column="subjectId" jdbcType="INTEGER"/>
-        <result property="chapterId" column="chapterId" jdbcType="INTEGER"/>
+        <result property="subjectId" column="subject_id" jdbcType="INTEGER"/>
+        <result property="chapterId" column="chapter_id" jdbcType="INTEGER"/>
         <result property="single" column="single" jdbcType="INTEGER"/>
+        <result property="paperId" column="paper_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="ChoiceMap">
         select
           *
-        from db_examsystem.choice
-        where choiceId = #{choiceId}
+        from kaoshi.choice
+        where choice_id = #{choiceId}
     </select>
 
     <!--查询多选或单选（多选0单选1）-->
     <select id="queryBySingle" resultMap="ChoiceMap">
-        select single from db_examsystem.choice
-        where choiceId = #{choiceId}
+        select single from kaoshi.choice
+        where choice_id = #{choiceId}
     </select>
 
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ChoiceMap">
-        select choiceId, title, typeA, typeB, typeC, typeD, "right", score, subjectId, chapterId, single
-        from db_examsystem.choice
+        select choice_id, title, typeA, typeB, typeC, typeD, "right", score, subject_id, chapter_id, single
+        from kaoshi.choice
         <where>
-            <if test="choiceId != null">
-                and choiceId = #{choiceId}
+            <if test="choice_id != null">
+                and choice_id = #{choiceId}
             </if>
             <if test="title != null and title != ''">
                 and title = #{title}
@@ -60,11 +61,11 @@
             <if test="score != null">
                 and score = #{score}
             </if>
-            <if test="subjectId != null">
-                and subjectId = #{subjectId}
+            <if test="subject_id != null">
+                and subject_id = #{subjectId}
             </if>
-            <if test="chapterId != null">
-                and chapterId = #{chapterId}
+            <if test="chapter_id != null">
+                and chapter_id = #{chapterId}
             </if>
             <if test="single != null">
                 and single = #{single}
@@ -74,11 +75,11 @@
 
     <!--考生显示题目-->
     <select id="queryAllTest" resultMap="ChoiceMap">
-        select choiceId, title, typeA, typeB, typeC, typeD
-        from db_examsystem.choice
+        select choice_id, title, typeA, typeB, typeC, typeD
+        from kaoshi.choice
         <where>
-            <if test="choiceId != null">
-                and choiceId = #{choiceId}
+            <if test="choice_id != null">
+                and choice_id = #{choiceId}
             </if>
             <if test="score != null">
                 and score = #{score}
@@ -104,53 +105,59 @@
     <!--查询某一成绩-->
     <select id="queryScoreById" resultMap="ChoiceMap">
         select score
-        from db_examsystem.choice
-        where choiceId = #{choiceId}
+        from kaoshi.choice
+        where choice_id = #{choiceId}
     </select>
 
     <!--查询成绩-->
     <select id="queryScore" resultMap="ChoiceMap">
         select count(score)
-        from db_examsystem.choice
+        from kaoshi.choice
+       left join kaoshi.paper_choice
+        on choice.choice_id = paper_choice.choice_id
+        where paper_choice.paper_id = #{paperId}
     </select>
 
     <!--查询某一答案-->
     <select id="queryRightById" resultMap="ChoiceMap">
-        select "right"
-        from db_examsystem.choice
-         where choiceId = #{choiceId}
+        select 'right'
+        from kaoshi.choice
+         where choice_id = #{choiceId}
     </select>
 
     <!--查询答案-->
     <select id="queryRight" resultMap="ChoiceMap">
-        select "right"
-        from db_examsystem.choice
+        select 'right'
+        from kaoshi.choice
+       left join kaoshi.paper_choice
+        on choice.choice_id = paper_choice.choice_id
+        where paper_choice.paper_id = #{paperId}
     </select>
 
     <!--查询所属类别-->
     <select id="querySubjectId" resultMap="ChoiceMap">
-        select subjectId
-        from db_examsystem.choice
-         where choiceId = #{choiceId}
+        select subject_id
+        from kaoshi.choice
+         where choice_id = #{choiceId}
     </select>
 
     <!--查询所属章节-->
     <select id="queryChapterId" resultMap="ChoiceMap">
-        select chapterId
-        from db_examsystem.choice
-        where choiceId = #{choiceId}
+        select chapter_id
+        from kaoshi.choice
+        where choice_id = #{choiceId}
     </select>
 
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="choiceId" useGeneratedKeys="true">
-        insert into db_examsystem.choice values (#{title},#{typeA},#{typeB},#{typeC},#{typeD},#{right},#{score},#{subjectId},#{chapterId},#{single})
+        insert into kaoshi.choice(title, typeA, typeB, typeC, typeD, `right`, score, subject_id, chapter_id,single) values (#{title},#{typeA},#{typeB},#{typeC},#{typeD},#{right},#{score},#{subjectId},#{chapterId},#{single})
     </insert>
 
 
     <!--通过主键修改数据-->
     <update id="update">
-        update db_examsystem.choice
+        update kaoshi.choice
         <set>
             <if test="title != null and title != ''">
             title = #{title},
@@ -175,21 +182,29 @@
             score = #{score},
             </if>
             <if test="subjectId != null">
-            subjectId = #{subjectId},
+            subject_id = #{subjectId},
             </if>
             <if test="chapterId != null">
-            chapterId = #{chapterId},
+            chapter_id = #{chapterId},
             </if>
             <if test="single != null">
             single = #{single},
             </if>
         </set>
-        where choiceId = #{choiceId}
+        where choice_id = #{choiceId}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from db_examsystem.choice where choiceId = #{choiceId}
+        delete from kaoshi.choice where choice_id = #{choiceId}
     </delete>
 
+    <!--根据paperId查询选择题试卷-->
+    <select id="queryAllTestById" resultMap="ChoiceMap">
+        select choice.choice_id, title, score,typeA, typeB, typeC, typeD
+        from kaoshi.choice
+        left join kaoshi.paper_choice
+        on choice.choice_id = paper_choice.choice_id
+        where paper_choice.paper_id = #{paperId}
+    </select>
 </mapper>

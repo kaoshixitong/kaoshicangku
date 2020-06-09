@@ -35,8 +35,14 @@ public interface EssayMapper {
      * 查询总成绩
      * 
      */
-    List<Essay> queryScore();
-    
+    List<Essay> queryScore(Integer paperId);
+
+    /**
+     * 按试卷编号列举简答题
+     */
+
+    List<Essay> queryAllTestById(Integer paperId);
+
     /**
      * 通过Id查询答案
      *
@@ -49,7 +55,7 @@ public interface EssayMapper {
      * 查询所有答案
      *
      */
-    List<Essay> queryReference();
+    List<Essay> queryReference(Integer paperId);
     
     /**
      * 通过Id查询科目

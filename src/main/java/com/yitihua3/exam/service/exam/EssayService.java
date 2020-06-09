@@ -14,10 +14,10 @@ public interface EssayService {
     /**
      * 通过ID查询单条数据
      *
-     * @param EssayId 主键
+     * @param essayId 主键
      * @return 实例对象
      */
-    Essay queryById(Integer EssayId);
+    Essay queryById(Integer essayId);
 
     /**
      * 显示所有数据
@@ -34,18 +34,22 @@ public interface EssayService {
     List<Essay> queryAllTest();
 
     /**
+     * 按试卷编号显示考题
+     */
+    List<Essay> queryAllTestById(Integer paperId);
+    /**
      * 显示某一正确答案
      *
      *
      */
-    Essay queryReferenceById(Integer EssayId);
+    Essay queryReferenceById(Integer essayId);
 
     /**
      * 显示正确答案
      *
      *
      */
-    List<Essay> queryReference();
+    List<Essay> queryReference(Integer paperId);
 
 
     /**
@@ -53,50 +57,50 @@ public interface EssayService {
      *
      *
      */
-    Essay queryScoreById(Integer EssayId);
+    Essay queryScoreById(Integer essayId);
 
     /**
      * 显示得分
      *
      *
      */
-    List<Essay> queryScore();
+    List<Essay> queryScore(Integer paperId);
     /**
      * 显示所属科目
      *
      *
      */
-    Essay querySubjectId(Integer EssayId);
+    Essay querySubjectId(Integer essayId);
 
     /**
      * 显示章节
      *
      *
      */
-    Essay queryChapterId(Integer EssayId);
+    Essay queryChapterId(Integer essayId);
 
     /**
      * 新增数据
      *
-     * @param Essay 实例对象
+     * @param essay 实例对象
      * @return 实例对象
      */
-    Essay insert(Essay Essay);
+    Essay insert(Essay essay);
 
     /**
      * 修改数据
      *
-     * @param Essay 实例对象
+     * @param essay 实例对象
      * @return 实例对象
      */
-    Essay update(Essay Essay);
+    Essay update(Essay essay);
 
     /**
      * 通过主键删除数据
      *
-     * @param EssayId 主键
+     * @param essayId 主键
      * @return 是否成功
      */
-    boolean deleteById(Integer EssayId);
+    boolean deleteById(Integer essayId);
 
 }

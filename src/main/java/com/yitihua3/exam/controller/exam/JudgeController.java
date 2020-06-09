@@ -2,21 +2,22 @@ package com.yitihua3.exam.controller.exam;
 
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.yitihua3.exam.entity.exam.Essay;
 import com.yitihua3.exam.entity.exam.Judge;
 import com.yitihua3.exam.response.Result;
 import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.exam.JudgeService;
-import com.yitihua3.exam.service.exam.JudgeService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * (Judge)表控制层
@@ -26,7 +27,7 @@ import java.util.Map;
  */
 @Api(value = "判断题的controller")
 @RestController
-@RequestMapping("/judge")
+@RequestMapping("exam/judge")
 public class JudgeController {
     /**
      * 服务对象
@@ -40,8 +41,8 @@ public class JudgeController {
      * @param judgeId 主键
      * @return 单条数据
      */
-    @ApiOperation(value = "根据判断题编号查询判断题", notes = "根据判断题编号查询判断题", httpMethod = "GET")
-    @GetMapping("/queryJudgeById")
+    @ApiOperation(value = "根据判断题编号查询判断题", notes = "用于学生、教师查询某一选择题", httpMethod = "GET")
+    @GetMapping("queryJudgeById")
     public Result queryJudgeById(
             @ApiParam(name = "judgeId", value = "判断题编号", required = true)
                     Integer judgeId) {
@@ -53,13 +54,13 @@ public class JudgeController {
         return ResultGenerator.genOkResult("按编号查询判断题成功");
     }
 
-    @RequestMapping("/toAddJudge")
+    @RequestMapping("toAddJudge")
     public String toAddJudge(){
         return "addJudge";
     }
 
-    @ApiOperation(value = "添加判断题",  notes = "添加判断题",httpMethod = "POST")
-    @GetMapping("/addJudge")
+    @ApiOperation(value = "添加判断题",  notes = "用于教师添加判断题",httpMethod = "POST")
+    @PostMapping("addJudge")
     public Result  addJudge(
 //            @ApiParam(name="judgeId",value="判断题编号",required=true)
 //                                        Integer JudgeId,
@@ -81,7 +82,7 @@ public class JudgeController {
 //                                        Integer subject,
 //                            @ApiParam(name="chapter",value="添加具体章节",required=true)
 //                                        Integer chapter
-                            @RequestParam Judge judge)
+                            @RequestBody Judge judge)
     {
         Judge insert = judgeService.insert(judge);
         if(insert ==null){
@@ -91,8 +92,8 @@ public class JudgeController {
         return ResultGenerator.genOkResult("添加判断题成功");
     }
 
-    @ApiOperation(value = "上传excel表格添加判断题",notes = "上传excel表格添加判断题",httpMethod = "GET")
-    @GetMapping("/addJudgeByExcel")
+    @ApiOperation(value = "上传excel表格添加判断题",notes = "用于教师上传判断题的excel表格",httpMethod = "GET")
+    @GetMapping("addJudgeByExcel")
     public Result addJudgeByExcel(@RequestBody Map<String,Object> obj){
         Judge judgeList =(Judge) obj.get("judgeList");
         Judge insert = judgeService.insert(judgeList);
@@ -104,12 +105,12 @@ public class JudgeController {
 
     }
 
-    @ApiOperation(value = "根据判断题编号删除判断题",  notes = "根据判断题编号删除判断题",httpMethod = "DELETE")
-    @GetMapping("/deleteJudgeById")
+    @ApiOperation(value = "根据判断题编号删除判断题",  notes = "用于教师删除判断题",httpMethod = "DELETE")
+    @DeleteMapping("deleteJudgeById")
     public Result deleteJudgeById(
             @ApiParam(name="judgeId",value="判断题编号",required=true)
-                    Integer judgeId) {
-        boolean b = judgeService.deleteById(judgeId);
+                    @ApiIgnore @RequestBody JSONObject jsonObject) {
+        boolean b = judgeService.deleteById(jsonObject.getInteger("judgeId"));
         if(!b){
             return ResultGenerator.genFailedResult("删除判断题失败");
         }
@@ -117,7 +118,7 @@ public class JudgeController {
         return ResultGenerator.genOkResult("删除判断题成功");
     }
 
-    @RequestMapping("/toUpdateJudgeById")
+    @RequestMapping("toUpdateJudgeById")
     public String toUpdateJudgeById(Integer judgeId,Model model){
         judgeService.queryById(judgeId);
         model.addAttribute("judgeId",judgeId);
@@ -125,8 +126,8 @@ public class JudgeController {
 
     }
 
-    @ApiOperation(value = "根据判断题编号更新判断题",  notes = "根据判断题编号更新判断题",httpMethod = "PUT")
-    @GetMapping("/updateJudgeById")
+    @ApiOperation(value = "根据判断题编号更新判断题",  notes = "用于教师更新判断题",httpMethod = "PUT")
+    @GetMapping("updateJudgeById")
     public Result updateJudgeById(
 //            @ApiParam(name="judgeId",value="判断题编号",required=true)
 //                    Integer judgeId,
@@ -159,8 +160,12 @@ public class JudgeController {
         return ResultGenerator.genOkResult("按编号更新判断题成功");
     }
 
-    @ApiOperation(value = "显示所有判断题",notes = "显示所有判断题",httpMethod = "GET")
-    @GetMapping("/queryAll")
+    @ApiOperation(value = "显示所有判断题",notes = "用于教师显示所有判断题信息",httpMethod = "GET")
+    @GetMapping("queryAll")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
     public Result queryAll(){
         List<Judge> judges = judgeService.queryAll();
         if (judges!=null&&judges.size()>0){
@@ -171,8 +176,12 @@ public class JudgeController {
 
     }
 
-    @ApiOperation(value = "显示判断题试卷",notes = "显示判断题试卷",httpMethod = "GET")
-    @GetMapping("/queryAllTest")
+    @ApiOperation(value = "显示判断题试卷",notes = "用于显示所有判断题题库",httpMethod = "GET")
+    @GetMapping("queryAllTest")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
     public Result queryAllTest(){
         List<Judge> judges = judgeService.queryAllTest();
         if (judges!=null&&judges.size()>0){
@@ -183,11 +192,11 @@ public class JudgeController {
 
     }
 
-    @ApiOperation(value = "查询某一判断题得分",notes = "查询某一判断题得分",httpMethod = "GET")
-    @GetMapping("/queryJudgeScoreById")
+    @ApiOperation(value = "查询某一判断题得分",notes = "用于显示某一道判断题得分",httpMethod = "GET")
+    @GetMapping("queryJudgeScoreById")
     public Result queryJudgeScoreById(
             @ApiParam(name = "judgeId",value = "判断题编号",required = true)
-            @RequestParam Integer judgeId
+            Integer judgeId
     ){
         Judge judge = judgeService.queryScoreById(judgeId);
         if(judge==null){
@@ -197,12 +206,16 @@ public class JudgeController {
         return ResultGenerator.genOkResult("查询第"+judgeId+"道判断题成绩成功");
     }
 
-    @ApiOperation(value = "查询判断题得分",notes = "查询判断题得分",httpMethod = "GET")
-    @GetMapping("/queryJudgeScore")
-    public Result queryJudgeScore(
+    @ApiOperation(value = "查询判断题得分",notes = "用于显示某张试卷判断题总分",httpMethod = "GET")
+    @GetMapping("queryJudgeScore")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
+    public Result queryJudgeScore(@ApiParam(name = "paperId",value = "试卷编号",required = true) Integer paperId
 
     ){
-        List<Judge> judges = judgeService.queryScore();
+        List<Judge> judges = judgeService.queryScore(paperId);
         if (judges!=null&&judges.size()>0){
             return ResultGenerator.genOkResult("查询判断题成绩成功");
         }
@@ -211,11 +224,11 @@ public class JudgeController {
 
     }
 
-    @ApiOperation(value = "查询某一判断题答案",notes = "查询某一判断题答案",httpMethod = "GET")
-    @GetMapping("/queryJudgeRightById")
+    @ApiOperation(value = "查询某一判断题答案",notes = "用于显示某一道判断题答案",httpMethod = "GET")
+    @GetMapping("queryJudgeRightById")
     public Result queryJudgeRightById(
             @ApiParam(name="judgeId",value="判断题编号",required=true)
-            @RequestParam Integer judgeId){
+             Integer judgeId){
         Judge judge = judgeService.queryRightById(judgeId);
         if(judge==null){
             return ResultGenerator.genFailedResult("查询第"+judgeId+"道判断题答案失败");
@@ -225,11 +238,15 @@ public class JudgeController {
 
     }
 
-    @ApiOperation(value = "查询判断题答案",notes = "查询判断题答案",httpMethod = "GET")
-    @GetMapping("/queryJudgeRight")
-    public Result queryJudgeRight()
+    @ApiOperation(value = "查询判断题答案",notes = "用于显示某张试卷所有判断题答案",httpMethod = "GET")
+    @GetMapping("queryJudgeRight")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
+    public Result queryJudgeRight(@ApiParam(name = "paperId",value = "试卷编号",required = true) Integer paperId)
     {
-        List<Judge> judges = judgeService.queryRight();
+        List<Judge> judges = judgeService.queryRight(paperId);
         if (judges!=null&&judges.size()>0){
             return ResultGenerator.genOkResult("查询判断题答案成功");
         }
@@ -238,11 +255,11 @@ public class JudgeController {
 
     }
 
-    @ApiOperation(value = "查询某一判断题所属科目",notes = "查询某一判断题所属科目",httpMethod = "GET")
-    @GetMapping("/queryJudgeSubjectById")
+    @ApiOperation(value = "查询某一判断题所属科目",notes = "用于查询某一道判断题所属科目",httpMethod = "GET")
+    @GetMapping("queryJudgeSubjectById")
     public Result queryJudgeSubjectById(
             @ApiParam(name="judgeId",value="判断题编号",required=true)
-            @RequestParam Integer judgeId ){
+             Integer judgeId ){
         Judge judge = judgeService.querySubjectId(judgeId);
         if(judge==null){
             return ResultGenerator.genFailedResult("查询第"+judgeId+"道判断题所属科目失败");
@@ -252,11 +269,11 @@ public class JudgeController {
 
     }
 
-    @ApiOperation(value = "查询某一判断题所属章节",notes = "查询某一判断题所属章节",httpMethod = "GET")
-    @GetMapping("/queryJudgeChapterById")
+    @ApiOperation(value = "查询某一判断题所属章节",notes = "用于查询某道一判断题所属章节",httpMethod = "GET")
+    @GetMapping("queryJudgeChapterById")
     public Result queryJudgeChapterById(
             @ApiParam(name="judgeId",value="判断题编号",required=true)
-            @RequestParam Integer judgeId ){
+             Integer judgeId ){
         Judge judge = judgeService.queryChapterId(judgeId);
         if(judge==null){
             return ResultGenerator.genFailedResult("查询第"+judgeId+"道判断题所属章节失败");
@@ -264,5 +281,19 @@ public class JudgeController {
         else
         return ResultGenerator.genOkResult("查询第"+judgeId+"道判断题所属章节成功");
 
+    }
+    @ApiOperation(value = "按试卷编号查询判断题",notes = "用于显示某一张试卷内的判断题",httpMethod = "GET")
+    @GetMapping("queryAllTestById")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="page",value="分页页码",required=true,example = "1"),
+            @ApiImplicitParam(name="size",value="分页数量",required=true,example = "5")
+    })
+    public Result queryAllTestById(@ApiParam(name = "paperId",value = "试卷编号",required = true)
+                                    Integer paperId){
+        List<Judge> judge = judgeService.queryAllTestById(paperId);
+        if (judge==null){
+            return ResultGenerator.genFailedResult("根据试卷编号获取判断题失败");
+        }
+        else return ResultGenerator.genOkResult("根据试卷编号获取判断题成功");
     }
 }
