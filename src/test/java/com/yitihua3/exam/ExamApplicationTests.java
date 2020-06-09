@@ -3,6 +3,7 @@ package com.yitihua3.exam;
 //import com.yitihua3.exam.dto.answer.AnswerDTO;
 //import com.yitihua3.exam.dto.answer.JudgeAnswerDTO;
 
+import com.yitihua3.exam.controller.exam.PaperController;
 import com.yitihua3.exam.entity.exam.Judge;
 import com.yitihua3.exam.entity.exam.Exam;
 import com.yitihua3.exam.entity.exam.Judge;
@@ -27,10 +28,12 @@ import java.util.Map;
 @WebAppConfiguration
 class ExamApplicationTests {
     @Autowired
-    private EssayMapper essayMapper;
+    private PaperController paperController;
     @Test
     void run1(){
-        essayMapper.queryAllTestById(1);
+        paperController.queryAllTestById(1);
+        paperController.queryRight(1);
+        paperController.queryScore(1);
     }
 
 }

@@ -40,6 +40,24 @@ public class User implements Serializable {
      * 角色编号
      */
     private Integer roleId;
+    /**
+     * 角色状态
+     */
+    private Integer activeStatus;
+
+    /**
+     * 角色码
+     *
+     */
+    private String activeCode;
+
+    public String getActiveCode() {
+        return activeCode;
+    }
+
+    public void setActiveCode(String activeCode) {
+        this.activeCode = activeCode;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

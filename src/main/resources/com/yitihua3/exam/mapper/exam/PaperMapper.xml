@@ -74,4 +74,5 @@
         delete from kaoshi.paper where paper_id = #{paperId}
     </delete>
 
+
 </mapper>
