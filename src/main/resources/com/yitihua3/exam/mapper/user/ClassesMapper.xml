@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yitihua3.exam.mapper.user.ClassesMapper">
+
+    <resultMap type="com.yitihua3.exam.entity.user.Classes" id="ClassesMap">
+        <result property="classId" column="class_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ClassesMap">
+        select
+          class_id, name
+        from kaoshi.classes
+        where class_id = #{classId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ClassesMap">
+        select
+          class_id, name
+        from kaoshi.classes
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ClassesMap">
+        select
+          class_id, name
+        from kaoshi.classes
+        <where>
+            <if test="classId != null">
+                and class_id = #{classId}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="classId" useGeneratedKeys="true">
+        insert into kaoshi.classes(name)
+        values (#{name})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update kaoshi.classes
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+        </set>
+        where class_id = #{classId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from kaoshi.classes where class_id = #{classId}
+    </delete>
+
+</mapper>

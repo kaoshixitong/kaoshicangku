@@ -1,5 +1,6 @@
 package com.yitihua3.exam.shiro.restful;
 
+import com.yitihua3.exam.entity.user.User;
 import com.yitihua3.exam.response.ResultGenerator;
 import com.yitihua3.exam.service.user.JWTService;
 import com.yitihua3.exam.shiro.token.JWTToken;
@@ -13,6 +14,7 @@ import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -24,9 +26,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+/**
+ * @author aiwoqe
+ */
 public class JWTFilter extends AuthenticatingFilter {
 
-    private static final int tokenRefreshInterval = 300;
+    private static final long tokenRefreshInterval = 3600*24*3;
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -34,7 +39,22 @@ public class JWTFilter extends AuthenticatingFilter {
 
     public JWTFilter(JWTService jwtService){
         this.jwtService = jwtService;
-        this.setLoginUrl("/shiroLogin");
+        this.setLoginUrl("/login");
+    }
+
+    @Override
+    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
+        //对于OPTION请求做拦截，不做token校验
+        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name()))
+            return false;
+
+        return super.preHandle(request, response);
+    }
+
+    @Override
+    protected void postHandle(ServletRequest request, ServletResponse response){
+        fillCorsHeader(WebUtils.toHttp(request), WebUtils.toHttp(response));
     }
 
     @Override
@@ -62,18 +82,19 @@ public class JWTFilter extends AuthenticatingFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) {
-        response401(servletResponse,"请先登录");
+        response401(servletRequest,servletResponse,"请先登录");
         return false;
     }
 
     /**
      * 无需转发，直接返回Response信息
      */
-    private void response401(ServletResponse response, String msg) {
+    private void response401(ServletRequest servletRequest,ServletResponse response, String msg) {
         HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
         httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
         httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletResponse.setContentType("application/json; charset=utf-8");
+        fillCorsHeader(WebUtils.toHttp(servletRequest), httpServletResponse);
         try (PrintWriter out = httpServletResponse.getWriter()) {
             String data = ResultGenerator.genFailedResult(HttpStatus.UNAUTHORIZED.value(), "无权访问(Unauthorized):" + msg).toString();
             out.append(data);
@@ -88,10 +109,10 @@ public class JWTFilter extends AuthenticatingFilter {
         String newToken = null;
         if(token instanceof JWTToken){
             JWTToken jwtToken = (JWTToken)token;
-            String username =  subject.getPrincipal().toString();
+            User user =  (User)subject.getPrincipal();
             boolean shouldRefresh = shouldTokenRefresh(JWTUtils.getIssuedAt(jwtToken.getToken()));
             if(shouldRefresh) {
-                newToken = jwtService.generateJWTToken(username);
+                newToken = jwtService.generateJWTToken(user);
             }
         }
         if(StringUtils.isNotBlank(newToken))
@@ -119,5 +140,11 @@ public class JWTFilter extends AuthenticatingFilter {
     protected boolean shouldTokenRefresh(Date issueAt){
         LocalDateTime issueTime = LocalDateTime.ofInstant(issueAt.toInstant(), ZoneId.systemDefault());
         return LocalDateTime.now().minusSeconds(tokenRefreshInterval).isAfter(issueTime);
+    }
+
+    public static void fillCorsHeader(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
     }
 }

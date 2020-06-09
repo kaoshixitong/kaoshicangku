@@ -10,7 +10,6 @@ import com.yitihua3.exam.service.user.RegisterService;
 import com.yitihua3.exam.service.user.UserService;
 import com.yitihua3.exam.shiro.token.RoleToken;
 import com.yitihua3.exam.utils.DTOConverterUtils;
-import com.yitihua3.exam.utils.IDUtils;
 import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -96,9 +95,6 @@ public class LoginController {
         User user = DTOConverterUtils.commonConverter(registerDTO, User.class);
         registerService.check(registerDTO);
         User encrypt = registerService.encrypt(user);
-        user.setActiveStatus(0);
-        String activeCode = IDUtils.getUUID();
-        user.setActiveCode(activeCode);
         userService.insertUser(user);
         return ResultGenerator.genOkResult();
     }

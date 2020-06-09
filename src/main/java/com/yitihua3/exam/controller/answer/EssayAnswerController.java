@@ -1,7 +1,6 @@
 package com.yitihua3.exam.controller.answer;
 
 import com.yitihua3.exam.entity.exam.Essay;
-import com.yitihua3.exam.service.answer.ChoiceAnswerService;
 import com.yitihua3.exam.service.answer.EssayAnswerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @author aiwoqe
+ */
 @Api(value = "简答题答案的controller")
 @RestController
 @RequestMapping("/EssayAnswer")

@@ -39,18 +39,32 @@ public class JWTUtils {
     }
 
     /**
+     * 获得token中的信息无需secret解密也能获得
+     * @return token中包含的用户id
+     */
+    public static Integer getUserId(String token) {
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            return jwt.getClaim("userId").asInt();
+        } catch (JWTDecodeException e) {
+            return null;
+        }
+    }
+
+    /**
      * 生成签名,expireTime后过期
      * @param username 用户名
      * @param time 过期时间s
      * @return 加密的token
      */
-    public static String sign(String username, String salt, long time) {
+    public static String sign(String username, Integer userId,String salt, long time) {
         try {
             Date date = new Date(System.currentTimeMillis()+time*1000);
             Algorithm algorithm = Algorithm.HMAC256(salt);
             // 附带username信息
             return JWT.create()
                     .withClaim("username", username)
+                    .withClaim("userId",userId)
                     .withExpiresAt(date)
                     .withIssuedAt(new Date())
                     .sign(algorithm);

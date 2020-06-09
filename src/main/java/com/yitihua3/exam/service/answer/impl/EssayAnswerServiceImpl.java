@@ -1,15 +1,90 @@
 package com.yitihua3.exam.service.answer.impl;
 
-import com.yitihua3.exam.entity.exam.Essay;
+import com.yitihua3.exam.dto.answer.EssayScoreDTO;
+import com.yitihua3.exam.entity.answer.EssayAnswer;
+import com.yitihua3.exam.mapper.answer.EssayAnswerMapper;
 import com.yitihua3.exam.service.answer.EssayAnswerService;
-import com.yitihua3.exam.service.common.AbstractService;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * (EssayAnswer)表服务实现类
  *
  * @author makejava
- * @since 2020-04-18 12:01:59
+ * @since 2020-06-01 19:24:18
  */
 @Service("essayAnswerService")
-public class EssayAnswerServiceImpl extends AbstractService<Essay> implements EssayAnswerService {}
+public class EssayAnswerServiceImpl implements EssayAnswerService {
+    @Resource
+    private EssayAnswerMapper essayAnswerMapper;
+
+    @Override
+    public List<EssayScoreDTO> selectEssayScore(Integer examId, Integer userId) {
+        return essayAnswerMapper.selectEssayScore(examId, userId);
+    }
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param answerId 主键
+     * @return 实例对象
+     */
+    @Override
+    public EssayAnswer queryById(Integer answerId) {
+        return this.essayAnswerMapper.queryById(answerId);
+    }
+
+    /**
+     * 查询多条数据
+     *
+     * @param offset 查询起始位置
+     * @param limit 查询条数
+     * @return 对象列表
+     */
+    @Override
+    public List<EssayAnswer> queryAllByLimit(int offset, int limit) {
+        return this.essayAnswerMapper.queryAllByLimit(offset, limit);
+    }
+
+    /**
+     * 新增数据
+     *
+     * @param essayAnswer 实例对象
+     * @return 实例对象
+     */
+    @Override
+    public EssayAnswer insert(EssayAnswer essayAnswer) {
+        this.essayAnswerMapper.insert(essayAnswer);
+        return essayAnswer;
+    }
+
+    /**
+     * 修改数据
+     *
+     * @param essayAnswer 实例对象
+     * @return 实例对象
+     */
+    @Override
+    public EssayAnswer update(EssayAnswer essayAnswer) {
+        this.essayAnswerMapper.update(essayAnswer);
+        return this.queryById(essayAnswer.getAnswerId());
+    }
+
+    @Override
+    public int updateEssayScore(List<EssayScoreDTO> essayScoreList) {
+        return essayAnswerMapper.updateEssayScore(essayScoreList);
+    }
+
+    /**
+     * 通过主键删除数据
+     *
+     * @param answerId 主键
+     * @return 是否成功
+     */
+    @Override
+    public boolean deleteById(Integer answerId) {
+        return this.essayAnswerMapper.deleteById(answerId) > 0;
+    }
+}

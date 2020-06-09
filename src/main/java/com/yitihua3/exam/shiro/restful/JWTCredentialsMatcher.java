@@ -1,9 +1,10 @@
-package com.yitihua3.exam.shiro;
+package com.yitihua3.exam.shiro.restful;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.yitihua3.exam.entity.user.User;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -30,11 +31,12 @@ public class JWTCredentialsMatcher implements CredentialsMatcher {
         Object stored = authenticationInfo.getCredentials();
         String salt = stored.toString();
 
-        String username = (String)authenticationInfo.getPrincipals().getPrimaryPrincipal();
+        User user = (User)authenticationInfo.getPrincipals().getPrimaryPrincipal();
         try {
             Algorithm algorithm = Algorithm.HMAC256(salt);
             JWTVerifier verifier = JWT.require(algorithm)
-                    .withClaim("username", username)
+                    .withClaim("username", user.getUsername())
+                    .withClaim("userId", user.getUserId())
                     .build();
             verifier.verify(token);
             return true;

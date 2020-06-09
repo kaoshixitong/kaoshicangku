@@ -48,6 +48,14 @@ public class JudgeAnswer extends AbstractRelationMapper<JudgeAnswer, JudgeAnswer
         this.answer=answer;
     }
 
+    public JudgeAnswer(Integer judgeId, Integer userId, Integer examId, Integer score, String answer) {
+        this.judgeId = judgeId;
+        this.userId = userId;
+        this.examId = examId;
+        this.score = score;
+        this.answer = answer;
+    }
+
     @Override
     protected JudgeAnswer setSource() {
         return this;

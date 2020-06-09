@@ -2,8 +2,6 @@
 package com.yitihua3.exam.mapper.exam;
 import com.yitihua3.exam.entity.exam.Choice;
 
-import io.swagger.models.auth.In;
-import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
@@ -38,10 +36,6 @@ public interface ChoiceMapper {
     List<Choice> queryAllTest();
 
     /**
-     * 按试卷编号列举选择题
-     */
-    List<Choice> queryAllTestById(Integer paperId);
-    /**
      * 查询某一得分
      *
      *
@@ -53,7 +47,7 @@ public interface ChoiceMapper {
      *
      *
      */
-    List<Choice> queryScore(Integer paperId);
+    List<Choice> queryScore();
 
     /**
      * 查询某一标准答案
@@ -67,7 +61,7 @@ public interface ChoiceMapper {
      *
      *
      */
-    List<Choice> queryRight(Integer paperId);
+    List<Choice> queryRight();
 
     /**
      * 查询所属科目
@@ -106,5 +100,4 @@ public interface ChoiceMapper {
      * @return 影响行数
      */
     int deleteById(Integer choiceId);
-
 }

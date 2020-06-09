@@ -3,37 +3,50 @@ package com.yitihua3.exam.shiro.realm;
 
 import com.yitihua3.exam.entity.user.User;
 import com.yitihua3.exam.mapper.user.UserMapper;
+import com.yitihua3.exam.service.user.JWTService;
+import com.yitihua3.exam.shiro.restful.JWTCredentialsMatcher;
 import com.yitihua3.exam.shiro.token.JWTToken;
 import com.yitihua3.exam.utils.JWTUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.Resource;
 
 
+/**
+ * @author aiwoqe
+ */
 public class JWTRealm extends AuthorizingRealm {
 
-    @Lazy
     @Resource
     UserMapper userMapper;
 
+    protected JWTService jwtService;
+
+    public JWTRealm(JWTService jwtService){
+        this.jwtService = jwtService;
+        this.setCredentialsMatcher(new JWTCredentialsMatcher());
+    }
+
     private static final int LOCKED=1;
     private static final int DISABLED=2;
-    //认证
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token = (String) authenticationToken.getCredentials();
-        // 解密获得username，用于和数据库进行对比
-        String username = JWTUtils.getUsername(token);
-        User user = userMapper.selectByUsername(username);
-        if (user == null) {
-            // || !user.getRoleId().equals(token.)
-            throw new UnknownAccountException("用户名或密码错误！");
+        // 从当前subject中取出principals(登录时存进去的user)与token中的用户做比较
+        Integer userId = JWTUtils.getUserId(token);
+        if (userId == null) {
+            throw new UnknownAccountException("请先登录！");
         }
-
+        User user = userMapper.selectById(userId);
+        //从redis中取出盐值
+        String salt = jwtService.getJwtTokenSalt(JWTUtils.getUsername(token));
+        if (user == null) {
+            throw new UnknownAccountException("帐号密码错误！");
+        }
         if (LOCKED==(user.getState())) {
             throw new LockedAccountException("账号已被锁定,请联系管理员！");
         }
@@ -41,7 +54,7 @@ public class JWTRealm extends AuthorizingRealm {
         if (DISABLED==(user.getState())) {
             throw new DisabledAccountException("账号已被禁用,请联系管理员！");
         }
-        return new SimpleAuthenticationInfo(user.getUsername(),user.getSalt(), getName());
+        return new SimpleAuthenticationInfo(user,salt, getName());
     }
 
     @Override
@@ -60,7 +73,7 @@ public class JWTRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        return new SimpleAuthorizationInfo();
     }
 
     /**
