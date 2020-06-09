@@ -1,6 +1,6 @@
 package com.yitihua3.exam.mapper.exam;
 import com.yitihua3.exam.entity.exam.Judge;
-import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**

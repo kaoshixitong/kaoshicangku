@@ -2,9 +2,6 @@ package com.yitihua3.exam.entity.user;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 /**
  * (User)实体类
@@ -13,14 +10,11 @@ import java.io.Serializable;
  * @since 2020-04-17 22:01:20
  */
 @Data
-@Table(name="user")
 public class User implements Serializable {
     private static final long serialVersionUID = -14210060581838316L;
     /**
      * 用户编号
      */
-    @Column(name = "user_id")
-    @Id
     private Integer userId;
     /**
      * 用户名
@@ -45,66 +39,5 @@ public class User implements Serializable {
     /**
      * 角色编号
      */
-    @Column(name = "role_id")
     private Integer roleId;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
 }

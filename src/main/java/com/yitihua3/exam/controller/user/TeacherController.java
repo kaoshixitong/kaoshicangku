@@ -1,5 +1,6 @@
 package com.yitihua3.exam.controller.user;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yitihua3.exam.dto.user.TeacherInformationDTO;
 import com.yitihua3.exam.entity.user.Teacher;
 import com.yitihua3.exam.entity.user.User;
@@ -10,10 +11,8 @@ import com.yitihua3.exam.service.user.TeacherService;
 import com.yitihua3.exam.service.user.UserService;
 import com.yitihua3.exam.utils.DTOConverterUtils;
 import io.swagger.annotations.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 
@@ -24,7 +23,7 @@ import javax.annotation.Resource;
  * @date 2020年05月24日
  * @Version V1.0
  */
-@Api(value = "用户的教师的controller")
+@Api(value = "用户的教师的controller",tags={"教师操作接口"})
 @RestController
 @RequestMapping("/user/teacher")
 public class TeacherController {
@@ -52,7 +51,7 @@ public class TeacherController {
 
     @ApiOperation(value = "修改教师用户的个人信息",  notes = "可用于教师个人信息的修改",httpMethod = "PUT")
     @PutMapping("updateInformation")
-    public Result updateInformation(
+    public Result updateInformation(@RequestBody
             @ApiParam(name="teacherInformationDTO",value="修改教师个人信息对象",required=true)
                     TeacherInformationDTO teacherInformationDTO
     ) {
@@ -67,13 +66,16 @@ public class TeacherController {
 
     @ApiOperation(value = "可用于教师个人信息与账号的绑定",  notes = "修改教师的用户id",httpMethod = "PUT")
     @PutMapping("bindInformation")
-    public Result bindInformation(
-            @ApiParam(name="teacherId",value="教师id",required=true)
-                    Long teacherId,
-            @ApiParam(name="name",value="教师姓名",required=true)
-                    String name) {
-        Teacher teacher = teacherService.selectTeacherById(teacherId);
-        if(!teacher.getName().equals(name)){
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="teacherId",value="教师id",required=true),
+            @ApiImplicitParam(name="name",value="教师姓名",required=true)
+    })
+
+    public Result bindInformation(@RequestBody
+                                  @ApiIgnore JSONObject jsonObject) {
+        Teacher teacher = teacherService.selectTeacherById(jsonObject.getLong("teacherId"));
+        if(!teacher.getName().equals(jsonObject.getString("name"))){
             return ResultGenerator.genFailedResult("教师绑定失败");
         }
         Integer userId = jwtService.getSubjectUser().getUserId();

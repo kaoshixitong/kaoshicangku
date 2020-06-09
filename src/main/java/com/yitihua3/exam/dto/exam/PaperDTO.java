@@ -1,7 +1,9 @@
 package com.yitihua3.exam.dto.exam;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PaperDTO{
     /**
      * 试卷编号
@@ -42,10 +45,12 @@ public class PaperDTO{
     /**
      * 科目类型
      */
-    private Integer paperSubject;
+    @ApiModelProperty(value = "科目类型", name = "paperSubject", required = true, example = "信息安全技术")
+    private String paperSubject;
     /**
      * 具体章节
      */
-    private Integer paperChapter;
+    @ApiModelProperty(value = "具体章节", name = "paperChapter", required = true, example = "信息安全概述")
+    private String paperChapter;
 
 }

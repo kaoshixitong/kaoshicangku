@@ -52,6 +52,14 @@ public class EssayAnswer extends AbstractRelationMapper<EssayAnswer, EssayAnswer
         this.answer=answer;
     }
 
+    public EssayAnswer(Integer essayId, Integer userId, Integer examId, Integer score, String answer) {
+        this.essayId = essayId;
+        this.userId = userId;
+        this.examId = examId;
+        this.score = score;
+        this.answer = answer;
+    }
+
     @Override
     protected EssayAnswer setSource() {
         return this;

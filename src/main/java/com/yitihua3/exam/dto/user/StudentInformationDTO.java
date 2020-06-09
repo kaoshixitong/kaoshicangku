@@ -25,10 +25,12 @@ public class StudentInformationDTO {
     /**
      * 头像名字
      */
-    @ApiModelProperty(value = "头像名字", name = "photo", reference = "向后台发送时不用，从后台接收时要", example = "xx.jpg")
+    @ApiModelProperty(value = "头像名字,向后台发送时不用，从后台接收时要", name = "photo", example = "xx.jpg")
     private String photo;
     /**
      * 学生信息
      */
+    @ApiModelProperty(value = "学生信息", name = "student")
     private Student student;
+
 }

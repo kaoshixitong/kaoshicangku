@@ -8,10 +8,7 @@ import com.yitihua3.exam.service.user.JWTService;
 import com.yitihua3.exam.service.user.UserService;
 import com.yitihua3.exam.utils.PhotoUploadUtils;
 import io.swagger.annotations.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -24,10 +21,10 @@ import java.io.FileNotFoundException;
  * @date 2020年05月22日
  * @Version V1.0
  */
-@Api(value = "图片上传的controller")
+@Api(value = "图片上传的controller",tags={"图片上传操作接口"})
 @RestController
 @RequestMapping("/user")
-public class PhotoUpload {
+public class PhotoUploadController {
     /**
      * 服务对象
      */
@@ -46,11 +43,11 @@ public class PhotoUpload {
     @PostMapping("photoUpload")
     public Result photoUpload(
             @ApiParam(name="file",value="文件流",required=true)
-            @RequestParam("file") final MultipartFile file) throws FileNotFoundException {
+            @RequestBody @RequestParam("file") final MultipartFile file) throws FileNotFoundException {
         String photoName = PhotoUploadUtils.photoUpload(file);
         User user = jwtService.getSubjectUser();
         userService.updatePhoto(photoName,user);
         PhotoUploadUtils.deleteOldPhoto(user.getPhoto());
-        return ResultGenerator.genOkResult("头像上传成功");
+        return ResultGenerator.genOkResult("头像上传成功",photoName);
     }
 }

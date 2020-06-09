@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yitihua3.exam.mapper.answer.ChoiceAnswerMapper">
+
+    <resultMap type="com.yitihua3.exam.entity.answer.ChoiceAnswer" id="ChoiceAnswerMap">
+        <result property="answerId" column="answer_id" jdbcType="INTEGER"/>
+        <result property="choiceId" column="choice_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="examId" column="exam_id" jdbcType="INTEGER"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="answer" column="answer" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ChoiceAnswerMap">
+        select
+          answer_id, choice_id, user_id, exam_id, score, answer
+        from kaoshi.choice_answer
+        where answer_id = #{answerId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ChoiceAnswerMap">
+        select
+          answer_id, choice_id, user_id, exam_id, score, answer
+        from kaoshi.choice_answer
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ChoiceAnswerMap">
+        select
+          answer_id, choice_id, user_id, exam_id, score, answer
+        from kaoshi.choice_answer
+        <where>
+            <if test="answerId != null">
+                and answer_id = #{answerId}
+            </if>
+            <if test="choiceId != null">
+                and choice_id = #{choiceId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="examId != null">
+                and exam_id = #{examId}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="answer != null and answer != ''">
+                and answer = #{answer}
+            </if>
+        </where>
+    </select>
+
+    <resultMap type="com.yitihua3.exam.dto.answer.ChoiceScoreDTO" id="ChoiceScoreDTOMap">
+        <result property="choiceId" column="choice_id" jdbcType="INTEGER"/>
+        <result property="choiceAnswerId" column="answer_id" jdbcType="INTEGER"/>
+        <result property="choiceAnswerScore" column="choice_answer_score" jdbcType="INTEGER"/>
+        <result property="choiceAnswer" column="answer" jdbcType="VARCHAR"/>
+        <result property="right" column="right" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="choiceTypeA" column="typeA" jdbcType="VARCHAR"/>
+        <result property="choiceTypeB" column="typeB" jdbcType="VARCHAR"/>
+        <result property="choiceTypeC" column="typeC" jdbcType="VARCHAR"/>
+        <result property="choiceTypeD" column="typeD" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--为选择题评分前查询原题-->
+    <select id="selectChoiceScore" resultMap="ChoiceScoreDTOMap">
+        select
+        choice.choice_id,answer_id, choice_answer.score 'choice_answer_score', answer,`right`, choice.score ,choice.title
+        ,choice.typeA ,choice.typeB,choice.typeC,choice.typeD,choice.single
+        from kaoshi.choice_answer
+        left join kaoshi.choice
+        on choice_answer.choice_id=choice.choice_id
+        where choice_answer.exam_id=#{examId}
+        and choice_answer.user_id=#{userId}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="answerId" useGeneratedKeys="true">
+        insert into kaoshi.choice_answer(choice_id, user_id, exam_id, score, answer)
+        values (#{choiceId}, #{userId}, #{examId}, #{score}, #{answer})
+    </insert>
+
+    <!--插入题目list    -->
+    <insert id="insertList" parameterType="java.util.List" keyProperty="answerId" useGeneratedKeys="true">
+        insert into kaoshi.choice_answer
+        ( choice_id, user_id, exam_id, score, answer)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.choiceId}, #{item.userId}, #{item.examId}, #{item.score}, #{item.answer})
+        </foreach>
+    </insert>
+<!--    批量更新选择题分数-->
+    <update id="updateScoreList" parameterType="java.util.List">
+        update kaoshi.choice_answer
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="score=case" suffix="end,">
+                <foreach collection="list" item="item" index="index">
+                    <if test="item.choiceAnswerScore!=null">
+                        when answer_id=#{item.choiceAnswerId} then #{item.choiceAnswerScore}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where
+        <foreach collection="list" separator="or" item="item" index="index">
+            answer_id=#{item.choiceAnswerId}
+        </foreach>
+    </update>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update kaoshi.choice_answer
+        <set>
+            <if test="choiceId != null">
+                choice_id = #{choiceId},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="examId != null">
+                exam_id = #{examId},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="answer != null and answer != ''">
+                answer = #{answer},
+            </if>
+        </set>
+        where answer_id = #{answerId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from kaoshi.choice_answer where answer_id = #{answerId}
+    </delete>
+
+</mapper>

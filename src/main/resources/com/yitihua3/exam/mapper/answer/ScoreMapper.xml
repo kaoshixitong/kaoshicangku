@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yitihua3.exam.mapper.answer.ScoreMapper">
+
+    <resultMap type="com.yitihua3.exam.entity.answer.Score" id="ScoreMap">
+        <result property="scoreId" column="score_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="examId" column="exam_id" jdbcType="INTEGER"/>
+        <result property="mark" column="mark" jdbcType="INTEGER"/>
+        <result property="begin" column="begin" jdbcType="VARCHAR"/>
+        <result property="end" column="end" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ScoreMap">
+        select
+          score_id, user_id, exam_id, mark, begin, end
+        from kaoshi.score
+        where score_id = #{scoreId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ScoreMap">
+        select
+          score_id, user_id, exam_id, mark, begin, end
+        from kaoshi.score
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ScoreMap">
+        select
+          score_id, user_id, exam_id, mark, begin, end
+        from kaoshi.score
+        <where>
+            <if test="scoreId != null">
+                and score_id = #{scoreId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="examId != null">
+                and exam_id = #{examId}
+            </if>
+            <if test="mark != null">
+                and mark = #{mark}
+            </if>
+            <if test="begin != null and begin != ''">
+                and begin = #{begin}
+            </if>
+            <if test="end != null and end != ''">
+                and end = #{end}
+            </if>
+        </where>
+    </select>
+
+    <resultMap type="com.yitihua3.exam.dto.answer.ExamUserDTO" id="ScoreMap1">
+        <result property="examId" column="exam_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="photo" column="photo" jdbcType="VARCHAR"/>
+        <result property="studentId" column="student_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryExamUser" parameterType="java.lang.Integer" resultMap="ScoreMap1">
+        select score.exam_id,score.user_id ,student.student_id,student.`name`,
+        `user`.username,`user`.photo
+        from kaoshi.score
+        left join student
+        on score.user_id=student.user_id
+        left join kaoshi.`user`
+        on score.user_id=`user`.user_id
+        where score.exam_id=#{examId}
+    </select>
+
+    <resultMap type="com.yitihua3.exam.dto.answer.ScoreResultDTO" id="ScoreMap2">
+        <result property="examName" column="exam_name" jdbcType="VARCHAR"/>
+        <result property="subjectName" column="subject_name" jdbcType="VARCHAR"/>
+        <result property="chapterName" column="chapter_name" jdbcType="VARCHAR"/>
+        <result property="begin" column="begin" jdbcType="VARCHAR"/>
+        <result property="end" column="end" jdbcType="VARCHAR"/>
+        <result property="during" column="during" jdbcType="VARCHAR"/>
+        <result property="mark" column="mark" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询考试的结果信息，包括作答情况-->
+    <select id="selectScoreResult" resultMap="ScoreMap2">
+        select score.begin,score.end,score.mark,paper.total
+        ,exam.name exam_name,exam.during,subject.name subject_name,chapter.name chapter_name
+        from kaoshi.score
+        left join kaoshi.exam
+        on score.exam_id=exam.exam_id
+        left join kaoshi.paper
+        on exam.paper_id=paper.paper_id
+        left join kaoshi.subject
+        on paper.subject_id=subject.subject_id
+        left join kaoshi.chapter
+        on paper.chapter_id=chapter.chapter_id
+        where score.exam_id=#{examId}
+        and score.user_id=#{userId}
+    </select>
+
+    <resultMap type="com.yitihua3.exam.dto.exam.ExamDTO" id="ScoreMap3">
+        <result property="examName" column="exam_name" jdbcType="VARCHAR"/>
+        <result property="examId" column="exam_id" jdbcType="INTEGER"/>
+        <association property="paperDTO" javaType="com.yitihua3.exam.dto.exam.PaperDTO">
+            <result property="paperSubject" column="subject_name" jdbcType="VARCHAR"/>
+            <result property="paperChapter" column="chapter_name" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!--查询考试的结果信息，包括作答情况-->
+    <select id="selectStudentExams" parameterType="java.lang.Integer" resultMap="ScoreMap3">
+        select exam.exam_id, exam.name exam_name,subject.name subject_name,chapter.name chapter_name
+        from kaoshi.score
+        left join kaoshi.exam
+        on score.exam_id=exam.exam_id
+        left join kaoshi.paper
+        on exam.paper_id=paper.paper_id
+        left join kaoshi.subject
+        on paper.subject_id=subject.subject_id
+        left join kaoshi.chapter
+        on paper.chapter_id=chapter.chapter_id
+        where score.user_id=#{userId}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="scoreId" useGeneratedKeys="true">
+        insert into kaoshi.score(user_id, exam_id, mark, begin, end)
+        values (#{userId}, #{examId}, #{mark}, #{begin}, #{end})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update kaoshi.score
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="examId != null">
+                exam_id = #{examId},
+            </if>
+            <if test="mark != null">
+                mark = #{mark},
+            </if>
+            <if test="begin != null and begin != ''">
+                begin = #{begin},
+            </if>
+            <if test="end != null and end != ''">
+                end = #{end},
+            </if>
+        </set>
+        where score_id = #{scoreId}
+    </update>
+
+    <!--通过主键修改数据-->
+    <update id="updateMark">
+        update kaoshi.score
+        <set>
+            <if test="mark != null">
+                mark = #{mark}
+            </if>
+        </set>
+        where exam_id = #{examId}
+        and user_id = #{userId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from kaoshi.score where score_id = #{scoreId}
+    </delete>
+
+</mapper>
