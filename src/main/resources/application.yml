@@ -2,9 +2,9 @@ spring:
   datasource:
     #  数据源基本配置
     username: root
-    password: root
+    password: lisb417
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/kaoshi?useUnicode=true&amp;characterEncoding=UTF8&amp;serverTimezone=UTC&amp;allowMultiQueries=true
+    url: jdbc:mysql://47.92.0.54:3036/kaoshi?useUnicode=true&amp;characterEncoding=UTF8&amp;serverTimezone=UTC&amp;allowMultiQueries=true
     type: com.alibaba.druid.pool.DruidDataSource
     #    数据源其他配置
     initialSize: 5
@@ -30,6 +30,7 @@ filter:
   #   过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->: 这是一个坑，一不小心代码就不好使了
   filterChainDefinitionMap:
     [/register]: origin
+    [/user/queryUsername]: origin
     [/index]: anon
     [/]: anon
     [/css/**]: anon
