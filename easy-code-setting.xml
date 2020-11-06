@@ -64,7 +64,7 @@
                     <option name="javaType" value="java.lang.Integer" />
                   </TypeMapper>
                   <TypeMapper>
-                    <option name="columnType" value="int(\(\d+\))?" />
+                    <option name="columnType" value="tinyint(\(\d+\))?" />
                     <option name="javaType" value="java.lang.Integer" />
                   </TypeMapper>
                 </list>
