@@ -67,6 +67,10 @@
                     <option name="columnType" value="tinyint(\(\d+\))?" />
                     <option name="javaType" value="java.lang.Integer" />
                   </TypeMapper>
+                  <TypeMapper>
+                    <option name="columnType" value="date" />
+                    <option name="javaType" value="java.util.Date" />
+                  </TypeMapper>
                 </list>
               </option>
               <option name="name" value="Default" />
