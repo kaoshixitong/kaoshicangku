@@ -1,6 +1,8 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="Duration" />
+      <item value="getKeepAliveDuration" />
       <item value="conflict" />
       <item value="CONFILICT" />
       <item value="选课成功" />
