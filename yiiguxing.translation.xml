@@ -1,6 +1,7 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="木棒" />
       <item value="future" />
       <item value="获取" />
       <item value="Duration" />
@@ -19,7 +20,7 @@
     <option name="languageScores">
       <map>
         <entry key="CHINESE" value="3" />
-        <entry key="ENGLISH" value="3" />
+        <entry key="ENGLISH" value="4" />
       </map>
     </option>
   </component>
