@@ -1,6 +1,8 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="基因" />
+      <item value="外显子" />
       <item value="木棒" />
       <item value="future" />
       <item value="获取" />
