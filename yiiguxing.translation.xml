@@ -1,6 +1,8 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="开启" />
+      <item value="检测" />
       <item value="后缀" />
       <item value="次数" />
       <item value="终点" />
