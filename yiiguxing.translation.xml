@@ -1,6 +1,7 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="路径" />
       <item value="确认密码" />
       <item value="*" />
       <item value="通配符" />
