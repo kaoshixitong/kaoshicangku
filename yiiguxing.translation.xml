@@ -1,6 +1,8 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="分离" />
+      <item value="分隔符" />
       <item value="计时" />
       <item value="找回" />
       <item value="对象" />
@@ -49,8 +51,6 @@
       <item value="future" />
       <item value="获取" />
       <item value="Duration" />
-      <item value="getKeepAliveDuration" />
-      <item value="conflict" />
     </histories>
     <option name="languageScores">
       <map>
