@@ -1,6 +1,7 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="whether to create a multipart message that * supports alternative texts, inline elements and attachments" />
       <item value="Returns an array of {@code Class} objects that represent the formal * parameter types, in declaration order, of the executable * represented by this object. Returns an array of length * 0 if the underlying executable takes no parameters. * * @return the parameter types for the executable this object * represents" />
       <item value="Returns an array of {@code Parameter} objects that represent * all the parameters to the underlying executable represented by * this object. Returns an array of length 0 if the executable * has no parameters. * * &lt;p&gt;The parameters of the underlying executable do not necessarily * have unique names, or names that are legal identifiers in the * Java programming language (JLS 3.8). * * @throws MalformedParametersException if the class file contains * a MethodParameters attribute that is improperly formatted. * @return an array of {@code Parameter} objects representing all * the parameters to the executable this object represents." />
       <item value="分离" />
@@ -50,12 +51,11 @@
       <item value="基因" />
       <item value="外显子" />
       <item value="木棒" />
-      <item value="future" />
     </histories>
     <option name="languageScores">
       <map>
-        <entry key="CHINESE" value="26" />
-        <entry key="ENGLISH" value="27" />
+        <entry key="CHINESE" value="27" />
+        <entry key="ENGLISH" value="28" />
       </map>
     </option>
   </component>
