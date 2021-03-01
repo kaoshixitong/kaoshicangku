@@ -1,6 +1,11 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="Unprocessable" />
+      <item value="Precondition Required" />
+      <item value="Unavailable For Legal Reasons" />
+      <item value="非法" />
+      <item value="错误" />
       <item value="开通" />
       <item value="convert" />
       <item value="转换" />
@@ -46,16 +51,11 @@
       <item value="成本" />
       <item value="兔子" />
       <item value="鸡" />
-      <item value="as indicated by" />
-      <item value="indicated" />
-      <item value="reached" />
-      <item value="capacities" />
-      <item value="when the number of threads is greater than * the core, this is the maximum time that excess idle threads * will wait for new tasks before terminating" />
     </histories>
     <option name="languageScores">
       <map>
-        <entry key="CHINESE" value="32" />
-        <entry key="ENGLISH" value="33" />
+        <entry key="CHINESE" value="35" />
+        <entry key="ENGLISH" value="36" />
       </map>
     </option>
   </component>
