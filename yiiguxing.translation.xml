@@ -1,6 +1,7 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="开通" />
       <item value="convert" />
       <item value="转换" />
       <item value="申请" />
@@ -50,12 +51,11 @@
       <item value="reached" />
       <item value="capacities" />
       <item value="when the number of threads is greater than * the core, this is the maximum time that excess idle threads * will wait for new tasks before terminating" />
-      <item value="excess" />
     </histories>
     <option name="languageScores">
       <map>
         <entry key="CHINESE" value="32" />
-        <entry key="ENGLISH" value="32" />
+        <entry key="ENGLISH" value="33" />
       </map>
     </option>
   </component>
