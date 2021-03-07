@@ -10,4 +10,10 @@
       <option name="OTHER" value="true" />
     </context>
   </template>
+  <template name="td" value="// aiwoqe TODO: $date$" description="待做" toReformat="false" toShortenFQNames="true">
+    <variable name="date" expression="" defaultValue="" alwaysStopAt="false" />
+    <context>
+      <option name="OTHER" value="true" />
+    </context>
+  </template>
 </templateSet>
