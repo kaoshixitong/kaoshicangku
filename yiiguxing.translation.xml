@@ -1,6 +1,7 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="初步" />
       <item value="Hierarchical" />
       <item value="Unprocessable" />
       <item value="Precondition Required" />
@@ -50,12 +51,11 @@
       <item value="层" />
       <item value="floor" />
       <item value="成本" />
-      <item value="兔子" />
     </histories>
     <option name="languageScores">
       <map>
-        <entry key="CHINESE" value="36" />
-        <entry key="ENGLISH" value="37" />
+        <entry key="CHINESE" value="37" />
+        <entry key="ENGLISH" value="38" />
       </map>
     </option>
   </component>
