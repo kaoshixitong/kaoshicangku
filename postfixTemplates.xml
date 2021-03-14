@@ -1,0 +1,5 @@
+<application>
+  <component name="PostfixTemplates">
+    <template id="com.intellij.codeInsight.template.postfix.templates.IfStatementPostfixTemplate#.if" key=".if" provider="builtin.java" builtin="com.intellij.codeInsight.template.postfix.templates.IfStatementPostfixTemplate#.if" />
+  </component>
+</application>
