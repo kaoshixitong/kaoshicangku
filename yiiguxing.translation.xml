@@ -1,6 +1,8 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="乘积" />
+      <item value="加减乘除" />
       <item value="Deque" />
       <item value="he ordering mode - &lt;tt&gt;true&lt;/tt&gt; for * access-order, &lt;tt&gt;false&lt;/tt&gt; for insertion-order" />
       <item value="Constructs an empty &lt;tt&gt;LinkedHashMap&lt;/tt&gt; instance with the * specified initial capacity, load factor and ordering mode." />
@@ -49,13 +51,11 @@
       <item value="开启" />
       <item value="检测" />
       <item value="后缀" />
-      <item value="次数" />
-      <item value="终点" />
     </histories>
     <option name="languageScores">
       <map>
         <entry key="CHINESE" value="41" />
-        <entry key="ENGLISH" value="41" />
+        <entry key="ENGLISH" value="42" />
         <entry key="LATIN" value="1" />
       </map>
     </option>
