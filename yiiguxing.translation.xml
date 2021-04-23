@@ -1,6 +1,7 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="长度" />
       <item value="九宫格" />
       <item value="乘积" />
       <item value="加减乘除" />
@@ -50,7 +51,6 @@
       <item value="通配符" />
       <item value="负载" />
       <item value="开启" />
-      <item value="检测" />
     </histories>
     <option name="languageScores">
       <map>
