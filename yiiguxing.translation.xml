@@ -1,6 +1,10 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="更改" />
+      <item value="修改" />
+      <item value="更新" />
+      <item value="禁用" />
       <item value="删除用户" />
       <item value="添加用户" />
       <item value="长度" />
@@ -47,10 +51,6 @@
       <item value="is Overlay" />
       <item value="rectangles" />
       <item value="验证码" />
-      <item value="路径" />
-      <item value="确认密码" />
-      <item value="*" />
-      <item value="通配符" />
     </histories>
     <option name="languageScores">
       <map>
