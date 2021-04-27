@@ -1,6 +1,12 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="查看" />
+      <item value="高级" />
+      <item value="高级会员" />
+      <item value="降级" />
+      <item value="升级" />
+      <item value="启用" />
       <item value="更改" />
       <item value="修改" />
       <item value="更新" />
@@ -45,12 +51,6 @@
       <item value="Input stream representing the content of an {@link COSObject}. In addition to * the methods supplied by the {@link InputStream} class, * {@link COSObjectInputStream} supplies the abort() method, which will terminate * an HTTP connection to the COS object." />
       <item value="Gets the input stream containing the contents of this object. * * &lt;p&gt; * &lt;b&gt;Note&lt;/b&gt;: The method is a simple getter and does not actually create a stream. If you * retrieve an COSObject, you should close this input stream as soon as possible, because the * object contents aren't buffered in memory and stream directly from Qcloud COS. Further, * failure to close this stream can cause the request pool to become blocked. * &lt;/p&gt; * * @return An input stream containing the contents of this object. * * @see COSObject#getObjectMetadata() * @see COSObject#setObjectContent(InputStream)" />
       <item value="更换头像" />
-      <item value="修改头像" />
-      <item value="加密" />
-      <item value="汉字" />
-      <item value="is Overlay" />
-      <item value="rectangles" />
-      <item value="验证码" />
     </histories>
     <option name="languageScores">
       <map>
