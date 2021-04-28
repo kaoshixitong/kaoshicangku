@@ -1,5 +1,5 @@
-<templateSet group="user">
-  <template name="ddp" value="int length = nums.length;&#10;if (length==0)&#10;    return 0;&#10;int[] dp = new int[length];&#10;int max = 0;&#10;for (int i = 0; i &lt; length; i++) {&#10;&#10;}&#10;return max;" shortcut="TAB" description="" toReformat="false" toShortenFQNames="true">
+<templateSet group="suanfa">
+  <template name="ddp" value="int len = nums.length;&#10;if (len==0)&#10;    return 0;&#10;int[] dp = new int[len];&#10;int max = 0;&#10;for (int i = 0; i &lt; len; i++) {&#10;&#10;}&#10;return max;" shortcut="TAB" description="" toReformat="false" toShortenFQNames="true">
     <context>
       <option name="JAVA_CODE" value="true" />
     </context>
