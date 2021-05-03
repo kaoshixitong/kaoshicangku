@@ -1,6 +1,8 @@
 <application>
   <component name="AppStorage">
     <histories>
+      <item value="默认" />
+      <item value="小数点" />
       <item value="slug" />
       <item value="meta" />
       <item value="metas" />
@@ -49,13 +51,11 @@
       <item value="对象" />
       <item value="alphabetically" />
       <item value="功能" />
-      <item value="模块" />
-      <item value="Returns super.available() if the value is not zero or else always returns * 1. This is necessary to get around a GZIPInputStream bug which would * mis-behave in some edge cases upon zero returned from available(), * causing file truncation. * &lt;p&gt; * http://bugs.java.com/bugdatabase/view_bug.do?bug_id=7036144 * &lt;p&gt; * Reference TT: 0034867351" />
     </histories>
     <option name="languageScores">
       <map>
-        <entry key="CHINESE" value="43" />
-        <entry key="ENGLISH" value="44" />
+        <entry key="CHINESE" value="44" />
+        <entry key="ENGLISH" value="45" />
         <entry key="LATIN" value="1" />
         <entry key="SPANISH" value="1" />
       </map>
